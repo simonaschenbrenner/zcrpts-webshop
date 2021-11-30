@@ -5,18 +5,17 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic.base import TemplateView
-from .forms import MySignUpForm
-from .models import MyUser
+from .forms import SignUpForm
+from .models import User
 
 
-class MySignUpView(generic.CreateView):
-    form_class = MySignUpForm
+class SignUpView(generic.CreateView):
+    form_class = SignUpForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
 
-class MyLoginView(LoginView):
+class LoginView(LoginView):
     template_name = 'registration/login.html'
 
     def form_valid(self, form):
@@ -26,20 +25,20 @@ class MyLoginView(LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class MyUserListView(generic.ListView):
-    model = MyUser
-    context_object_name = 'all_myusers'
-    template_name = 'myuser-list.html'
+# TODO in Profilansicht ändern
+class UserListView(generic.ListView):
+    model = User
+    context_object_name = 'all_users'
+    template_name = 'user-list.html'
 
-
-class HomeBirthdayView(TemplateView):
+# TODO Kundenservicebereich als Erweiterung der Profilansicht
+class ManagerView(generic.TemplateView):
     def get_context_data(self, **kwargs):
-        myuser = self.request.user  # Class is MyUser, not User
-        #print('-------------', myuser.__class__.__name__)
-        myuser_has_birthday_today = False
-        if myuser.is_authenticated:  # Anonymous user cannot call has_birthday_today()
-            myuser_has_birthday_today = myuser.has_birthday_today()
+        user = self.request.user
+        is_manager = False
+        if user.is_authenticated:  # Anonymous user cannot be manager
+            is_manager = user.is_manager or user.is_superuser  # TODO superuser automatisch auch manager
 
-        context = super(HomeBirthdayView, self).get_context_data(**kwargs)
-        context['myuser_has_birthday_today'] = myuser_has_birthday_today
+        context = super(ManagerView, self).get_context_data(**kwargs)
+        context['is_manager'] = is_manager
         return context
