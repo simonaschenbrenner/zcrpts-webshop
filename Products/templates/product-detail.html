@@ -1,0 +1,69 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
+{% endblock %}
+
+{% block title %}Product detail{% endblock %}
+
+{% block content %}
+<h2>Product detail</h2>
+
+    <table>
+    <tr>
+        <td><b>Title:</b></td>
+        <td>{{ that_one_product.title }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Subtitle:</b></td>
+        <td>{{ that_one_product.subtitle }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Author:</b></td>
+        <td>{{ that_one_product.author }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Type:</b></td>
+        <td>{{ that_one_product.get_type_display }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Number of pages:</b></td>
+        <td>{{ that_one_product.pages }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Date published:</b></td>
+        <td>{{ that_one_product.date_published }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Entered by:</b></td>
+        <td>{{ that_one_product.myuser.username }}<br></td>
+    </tr>
+    </table>
+    <span style="color: darkgreen">{{ upvotes }}</span>
+    <a href="{% url 'product-vote' that_one_product.id 'up' %}" style="text-decoration: none">
+        <img src="{% static 'Products/arrow_up.png' %}" height="20" width="20">
+    </a>
+    &nbsp;&nbsp;&nbsp;
+    <span style="color: crimson">{{ downvotes }}</span>
+    <a href="{% url 'product-vote' that_one_product.id 'down' %}" style="text-decoration: none">
+        <img src="{% static 'Products/arrow_down.png' %}" height="20" width="20">
+    </a>
+    <br><br>
+
+    {% for comment in comments_for_that_one_product %}
+        <b style="color: darkgreen">{{ comment.myuser.username }} on {{ comment.timestamp }}</b><br>
+        {{ comment.text }}<br><br>
+    {% endfor %}
+    <br>
+
+    <b style="color: crimson">Do you have a comment for this product?</b><br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Add comment</button>
+    </form>
+
+    <br>
+    <a href="{% url 'product-list' %}">Back to all products</a>
+{% endblock %}
