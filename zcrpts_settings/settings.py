@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Useradmin.apps.UseradminConfig',
     'Products.apps.ProductsConfig',
+    'Carts.apps.CartsConfig'
 ]
 
 MIDDLEWARE = [
@@ -137,4 +138,4 @@ LOGOUT_REDIRECT_URL = 'home'
 MEDIA_ROOT = BASE_DIR / 'media/'
 MEDIA_URL = '/media/'
 
-AUTH_USER_MODEL = 'Useradmin.User'
+AUTH_USER_MODEL = 'Useradmin.MyUser'

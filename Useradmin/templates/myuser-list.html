@@ -5,10 +5,10 @@
 {% block content %}
 <h2>Users list</h2>
 <ul>
-    {% for user in all_users %}
-        {{ user.first_name }} {{ user.last_name }}
+    {% for myuser in all_users %}
+        {{ myuser.first_name }} {{ myuser.last_name }}
         <br>
-        <img src="{{ user.profile_picture.url }}" height="150" width="150"><br>
+        <img src="{{ myuser.profile_picture.url }}" height="150" width="150"><br>
         <br>
     {% endfor %}
 </ul>

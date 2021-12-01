@@ -6,19 +6,15 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['title', 'subtitle', 'author', 'type', 'pages', 'date_published']
-        widgets = {
-            'type': forms.Select(choices=Product.PRODUCT_TYPES),
-            'myuser': forms.HiddenInput(),
-        }
+        fields = ['title', 'version', 'short_description', 'long_description', 'file', 'pdf']
 
 
 class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ['text']
+        fields = ['title', 'text']
         widgets = {
             'myuser': forms.HiddenInput(),
-            'book': forms.HiddenInput(),
+            'product': forms.HiddenInput(),
         }

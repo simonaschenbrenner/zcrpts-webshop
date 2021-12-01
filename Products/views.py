@@ -49,15 +49,15 @@ def product_detail(request, **kwargs):
 
     comments = Comment.objects.filter(product=product)
     context = {'that_one_product': product,
+               'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
-               'upvotes': product.get_upvotes_count(),
-               'downvotes': product.get_downvotes_count(),
+               'rating': product.get_average_rating(),
                'comment_form': CommentForm}
     return render(request, 'product-detail.html', context)
 
 
-def vote(request, pk: str, up_or_down: str):
+def rate(request, pk: str, stars: int):
     product = Product.objects.get(id=int(pk))
     myuser = request.user
-    product.vote(myuser, up_or_down)
+    product.rate(myuser, stars)
     return redirect('product-detail', pk=pk)
