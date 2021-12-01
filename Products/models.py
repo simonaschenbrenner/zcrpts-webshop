@@ -1,78 +1,39 @@
-import uuid
-from datetime import date
 from django.conf import settings
+from django.core.validators import MaxValueValidator
 from django.db import models
 
 
 class Product(models.Model):
-    PRODUCT_TYPES = [
-        ('H', 'Hardcover'),  # Wert und lesbare Form
-        ('P', 'Paperback'),
-        ('E', 'E-book'),
-        ('A', 'Audio book'),
-    ]
 
-    title = models.CharField(max_length=100)
-    subtitle = models.CharField(max_length=100,
-                                blank=True)
-    author = models.CharField(max_length=50)
-    pages = models.IntegerField()  # Must call function to take effect
-    date_published = models.DateField(blank=True,
-                                      default=date.today,
-                                      )
-    type = models.CharField(max_length=1,
-                            choices=PRODUCT_TYPES,
-                            )
-    userID = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               on_delete=models.CASCADE,
-                               related_name='product_created_by',
-                               related_query_name='product_created_by',
-                               )
+    title = models.CharField(max_length=50)
+    version = models.CharField(max_length=20)
+    short_description = models.CharField(max_length=200)
+    long_description = models.CharField(max_length=1000, blank=True)
+    file = models.FileField(upload_to='product_files/')
+    pdf = models.FileField(upload_to='product_pdfs/', blank=True, null=True)
 
     class Meta:
-        ordering = ['title', '-type']
+        ordering = ['title', 'version']
+        unique_together = ['title', 'version']
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
 
-    def check_date_published(self):
-        print('----- In Product.check_date_published():', self.date_published, 'vs.', date.today())
-
-        if self.date_published > date.today():
-            print('----- Warning: date_published is in the future')
-            return False
+    def get_long_description(self):
+        if self.long_description:  # long_description is not empty
+            return self.long_description
         else:
-            return True
+            return self.short_description
 
     def get_full_title(self):
-        return_string = self.title
-        if self.subtitle:  # if subtitle is not empty
-            return_string = self.title + ': ' + self.subtitle
-        return return_string
+        return self.title + '(' + self.version + ')'
 
-    def get_helpful(self):
-        helpful = Vote.objects.filter(isHelpful='Y',
-                                      product=self)
-        return helpful
+    def get_average_rating(self):
+        ratings = Rating.objects.filter(product=self)
+        average = sum(ratings) / len(ratings)
+        return average
 
-    def get_helpful_count(self):
-        return len(self.get_helpful())
-
-    def get_notHelpful(self):
-        notHelpful = Vote.objects.filter(isHelpful='N',
-                                         product=self)
-        return notHelpful
-
-    def get_notHelpful_count(self):
-        return len(self.get_notHelpful())
-
-    def vote(self, userID, isHelpful):
-        Y_or_N = 'Y'
-        if isHelpful == 'NO':
-            Y_or_N = 'N'
-        Vote.objects.create(isHelpful=Y_or_N,
-                            userID=userID,
-                            product=self
-                            )
+    def rate(self, myuser, stars):
+        Rating.objects.create(product=self, myuser=myuser, stars=stars)
 
     def __str__(self):
         return self.title + ' (' + self.author + ')'
@@ -82,56 +43,73 @@ class Product(models.Model):
 
 
 class Comment(models.Model):
-    IS_HELPFUL = [
-        ('Y', 'YES'),
-        ('N', 'NO'),
-    ]
 
     title = models.TextField(max_length=100)
     text = models.TextField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
-    userID = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    productID = models.ForeignKey(Product, on_delete=models.CASCADE)
-    isFlagged = models.BooleanField
-    isHelpful = models.CharField(max_length=1, choices=IS_HELPFUL)
+    myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_flagged = models.BooleanField(default=False)
+    # TODO Relation helpful? Momentan kann jeder User unendlich oft voten!
+    helpful = models.PositiveIntegerField(default=0)
+    not_helpful = models.PositiveIntegerField(default=0)
 
     class Meta:
-        ordering = ['timestamp']
+        ordering = ['product', 'timestamp']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
 
-    def get_comment_prefix(self):
-        if len(self.text) > 50:
-            return self.text[:50] + '...'
+    def get_text_prefix(self):
+        if len(self.title) > 50:
+            return self.title[:50] + '...'
         else:
-            return self.text
+            return self.title
+
+    def mark_helpful(self, helpful):
+        if helpful:
+            self.helpful = self.helpful + 1
+        else:
+            self.not_helpful = self.not_helpful + 1
 
     def __str__(self):
-        return self.get_comment_prefix() + ' (' + self.userID.username + ')'
+        return self.myuser.username + ' commented on ' + self.product.title + ': "' + self.title + '"'
 
     def __repr__(self):
-        return self.get_comment_prefix() + ' (' + self.userID.username + ' / ' + str(self.timestamp) + ')'
+        return 'Product Comment: "' + self.title + '"' + ' on ' + self.product.title + ' by ' + self.myuser.username\
+               + ' at ' + str(self.timestamp)
 
 
-class Vote(models.Model):
-    VOTE_TYPES = [
-        ('0', '0'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-    ]
+class Rating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stars = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
 
-    stars = models.CharField(max_length=1,
-                             choices=VOTE_TYPES,
-                             )
-    userID = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    productID = models.ForeignKey(Product, on_delete=models.CASCADE)
+    class Meta:
+        ordering = ['product', 'myuser']
+        unique_together = ['product', 'myuser']
+        verbose_name = 'Product Rating'
+        verbose_name_plural = 'Product Ratings'
 
     def __str__(self):
-        return self.stars + ' on ' + self.product.title + ' by ' + self.userID.username
+        return self.myuser.username + ' gave ' + self.product.title + ' ' + self.stars + ' stars'
 
-    class Screenshot(models.Model):
-        productID = models.ForeignKey(Product, on_delete=models.CASCADE)
-        mediaURL = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
+    def __repr__(self):
+        return 'Product Rating: ' + self.stars + ' on ' + self.product.title + ' by ' + self.myuser.username
+
+
+class Picture(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.PositiveSmallIntegerField()
+    picture = models.ImageField(upload_to='product_pictures/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['product', 'order']
+        unique_together = ['product', 'order']
+        verbose_name = 'Product Picture'
+        verbose_name_plural = 'Product Pictures'
+
+    def __str__(self):
+        return 'Picture ' + self.order + ' of ' + self.product.title
+
+    def __repr__(self):
+        return 'Product Picture ' + self.order + ' of ' + self.product.title + '(' + self.picture.url + ')'

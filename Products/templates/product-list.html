@@ -15,8 +15,8 @@
         <!-- Alternative link:
         <a href="{% url 'product-detail' product.id %}">
         -->
-        {{ product.author }} / {{ product.get_type_display }} / {{ product.pages }} pages<br>
-        <br>
+        {{ product.short_description }}
+        <br><br>
     {% endfor %}
 </ul>
 

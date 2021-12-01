@@ -1,10 +1,10 @@
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import MyUser
 
 
-class SignUpForm(UserCreationForm):
+class MySignUpForm(UserCreationForm):
 
     class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email', 'profile_picture')
-		# username und password sind in UserCreationForm schon mit dabei
+        model = MyUser
+        fields = ('username', 'first_name', 'last_name', 'email', 'profile_picture')
+		# password ist in UserCreationForm schon mit dabei
