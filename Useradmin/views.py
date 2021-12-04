@@ -1,12 +1,16 @@
 from django.contrib.auth import (
     login as auth_login,
 )
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import MySignUpForm
+from .forms import MySignUpForm, EditProfileForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from .models import MyUser
+from django.shortcuts import redirect, render
 
 
 class MySignUpView(generic.CreateView):
@@ -31,6 +35,7 @@ class MyUserListView(generic.ListView):
     context_object_name = 'all_users'
     template_name = 'myuser-list.html'
 
+
 # TODO Kundenservicebereich als Erweiterung der Profilansicht
 class ManagerView(generic.TemplateView):
     def get_context_data(self, **kwargs):
@@ -42,3 +47,53 @@ class ManagerView(generic.TemplateView):
         context = super(ManagerView, self).get_context_data(**kwargs)
         context['is_manager'] = is_manager
         return context
+
+
+# profile view
+def user_detail(request, **kwargs):
+    myuser_id = kwargs['pk']
+    current_user = MyUser.objects.get(id=myuser_id)
+    print(str(myuser_id), " :: ", current_user)
+    context = {'current user': current_user}
+    return render(request, 'user-detail.html', context)
+
+
+def update_user(request, **kwargs):
+    myuser_id = kwargs['pk']
+    if request.method == 'POST':
+        userForm = EditProfileForm(request.POST, instance=request.user)
+        userForm.instance.user = request.user
+        if userForm.is_valid():
+            userForm.save()
+            # print("I saved new game")
+        else:
+            pass
+            print(userForm.errors)
+
+        return redirect('home')
+
+    else:  # request.method == 'GET'
+        print("I am in GET")
+        userForm = EditProfileForm(instance=request.user)
+        context = {'form': userForm}
+        return render(request, 'change-user-detail.html', context)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            # print("I saved new game")
+        else:
+            pass
+            print(form.errors)
+
+        return redirect('home')
+
+    else:  # request.method == 'GET'
+        print("I am in GET")
+        form = PasswordChangeForm(user=request.user)
+        context = {'form': form}
+        return render(request, 'change-password.html', context)
