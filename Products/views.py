@@ -74,7 +74,9 @@ def product_detail(request, **kwargs):
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
                'rating': product.get_average_rating(),
-               'comment_form': CommentForm}
+               'comment_form': CommentForm,
+               'pictures': pictures,
+               }
     return render(request, 'product-detail.html', context)
 
 
