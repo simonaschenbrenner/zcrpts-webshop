@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 ('version', models.CharField(max_length=20)),
                 ('short_description', models.CharField(max_length=200)),
                 ('long_description', models.CharField(blank=True, max_length=1000)),
-                ('file', models.FileField(upload_to='product_files/')),
+                ('file', models.FileField(upload_to='product_images/')),
                 ('pdf', models.FileField(blank=True, null=True, upload_to='product_pdfs/')),
             ],
             options={

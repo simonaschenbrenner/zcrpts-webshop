@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 from .forms import ProductForm, CommentForm
-from .models import Product, Comment
+from .models import Product, Comment, Picture
 
 
 class ProductListView(ListView):
@@ -28,6 +28,23 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
+def product_create(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        form.instance.myuser = request.user
+        if form.is_valid():
+            form.save()
+            print("Saved a new product")
+        else:
+            print(form.errors)
+
+        return redirect('product-list')
+    else:
+        form = ProductForm
+        context = {'form': form}
+        return render(request, 'product-create.html', context)
+
+
 def product_list(request):
     context = {'all_the_products': Product.objects.all()}
     return render(request, 'product-list.html', context)
@@ -47,12 +64,21 @@ def product_detail(request, **kwargs):
         else:
             print(form.errors)
 
+    # Show comments
     comments = Comment.objects.filter(product=product)
+
+    # Pictures
+    pictures = Picture.objects.filter(product=product)
+
     context = {'that_one_product': product,
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
                'rating': product.get_average_rating(),
-               'comment_form': CommentForm}
+               'comment_form': CommentForm,
+               'pictures': pictures,
+               }
+
+    # context = {'that_one_product' : product}
     return render(request, 'product-detail.html', context)
 
 
@@ -61,3 +87,5 @@ def rate(request, pk: str, stars: int):
     myuser = request.user
     product.rate(myuser, stars)
     return redirect('product-detail', pk=pk)
+
+

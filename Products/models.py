@@ -1,16 +1,19 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models
+from django.db.models import Sum, Avg
+from django.forms import model_to_dict
 
 
 class Product(models.Model):
-
     title = models.CharField(max_length=50)
-    version = models.CharField(max_length=20)
+    version = models.CharField(max_length=100)
+    price = models.FloatField(default=0)
     short_description = models.CharField(max_length=200)
-    long_description = models.CharField(max_length=1000, blank=True)
-    file = models.FileField(upload_to='product_files/')
+    long_description = models.TextField(max_length=1000, blank=True)
+    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
     pdf = models.FileField(upload_to='product_pdfs/', blank=True, null=True)
+    myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['title', 'version']
@@ -27,24 +30,32 @@ class Product(models.Model):
     def get_full_title(self):
         return self.title + '(' + self.version + ')'
 
+    def image_url(self):
+        if self.image.url:
+            return self.image.url
+        else:
+            url = ''
+            return url
+
     def get_average_rating(self):
-        ratings = Rating.objects.filter(product=self)
-        average = sum(ratings) / len(ratings)
-        return average
+        # aratings = Rating.objects.filter(product=self)
+        ratings = Rating.objects.filter(product=self).aggregate(Avg('stars'))
+        return ratings['stars__avg']
 
     def rate(self, myuser, stars):
         Rating.objects.create(product=self, myuser=myuser, stars=stars)
 
     def __str__(self):
-        return self.title + ' (' + self.author + ')'
+        return self.title + ' (' + self.short_description + ')'
 
     def __repr__(self):
-        return self.get_full_title() + ' / ' + self.author + ' / ' + self.type
+        return self.get_full_title() + ' / ' + self.version + ' / ' \
+               + self.short_description + ' / ' + self.long_description + ' /'
 
 
 class Comment(models.Model):
 
-    title = models.TextField(max_length=100)
+    title = models.CharField(max_length=100)
     text = models.TextField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

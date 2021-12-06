@@ -11,26 +11,39 @@
 <h2>Product detail</h2>
 
     <table>
-    <tr>
-        <td><b>Title:</b></td>
-        <td>{{ that_one_product.title }}<br></td>
-    </tr>
-    <tr>
-        <td><b>Version:</b></td>
-        <td>{{ that_one_product.version }}<br></td>
-    </tr>
-    <tr>
-        <td><b>Description:</b></td>
-        <td>{{ that_one_product.description }}<br></td>
-    </tr>
-    <tr>
-        <td><b>PDF:</b></td>
-        <td><a href="{{ that_one_product.pdf.url }}">Click here</a><br></td>
-    </tr>
-    <tr>
-        <td><b>Rating:</b></td>
-        <td>{{ that_one_product.rating }}<br></td>
-    </tr>
+        <tr>
+            <td><b>Image:</b></td>
+            <td><img src="{{ that_one_product.image_url }}" height="150" width="150"></td>
+        </tr>
+        <tr>
+            <td><b>Title:</b></td>
+            <td>{{ that_one_product.title }}<br></td>
+        </tr>
+        <tr>
+            <td><b>Version:</b></td>
+            <td>{{ that_one_product.version }}<br></td>
+        </tr>
+        <tr>
+            <td><b>Description:</b></td>
+            <td>{{ that_one_product.short_description }}<br></td>
+        </tr>
+        <tr>
+            <td><b>Price</b></td>
+            <td>{{ that_one_product.price }}</td>
+        </tr>
+        <tr>
+            <td><b>PDF:</b></td>
+            <td><a href="{{ that_one_product.pdf.url }}" download>Download here
+            </a><br></td>
+        </tr>
+        <tr>
+            <td><b>Description:</b></td>
+            <td>{{ that_one_product.long_description }}<br></td>
+        </tr>
+        <tr>
+            <td><b>Rating:</b></td>
+            <td>{{ that_one_product.get_average_rating }}<br></td>
+        </tr>
     </table>
     <br><br>
 
@@ -40,6 +53,10 @@
     <a href="{% url 'product-rate' that_one_product.id 4 %}">Give 4 Stars</a><br>
     <a href="{% url 'product-rate' that_one_product.id 5 %}">Give 5 Stars</a><br>
 
+    <br><br>
+    <a href="{% url 'product-list' %}">Add To Cart</a>
+
+    <br><br>
     {% for comment in comments_for_that_one_product %}
         {{ comment.myuser.username }} on {{ comment.timestamp }}<br>
         <b>{{ comment.title }}</b>
