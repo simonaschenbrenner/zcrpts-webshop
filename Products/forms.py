@@ -14,11 +14,11 @@ class ProductForm(forms.ModelForm):
         }
 
 CHOICES =(
-    ("1", "One"),
-    ("2", "Two"),
-    ("3", "Three"),
-    ("4", "Four"),
-    ("5", "Five"),
+    (1, "1"),
+    (2, "2"),
+    (3, "3"),
+    (4, "4"),
+    (5, "5"),
 )
 
 
@@ -30,11 +30,7 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'myuser': forms.HiddenInput(),
             'product': forms.HiddenInput(),
-            'rate': forms.ChoiceField(
-                label='Rating: ',
-                choices=CHOICES,
-                widget=forms.RadioSelect,
-            )
+            'rate': forms.RadioSelect(choices=CHOICES)
 
         }
 
