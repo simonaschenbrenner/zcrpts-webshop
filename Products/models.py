@@ -2,6 +2,13 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.db.models import Avg
+from django.template.defaultfilters import slugify
+
+
+def get_image_filename(instance, filename):
+    title = instance.product.title
+    slug = slugify(title)
+    return "product_pictures/%s-%s" % (slug, filename)
 
 
 class Product(models.Model):
@@ -10,7 +17,7 @@ class Product(models.Model):
     price = models.FloatField(default=0)
     short_description = models.CharField(max_length=200)
     long_description = models.TextField(max_length=1000, blank=True)
-    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
+    image = models.FileField(upload_to='product_images/', blank=True, null=True)
     pdf = models.FileField(upload_to='product_pdfs/', blank=True, null=True)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
@@ -37,7 +44,7 @@ class Product(models.Model):
             return url
 
     def get_average_rating(self):
-        # aratings = Rating.objects.filter(product=self)
+        # ratings = Rating.objects.filter(product=self)
         ratings = Rating.objects.filter(product=self).aggregate(Avg('stars'))
         return ratings['stars__avg']
 
@@ -51,15 +58,32 @@ class Product(models.Model):
         return self.get_full_title() + ' / ' + self.version + ' / ' + self.type
 
 
-class Comment(models.Model):
+class Review(models.Model):
+    myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100)
+    text = models.TextField(max_length=500)
+    rate = models.IntegerField(default=1)
 
+    def __str__(self):
+        return self.title + ' (' + self.text + ')'
+
+    def __repr__(self):
+        return self.myuser + ', ' + self.timestamp + ': ' + self.title + ': ' + self.text
+
+
+class Comment(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     is_flagged = models.BooleanField(default=False)
     # TODO Relation helpful? Momentan kann jeder User unendlich oft voten!
+    is_helpful = models.PositiveIntegerField(default=0)
+    rate = models.IntegerField(default=1)
+
     helpful = models.PositiveIntegerField(default=0)
     not_helpful = models.PositiveIntegerField(default=0)
 
@@ -80,11 +104,20 @@ class Comment(models.Model):
         else:
             self.not_helpful = self.not_helpful + 1
 
+    # def rate_helpful(self, helpful):
+    #     if helpful:
+    #         self.helpful += 1
+    #     else:
+    #         if not 0:
+    #             self.helpful -= 1
+    #         else:
+    #             self.helpful = 0
+
     def __str__(self):
         return self.myuser.username + ' commented on ' + self.product.title + ': "' + self.title + '"'
 
     def __repr__(self):
-        return 'Product Comment: "' + self.title + '"' + ' on ' + self.product.title + ' by ' + self.myuser.username\
+        return 'Product Comment: "' + self.title + '"' + ' on ' + self.product.title + ' by ' + self.myuser.username \
                + ' at ' + str(self.timestamp)
 
 
@@ -92,6 +125,7 @@ class Rating(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     stars = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
+    # comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['product', 'myuser']
@@ -107,18 +141,18 @@ class Rating(models.Model):
 
 
 class Picture(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    order = models.PositiveSmallIntegerField()
-    picture = models.ImageField(upload_to='product_pictures/', blank=True, null=True)
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
+    # order = models.PositiveSmallIntegerField()
+    pictures = models.FileField(upload_to=get_image_filename)
 
     class Meta:
-        ordering = ['product', 'order']
-        unique_together = ['product', 'order']
+        ordering = ['product']
+        unique_together = ['product']
         verbose_name = 'Product Picture'
         verbose_name_plural = 'Product Pictures'
 
     def __str__(self):
-        return 'Picture ' + self.order + ' of ' + self.product.title
+        return 'Picture ' + self.product.version + ' of ' + self.product.title
 
     def __repr__(self):
-        return 'Product Picture ' + self.order + ' of ' + self.product.title + '(' + self.picture.url + ')'
+        return 'Product Picture ' + self.product.version + ' of ' + self.product.title + '(' + self.picture.url + ')'

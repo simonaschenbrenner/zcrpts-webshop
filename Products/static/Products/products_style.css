@@ -1,5 +1,10 @@
 body {
     font-size: 20px;
     color: darkblue;
-    background: gold;
+    background: aquamarine;
+}
+
+img {
+    width: 150px;
+    height: 150px;
 }

@@ -1,8 +1,10 @@
+from django.contrib import messages
+from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
-from .forms import ProductForm, CommentForm
-from .models import Product, Comment, Picture
+from .forms import ProductForm, CommentForm, PictureForm
+from .models import Product, Comment, Review, Picture
 
 
 class ProductListView(ListView):
@@ -29,31 +31,43 @@ class ProductCreateView(CreateView):
 
 
 def product_create(request):
+
     if request.method == 'POST':
+        print("in Post")
         form = ProductForm(request.POST, request.FILES)
+
+        picForm = PictureForm(request.POST, request.FILES)
+        print(picForm)
+
         form.instance.myuser = request.user
-        if form.is_valid():
+        if form.is_valid() and picForm.is_valid():
             form.save()
             print("Saved a new product")
+            picForm.instance.product = form
+            picture = Picture(product=form, picture=picForm['pictures'])
+            # picture.save()
+
         else:
             print(form.errors)
 
         return redirect('product-list')
     else:
         form = ProductForm
-        context = {'form': form}
+        picForm = PictureForm
+        context = {'form': form,
+                   'pictureForm': picForm}
         return render(request, 'product-create.html', context)
 
 
 def product_list(request):
-    context = {'all_the_products': Product.objects.all()}
+    context = {'all_the_products': Product.objects.all(),
+               'all_the_pics': Picture.objects.all()}
     return render(request, 'product-list.html', context)
 
 
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
-
     # Add comment
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -61,21 +75,18 @@ def product_detail(request, **kwargs):
         form.instance.product = product
         if form.is_valid():
             form.save()
+            messages.success(request, "Review has been sent. Thank you")
         else:
             print(form.errors)
 
     # Comments
     comments = Comment.objects.filter(product=product)
 
-    # Pictures
-    pictures = Picture.objects.filter(product=product)
-
     context = {'that_one_product': product,
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
                'rating': product.get_average_rating(),
-               'comment_form': CommentForm,
-               'pictures': pictures,
+               'comment_form': CommentForm
                }
     return render(request, 'product-detail.html', context)
 
@@ -85,3 +96,4 @@ def rate(request, pk: str, stars: int):
     myuser = request.user
     product.rate(myuser, stars)
     return redirect('product-detail', pk=pk)
+

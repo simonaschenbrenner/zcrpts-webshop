@@ -11,8 +11,7 @@
 <h2>Products list</h2>
 <ul>
     {% for product in all_the_products %}
-        <br>
-        <img src="{{ product.image_url}}" height="150" width="150"><br>
+        <a href="{{ product.id }}/"><img class="imgs" src="{{ product.image.url }}"></a>
         <br>
         <a href="{{ product.id }}/"><b>{{ product.get_full_title }}</b></a><br>
         <!-- Alternative link:
