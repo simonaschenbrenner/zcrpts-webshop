@@ -1,14 +1,13 @@
 from django import forms
-from .models import Product, Comment
+from .models import Product, Comment, Picture
 
 
 class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['title', 'subtitle', 'author', 'type', 'pages', 'date_published']
+        fields = ['title', 'version', 'short_description', 'long_description', 'image', 'pdf', 'price']
         widgets = {
-            'type': forms.Select(choices=Product.PRODUCT_TYPES),
             'myuser': forms.HiddenInput(),
         }
 
@@ -17,8 +16,20 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ['text']
+        fields = ['title', 'text']
         widgets = {
             'myuser': forms.HiddenInput(),
-            'book': forms.HiddenInput(),
+            'product': forms.HiddenInput(),
+        }
+
+
+class PictureForm(forms.ModelForm):
+
+    class Meta:
+        model = Picture
+        fields = ['picture']
+        widgets = {
+            'product': forms.HiddenInput(),
+            'order': forms.HiddenInput(),
+            'picture': forms.ClearableFileInput(attrs={'multiple': True})
         }

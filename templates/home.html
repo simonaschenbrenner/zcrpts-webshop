@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
 {% endblock %}
 
+<<<<<<< HEAD
 {% block title %}Homepage zcrpts{% endblock %}
 
 {% block header %}
@@ -85,5 +86,28 @@
 
 {% block footer %}
 
+=======
+{% block title %}zcrpts Home{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% block logged_in_content %}
+            <H1>zcrpts</H1>
+            <p>Hi {{ myuser.username }}!</p>
+            <p><a href="{% url 'product-list' %}">Show me the products</a></p>
+            <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
+            <p><a href="{% url 'myuser-detail' user.id %}">test</a></p>
+
+            <a href="{% url 'logout' %}">Logout</a>
+        {% endblock %}
+    {% else %}
+        {% block not_logged_in_content %}
+            <H1>zcrpts</H1>
+            <p>You are not logged in</p>
+            <p><a href="{% url 'login' %}">Login</a></p>
+            <a href="{% url 'signup' %}">Signup</a>
+        {% endblock %}
+    {% endif %}
+>>>>>>> 979f069267d246082c2ccd78e065bf7636cb7f1a
 {% endblock %}
 

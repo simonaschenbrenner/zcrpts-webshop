@@ -11,12 +11,15 @@
 <h2>Products list</h2>
 <ul>
     {% for product in all_the_products %}
+        <br>
+        <img src="{{ product.image_url}}" height="150" width="150"><br>
+        <br>
         <a href="{{ product.id }}/"><b>{{ product.get_full_title }}</b></a><br>
         <!-- Alternative link:
         <a href="{% url 'product-detail' product.id %}">
         -->
-        {{ product.author }} / {{ product.get_type_display }} / {{ product.pages }} pages<br>
-        <br>
+        {{ product.short_description }}
+        <br><br>
     {% endfor %}
 </ul>
 
