@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     {% block css %}{% endblock %}
     <title>{% block title %}Base Titel{% endblock %}</title>
 </head>
 <body>
+    <header>
+        {% block header %}Base Block{% endblock %}
+    </header>
     {% block content %}Base Block{% endblock %}
+    <hr>
+    <footer>
+        {% block footer %}Base Block{% endblock %}
+    </footer>
 </body>
+
 </html>

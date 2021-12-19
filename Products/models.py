@@ -132,6 +132,8 @@ class Vote(models.Model):
     def __str__(self):
         return self.stars + ' on ' + self.product.title + ' by ' + self.userID.username
 
-    class Screenshot(models.Model):
-        productID = models.ForeignKey(Product, on_delete=models.CASCADE)
-        mediaURL = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
+class Screenshot(models.Model):
+    productID = models.ForeignKey(Product, on_delete=models.CASCADE)
+    mediaURL = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
+
+
