@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block css %}
@@ -12,9 +12,12 @@
 
     <table>
         <tr>
-            <td><b>Image:</b></td>
-            <td><img src="{{ that_one_product.image_url }}" height="150" width="150"></td>
+            {% for p in pictures %}
+                <td><b>Image:</b></td>
+                <td><img src="{{ p.pictures.url }}"></td>
+            {% endfor %}
         </tr>
+
         <tr>
             <td><b>Title:</b></td>
             <td>{{ that_one_product.title }}<br></td>
@@ -46,6 +49,18 @@
         </tr>
     </table>
     <br><br>
+    <br><br>
+
+    <div>
+        <h1>Write A Review</h1>
+        <form method="POST" action="{% url 'product-detail' that_one_product.id %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Add comment</button>
+    </form>
+
+    </div>
+
 
     <a href="{% url 'product-rate' that_one_product.id 1 %}">Give 1 Star</a><br>
     <a href="{% url 'product-rate' that_one_product.id 2 %}">Give 2 Stars</a><br>
@@ -58,19 +73,24 @@
 
     <br><br>
     {% for comment in comments_for_that_one_product %}
+        <div class="div_comment">
         {{ comment.myuser.username }} on {{ comment.timestamp }}<br>
-        <b>{{ comment.title }}</b>
-        {{ comment.text }}<br><br>
+            <div class="div_comment--commentbox">
+                <b>{{ comment.title }}</b><br>
+                {{ comment.text }}<br>
+            </div>
+        Bewertung: {{ comment.rate }}<br>
+        Helpful?<br>
+        <a href="{%  url 'comment-vote' that_one_product.id comment.id 'up' %}">
+            yes ({{ comment.get_upvotes_count }})
+        </a><br>
+        <span style="...">{{ down_votes }}</span>
+        <a href="{%  url 'comment-vote' that_one_product.id comment.id 'down' %}">
+            no ({{ comment.get_downvotes_count }})
+        </a><br>
+        </div>
     {% endfor %}
     <br>
 
-    <b style="color: crimson">Do you have a comment on this product?</b><br>
-    <form method="POST">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit">Add comment</button>
-    </form>
-
-    <br>
     <a href="{% url 'product-list' %}">Back to all products</a>
 {% endblock %}
