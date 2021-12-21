@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 from .forms import ProductForm, CommentForm, PictureForm
-from .models import Product, Comment, Picture
+from .models import Product, Comment, Picture, LicenseKey
 
 
 class ProductListView(ListView):
@@ -103,3 +103,14 @@ def vote(request, pk: int, commentid: int, is_helpful: str):
     myuser = request.user
     comment.vote_helpful(myuser, is_helpful)
     return redirect('product-detail', pk=pk)
+
+def download_license(request, pk: int):
+    product = Product.objects.get(id=pk)
+    license_keys = LicenseKey.objects.filter(productID=product.id)
+    context = {'that_one_product': product,
+               'license_key': license_keys[0]}
+    if request.method == 'POST':
+        #TODO pdf download
+        return render(request, 'download-page.html', context)
+    else:
+        return render(request, 'download-page.html', context)

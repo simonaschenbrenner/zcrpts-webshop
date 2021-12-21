@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models
@@ -42,11 +43,6 @@ class Product(models.Model):
         else:
             url = ''
             return url
-
-    # def get_average_rating(self):
-    #     # ratings = Rating.objects.filter(product=self)
-    #     ratings = Rating.objects.filter(product=self).aggregate(Avg('stars'))
-    #     return ratings['stars__avg']
 
     # Todo
     def rate(self, myuser, stars):
@@ -175,3 +171,14 @@ class Picture(models.Model):
 
     def __repr__(self):
         return 'Product Picture ' + self.product.version + ' of ' + self.product.title + '(' + self.picture.url + ')'
+
+
+class Screenshot(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    mediaURL = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
+
+
+class LicenseKey(models.Model):
+    productID = models.ForeignKey(Product, on_delete=models.CASCADE)
+    # TODO LicenseKey muss gehashed werden
+    licenseKey = models.CharField(max_length=200)

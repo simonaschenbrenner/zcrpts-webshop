@@ -5,26 +5,105 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
 {% endblock %}
 
-{% block title %}zcrpts Home{% endblock %}
+{% block title %}Homepage zcrpts{% endblock %}
+
+{% block header %}
+    <img src="{% static 'css/LOGO.png' %}" alt="logo">
+    <h2>Adobe InDesign Scripts</h2>
+    <nav>
+        <ul>
+            <li><a>ABOUT</a></li>
+            <li><a href="{% url 'product-list' %}">Show me the products</a></li>
+            {% if user.is_authenticated %}
+                {% block logged_in_content %}
+
+                <p>Hi {{ myuser.username }}!</p>
+                <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
+                <p><a href="{% url 'myuser-detail' user.id %}">test</a></p>
+                <a href="{% url 'logout' %}">Logout</a>
+                {% endblock %}
+            {% else %}
+                {% block not_logged_in_content %}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            You are not logged in
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                            <li><a href="{% url 'signup' %}">Signup</a></li>
+                        </ul>
+                    </div>
+                {% endblock %}
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        {% block logged_in_content %}
-            <H1>zcrpts</H1>
-            <p>Hi {{ myuser.username }}!</p>
-            <p><a href="{% url 'product-list' %}">Show me the products</a></p>
-            <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
-            <p><a href="{% url 'myuser-detail' user.id %}">test</a></p>
+    <h2>New products</h2>
+    <div class="top-products">
+        <div id="top1">
+            <img src="{{ that_one_product.image_url }}">
+            {{ that_one_product.title }}
 
-            <a href="{% url 'logout' %}">Logout</a>
-        {% endblock %}
-    {% else %}
-        {% block not_logged_in_content %}
-            <H1>zcrpts</H1>
-            <p>You are not logged in</p>
-            <p><a href="{% url 'login' %}">Login</a></p>
-            <a href="{% url 'signup' %}">Signup</a>
-        {% endblock %}
-    {% endif %}
+            {{ that_one_product.get_average_rating }}
+
+            {{ that_one_product.price }}
+        </div>
+        <div id="top2">
+            <img src="{{ that_one_product.image_url }}">
+
+            {{ that_one_product.title }}
+
+            {{ that_one_product.get_average_rating }}
+
+            {{ that_one_product.price }}
+        </div>
+    </div>
+
+    <h2>Most popular</h2>
+    <div class="most-popular-products">
+        <div id="popular1">
+            <img src="{{ that_one_product.image_url }}">
+            {{ that_one_product.title }}
+
+            {{ that_one_product.get_average_rating }}
+
+            {{ that_one_product.price }}
+        </div>
+        <div id="popular2">
+            <img src="{{ that_one_product.image_url }}">
+
+            {{ that_one_product.title }}
+
+            {{ that_one_product.get_average_rating }}
+
+            {{ that_one_product.price }}
+        </div>
+        <div id="popular3">
+            <img src="{{ that_one_product.image_url }}">
+
+            {{ that_one_product.title }}
+
+            {{ that_one_product.get_average_rating }}
+
+            {{ that_one_product.price }}
+        </div>
+        <div id="popular4">
+            <img src="{{ that_one_product.image_url }}">
+
+            {{ that_one_product.title }}
+
+            {{ that_one_product.get_average_rating }}
+
+            {{ that_one_product.price }}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block footer %}
+
 {% endblock %}
 
