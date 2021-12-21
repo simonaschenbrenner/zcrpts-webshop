@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 from .forms import ProductForm, CommentForm
-from .models import Product, Comment, Picture
+from .models import Product, Comment, Picture, LicenseKey
 
 
 class ProductListView(ListView):
@@ -74,9 +74,7 @@ def product_detail(request, **kwargs):
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
                'rating': product.get_average_rating(),
-               'comment_form': CommentForm,
-               'pictures': pictures,
-               }
+               'comment_form': CommentForm}
     return render(request, 'product-detail.html', context)
 
 
@@ -85,3 +83,20 @@ def rate(request, pk: str, stars: int):
     myuser = request.user
     product.rate(myuser, stars)
     return redirect('product-detail', pk=pk)
+
+def download_license(request, pk: int):
+    product = Product.objects.get(id=pk)
+    license_keys = LicenseKey.objects.filter(productID=product.id)
+    context = {'that_one_product': product,
+               'license_key': license_keys[0]}
+    if request.method == 'POST':
+        #TODO pdf download
+        return render(request, 'download-page.html', context)
+    else:
+        return render(request, 'download-page.html', context)
+
+
+
+
+
+

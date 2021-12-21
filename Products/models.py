@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models
@@ -52,7 +54,6 @@ class Product(models.Model):
 
 
 class Comment(models.Model):
-
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -84,7 +85,7 @@ class Comment(models.Model):
         return self.myuser.username + ' commented on ' + self.product.title + ': "' + self.title + '"'
 
     def __repr__(self):
-        return 'Product Comment: "' + self.title + '"' + ' on ' + self.product.title + ' by ' + self.myuser.username\
+        return 'Product Comment: "' + self.title + '"' + ' on ' + self.product.title + ' by ' + self.myuser.username \
                + ' at ' + str(self.timestamp)
 
 
@@ -122,3 +123,14 @@ class Picture(models.Model):
 
     def __repr__(self):
         return 'Product Picture ' + self.order + ' of ' + self.product.title + '(' + self.picture.url + ')'
+
+
+class Screenshot(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    mediaURL = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
+
+
+class LicenseKey(models.Model):
+    productID = models.ForeignKey(Product, on_delete=models.CASCADE)
+    # TODO LicenseKey muss gehashed werden
+    licenseKey = models.CharField(max_length=200)
