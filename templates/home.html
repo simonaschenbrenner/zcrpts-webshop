@@ -5,17 +5,36 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
 {% endblock %}
 
-<<<<<<< HEAD
 {% block title %}Homepage zcrpts{% endblock %}
 
 {% block header %}
-    <h1>Adobe InDesign Scripts</h1>
-    <img src="./css/LOGO.png" alt="logo">
+    <img src="{% static 'css/LOGO.png' %}" alt="logo">
+    <h2>Adobe InDesign Scripts</h2>
     <nav>
         <ul>
             <li><a>ABOUT</a></li>
-            <li><a>PRODUCTS</a></li>
-            <li><a>LOGIN</a></li> // Login muss noch eingebaut werden(siehe home von Siu)
+            <li><a href="{% url 'product-list' %}">Show me the products</a></li>
+            {% if user.is_authenticated %}
+                {% block logged_in_content %}
+
+                <p>Hi {{ myuser.username }}!</p>
+                <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
+                <p><a href="{% url 'myuser-detail' user.id %}">test</a></p>
+                <a href="{% url 'logout' %}">Logout</a>
+                {% endblock %}
+            {% else %}
+                {% block not_logged_in_content %}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            You are not logged in
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                            <li><a href="{% url 'signup' %}">Signup</a></li>
+                        </ul>
+                    </div>
+                {% endblock %}
+            {% endif %}
         </ul>
     </nav>
 {% endblock %}
@@ -86,28 +105,5 @@
 
 {% block footer %}
 
-=======
-{% block title %}zcrpts Home{% endblock %}
-
-{% block content %}
-    {% if user.is_authenticated %}
-        {% block logged_in_content %}
-            <H1>zcrpts</H1>
-            <p>Hi {{ myuser.username }}!</p>
-            <p><a href="{% url 'product-list' %}">Show me the products</a></p>
-            <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
-            <p><a href="{% url 'myuser-detail' user.id %}">test</a></p>
-
-            <a href="{% url 'logout' %}">Logout</a>
-        {% endblock %}
-    {% else %}
-        {% block not_logged_in_content %}
-            <H1>zcrpts</H1>
-            <p>You are not logged in</p>
-            <p><a href="{% url 'login' %}">Login</a></p>
-            <a href="{% url 'signup' %}">Signup</a>
-        {% endblock %}
-    {% endif %}
->>>>>>> 979f069267d246082c2ccd78e065bf7636cb7f1a
 {% endblock %}
 

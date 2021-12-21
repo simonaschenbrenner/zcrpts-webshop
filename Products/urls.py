@@ -9,4 +9,5 @@ urlpatterns = [
     path('show/<int:pk>/', views.product_detail, name='product-detail'),
     path('show/<int:pk>/rate/<int:stars>/', views.rate, name='product-rate'),
     # path('add/', views.ProductCreateView.as_view(), name='product-create'),
+    path('download/<int:pk>/', views.download_license, name='download-license')
 ]
