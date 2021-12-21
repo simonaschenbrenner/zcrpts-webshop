@@ -43,34 +43,21 @@ class Product(models.Model):
             url = ''
             return url
 
-    def get_average_rating(self):
-        # ratings = Rating.objects.filter(product=self)
-        ratings = Rating.objects.filter(product=self).aggregate(Avg('stars'))
-        return ratings['stars__avg']
+    # def get_average_rating(self):
+    #     # ratings = Rating.objects.filter(product=self)
+    #     ratings = Rating.objects.filter(product=self).aggregate(Avg('stars'))
+    #     return ratings['stars__avg']
 
+    # Todo
     def rate(self, myuser, stars):
-        Rating.objects.create(product=self, myuser=myuser, stars=stars)
+        pass
+        # Rating.objects.create(product=self, myuser=myuser, stars=stars)
 
     def __str__(self):
         return self.title + ' (' + self.version + ')'
 
     def __repr__(self):
         return self.get_full_title() + ' / ' + self.version + ' / ' + self.type
-
-
-class Review(models.Model):
-    myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=100)
-    text = models.TextField(max_length=500)
-    rate = models.IntegerField(default=1)
-
-    def __str__(self):
-        return self.title + ' (' + self.text + ')'
-
-    def __repr__(self):
-        return self.myuser + ', ' + self.timestamp + ': ' + self.title + ': ' + self.text
 
 
 class Comment(models.Model):
@@ -80,17 +67,22 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_flagged = models.BooleanField(default=False)
-    # TODO Relation helpful? Momentan kann jeder User unendlich oft voten!
-    is_helpful = models.PositiveIntegerField(default=0)
     rate = models.IntegerField(default=1)
-
-    helpful = models.PositiveIntegerField(default=0)
-    not_helpful = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['product', 'timestamp']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+
+    # def vote(self, myuser, is_helpful):
+    #     Rating.objects.create(product=self, myuser=myuser, is_helpful=is_helpful)
+
+    def vote_helpful(self, myuser, up_or_down):
+        U_or_O = 'U'
+        if up_or_down == 'down':
+            U_or_O = 'D'
+        vote = Vote.objects.create(comment=self, myuser=myuser, up_or_down=U_or_O)
+        return vote
 
     def get_text_prefix(self):
         if len(self.title) > 50:
@@ -98,20 +90,25 @@ class Comment(models.Model):
         else:
             return self.title
 
-    def mark_helpful(self, helpful):
-        if helpful:
-            self.helpful = self.helpful + 1
-        else:
-            self.not_helpful = self.not_helpful + 1
-
-    # def rate_helpful(self, helpful):
+    # def mark_helpful(self, helpful):
     #     if helpful:
-    #         self.helpful += 1
+    #         self.helpful = self.helpful + 1
     #     else:
-    #         if not 0:
-    #             self.helpful -= 1
-    #         else:
-    #             self.helpful = 0
+    #         self.not_helpful = self.not_helpful + 1
+
+    def get_upvotes(self):
+        upvotes = Vote.objects.filter(up_or_down='U', comment=self)
+        return upvotes
+
+    def get_downvotes(self):
+        downvotes = Vote.objects.filter(up_or_down='D', comment=self)
+        return downvotes
+
+    def get_upvotes_count(self):
+        return len(self.get_upvotes())
+
+    def get_downvotes_count(self):
+        return len(self.get_downvotes())
 
     def __str__(self):
         return self.myuser.username + ' commented on ' + self.product.title + ': "' + self.title + '"'
@@ -121,23 +118,45 @@ class Comment(models.Model):
                + ' at ' + str(self.timestamp)
 
 
-class Rating(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+class Vote(models.Model):
+    VOTE_TYPES = [
+        ('U', 'up'),
+        ('D', 'down'),
+    ]
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    stars = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
-    # comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    up_or_down = models.CharField(max_length=1, default=0, choices=VOTE_TYPES)
 
-    class Meta:
-        ordering = ['product', 'myuser']
-        unique_together = ['product', 'myuser']
-        verbose_name = 'Product Rating'
-        verbose_name_plural = 'Product Ratings'
+    # class Meta:
+    #     ordering = ['comment', 'myuser']
+    #     unique_together = ['comment', 'myuser']
+    #     verbose_name = 'Comment Voting'
+    #     verbose_name_plural = 'Comment Votings'
 
     def __str__(self):
-        return self.myuser.username + ' gave ' + self.product.title + ' ' + self.stars + ' stars'
+        return self.myuser.username + ' gave ' + self.comment.title + ' ' + self.up_or_down + ' up_or_down'
 
     def __repr__(self):
-        return 'Product Rating: ' + self.stars + ' on ' + self.product.title + ' by ' + self.myuser.username
+        return 'Comment Rating: ' + self.stars + ' on ' + self.comment.title + ' by ' + self.myuser.username
+
+
+# class Rating(models.Model):
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+#     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     stars = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
+#     # comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+#
+#     class Meta:
+#         ordering = ['product', 'myuser']
+#         unique_together = ['product', 'myuser']
+#         verbose_name = 'Product Rating'
+#         verbose_name_plural = 'Product Ratings'
+#
+#     def __str__(self):
+#         return self.myuser.username + ' gave ' + self.product.title + ' ' + self.stars + ' stars'
+#
+#     def __repr__(self):
+#         return 'Product Rating: ' + self.stars + ' on ' + self.product.title + ' by ' + self.myuser.username
 
 
 class Picture(models.Model):

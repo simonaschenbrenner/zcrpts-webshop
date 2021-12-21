@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block css %}
@@ -73,11 +73,22 @@
 
     <br><br>
     {% for comment in comments_for_that_one_product %}
+        <div class="div_comment">
         {{ comment.myuser.username }} on {{ comment.timestamp }}<br>
-        <b>{{ comment.title }}</b>
-        {{ comment.text }}<br>
-        {{ comment.rate }}<br>
-
+            <div class="div_comment--commentbox">
+                <b>{{ comment.title }}</b><br>
+                {{ comment.text }}<br>
+            </div>
+        Bewertung: {{ comment.rate }}<br>
+        Helpful?<br>
+        <a href="{%  url 'comment-vote' that_one_product.id comment.id 'up' %}">
+            yes ({{ comment.get_upvotes_count }})
+        </a><br>
+        <span style="...">{{ down_votes }}</span>
+        <a href="{%  url 'comment-vote' that_one_product.id comment.id 'down' %}">
+            no ({{ comment.get_downvotes_count }})
+        </a><br>
+        </div>
     {% endfor %}
     <br>
 

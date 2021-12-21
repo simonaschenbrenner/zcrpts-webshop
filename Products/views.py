@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 from .forms import ProductForm, CommentForm, PictureForm
-from .models import Product, Comment, Review, Picture
+from .models import Product, Comment, Picture
 
 
 class ProductListView(ListView):
@@ -86,7 +86,7 @@ def product_detail(request, **kwargs):
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
                'rating': product.get_average_rating(),
-               'comment_form': CommentForm
+               'comment_form': CommentForm,
                }
     return render(request, 'product-detail.html', context)
 
@@ -97,3 +97,9 @@ def rate(request, pk: str, stars: int):
     product.rate(myuser, stars)
     return redirect('product-detail', pk=pk)
 
+
+def vote(request, pk: int, commentid: int, is_helpful: str):
+    comment = Comment.objects.get(id=int(commentid))
+    myuser = request.user
+    comment.vote_helpful(myuser, is_helpful)
+    return redirect('product-detail', pk=pk)

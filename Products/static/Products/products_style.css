@@ -8,3 +8,19 @@ img {
     width: 150px;
     height: 150px;
 }
+
+li{
+    list-style: none;
+}
+
+.div_comment{
+    border: 2px solid cadetblue;
+    margin: 5px;
+    padding: 2px;
+    width: 50%
+}
+
+.div_comment--commentbox{
+    background: azure;
+    padding: 5px 5px;
+}
