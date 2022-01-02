@@ -3,8 +3,15 @@ from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
+<<<<<<< HEAD
 from .forms import ProductForm, CommentForm, PictureForm
 from .models import Product, Comment, Picture, LicenseKey
+=======
+
+from Carts.models import Cart
+from .forms import ProductForm, CommentForm
+from .models import Product, Comment, Picture
+>>>>>>> added cart function
 
 
 class ProductListView(ListView):
@@ -69,7 +76,7 @@ def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
     # Add comment
-    if request.method == 'POST':
+    if request.method == 'POST' & CommentForm(request.POST):
         form = CommentForm(request.POST)
         form.instance.myuser = request.user
         form.instance.product = product
@@ -78,6 +85,15 @@ def product_detail(request, **kwargs):
             messages.success(request, "Review has been sent. Thank you")
         else:
             print(form.errors)
+
+    elif request.method == 'POST':
+        myuser = request.user
+        Cart.add_item(myuser, product)
+
+    context = {'that_one_product': product}
+    return render(request, 'product-detail.html', context)
+
+
 
     # Comments
     comments = Comment.objects.filter(product=product)

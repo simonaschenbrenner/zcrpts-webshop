@@ -62,14 +62,27 @@
     </div>
 
 
+
     <a href="{% url 'product-rate' that_one_product.id 1 %}">Give 1 Star</a><br>
     <a href="{% url 'product-rate' that_one_product.id 2 %}">Give 2 Stars</a><br>
     <a href="{% url 'product-rate' that_one_product.id 3 %}">Give 3 Stars</a><br>
     <a href="{% url 'product-rate' that_one_product.id 4 %}">Give 4 Stars</a><br>
     <a href="{% url 'product-rate' that_one_product.id 5 %}">Give 5 Stars</a><br>
 
-    <br><br>
-    <a href="{% url 'product-list' %}">Add To Cart</a>
+   {% if user.is_authenticated %}
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ cart.add_item }}
+            <button type="submit">Add to shopping cart</button>
+        </form>
+    {% else %}
+        <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
+        <br>
+    {%  endif %}
+
+    <br>
+
 
     <br><br>
     {% for comment in comments_for_that_one_product %}
