@@ -71,7 +71,7 @@
 
    {% if user.is_authenticated %}
         <br>
-        <form method="POST">
+        <form method="POST" action="{% url 'show_shopping_cart' %}">
             {% csrf_token %}
             {{ cart.add_item }}
             <button type="submit">Add to shopping cart</button>

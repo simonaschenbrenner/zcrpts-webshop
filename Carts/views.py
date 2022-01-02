@@ -14,9 +14,14 @@ def show_shopping_cart(request):
             context = {'shopping_cart_is_empty': True,
                        'shopping_cart_items': None,
                        'amount': 0.0}
-            return render(request, 'shopping-cart.html', context)
+            temp = render(request, 'shopping-cart.html', context)
+            print(temp)
 
-        elif 'pay' in request.POST:
+            return temp
+
+        else:
+            'pay' in request.POST
+            print('hallo')
             return redirect('shopping-cart-pay')
 
     else:  # request.method == 'GET'
@@ -68,5 +73,5 @@ def pay(request):
 
     context = {'shopping_cart_is_empty': shopping_cart_is_empty,
                'payment_form': form,
-               'paid': paid,}
+               'paid': paid}
     return render(request, 'pay.html', context)
