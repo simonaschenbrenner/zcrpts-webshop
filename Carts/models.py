@@ -8,16 +8,10 @@ from django.utils import timezone
 
 # TODO Umbennenen? Repräsentiert ein Produkt im Warenkorb, Warenkorb ist Menge aller Einträge zu einem User
 
+# whole shopping Cart
 class Cart(models.Model):
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=timezone.now)
-    quantity = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
-
-    class Meta:
-        unique_together = ['myuser', 'product']
-        verbose_name = 'Cart'
-        verbose_name_plural = 'Carts'
 
     def add_item(myuser, product):
         # Get existing shopping cart, or create a new one if none exists
@@ -29,13 +23,13 @@ class Cart(models.Model):
 
         # Add item to shopping cart
         product_id = product.id
-        product_name = product.get_full_title() + ' '+ product.get_long_description()
-        Cart.objects.create(product_id=product_id,
-                            product_name=product_name,
-                            price=product.price,
-                            quantity=1,
-                            shopping_cart=shopping_cart,
-                            )
+        product_name = product.get_full_title() + ' ' + product.get_long_description()
+        ShoppingCartItem.objects.create(product_id=product_id,
+                                        product_name=product_name,
+                                        price=product.price,
+                                        quantity=1,
+                                        shopping_cart=shopping_cart,
+                                        )
 
     def get_number_of_items(self):
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=self)
@@ -55,6 +49,7 @@ class Cart(models.Model):
         return 'Cart: ' + self.quantity + ' x ' + self.product.title + ' for ' + self.myuser
 
 
+# one item in shopping cart
 class ShoppingCartItem(models.Model):
     product_id = models.IntegerField()
     product_name = models.CharField(max_length=100)

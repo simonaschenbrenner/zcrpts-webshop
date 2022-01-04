@@ -69,8 +69,19 @@ def product_list(request):
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
+
     # Add comment
+
+    # addToCart
     if request.method == 'POST':
+        product_id = kwargs['pk']
+        product = Product.objects.get(id=product_id)
+        Cart.add_item(request.user, product)
+
+        context = {'that_one_product': product}
+        return render(request, 'product-detail.html', context)
+
+    elif request.method == 'POST':
         form = CommentForm(request.POST)
         form.instance.myuser = request.user
         form.instance.product = Product.objects.get(id=product_id)
@@ -79,7 +90,6 @@ def product_detail(request, **kwargs):
             messages.success(request, "Review has been sent. Thank you")
         else:
             print(form.errors)
-
     # Comments
     comments = Comment.objects.filter(product=product)
 
@@ -90,18 +100,6 @@ def product_detail(request, **kwargs):
                'comment_form': CommentForm,
                }
     return render(request, 'product-detail.html', context)
-
-
-def add_to_cart(request, **kwargs):
-    product_id = kwargs['pk']
-    product = Product.objects.get(id=product_id)
-
-    if request.method == 'POST':
-        myuser = request.user
-        Cart.add_item(myuser, product)
-
-    context = {'that_one_product': product}
-    return render(request, 'shopping-cart.html', context)
 
 
 def rate(request, pk: str, stars: int):
