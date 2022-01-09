@@ -10,15 +10,7 @@
 {% block header %}
     <img src="{% static 'css/LOGO.png' %}" alt="logo">
     <h2>Adobe InDesign Scripts</h2>
-    <a style="float: right;" href="{% url 'show_shopping_cart' %}">
-        Shopping Cart (
-        {% if user.is_authenticated %}
-            {{ request.user.count_shopping_cart_items }}
-        {% else %}
-            0
-        {% endif %}
-        )
-    </a>
+
     <nav>
         <ul>
             <li><a>ABOUT</a></li>

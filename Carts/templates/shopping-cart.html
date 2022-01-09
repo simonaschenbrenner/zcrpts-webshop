@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Shopping cart{% endblock %}
@@ -25,5 +25,5 @@
     {% endif %}
 
     <br>
-    <a href="{% url 'product-list' %}">Keep shopping the computers</a>
+    <a href="{% url 'product-list' %}">Keep shopping</a>
 {% endblock %}
