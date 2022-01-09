@@ -73,7 +73,7 @@
         <br>
         <form method="POST">
             {% csrf_token %}
-            <button type="submit" >Add to shopping cart</button>
+            <button type="submit" name="addToCart" >Add to shopping cart</button>
         </form>
     {% else %}
         <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
