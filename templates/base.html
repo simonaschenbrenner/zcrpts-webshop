@@ -5,6 +5,15 @@
     <meta charset="utf-8">
     {% block css %}{% endblock %}
     <title>{% block title %}zcrpts{% endblock %}</title>
+    <a style="float: right;" href="{% url 'show_shopping_cart' %}">
+        Shopping Cart (
+        {% if user.is_authenticated %}
+            {{ request.user.count_shopping_cart_items }}
+        {% else %}
+            0
+        {% endif %}
+        )
+    </a>
 </head>
 <body>
     <header>

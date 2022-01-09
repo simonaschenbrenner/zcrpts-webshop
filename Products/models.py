@@ -53,7 +53,7 @@ class Product(models.Model):
         return self.title + ' (' + self.version + ')'
 
     def __repr__(self):
-        return self.get_full_title() + ' / ' + self.version + ' / ' + self.type
+        return self.get_full_title() + ' / ' + self.version + ' / '
 
 
 class Comment(models.Model):

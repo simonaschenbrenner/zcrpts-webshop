@@ -3,6 +3,8 @@ from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
+
+from Carts.models import Cart
 from .forms import ProductForm, CommentForm, PictureForm
 from .models import Product, Comment, Picture, LicenseKey
 
@@ -31,7 +33,6 @@ class ProductCreateView(CreateView):
 
 
 def product_create(request):
-
     if request.method == 'POST':
         print("in Post")
         form = ProductForm(request.POST, request.FILES)
@@ -68,24 +69,34 @@ def product_list(request):
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
+
     # Add comment
+
+    # addToCart
     if request.method == 'POST':
+        product_id = kwargs['pk']
+        product = Product.objects.get(id=product_id)
+        Cart.add_item(request.user, product)
+
+        context = {'that_one_product': product}
+        return render(request, 'product-detail.html', context)
+
+    elif request.method == 'POST':
         form = CommentForm(request.POST)
         form.instance.myuser = request.user
-        form.instance.product = product
+        form.instance.product = Product.objects.get(id=product_id)
         if form.is_valid():
             form.save()
             messages.success(request, "Review has been sent. Thank you")
         else:
             print(form.errors)
-
     # Comments
     comments = Comment.objects.filter(product=product)
 
     context = {'that_one_product': product,
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
-               'rating': product.get_average_rating(),
+               # 'rating': product.get_average_rating(),
                'comment_form': CommentForm,
                }
     return render(request, 'product-detail.html', context)
@@ -104,13 +115,14 @@ def vote(request, pk: int, commentid: int, is_helpful: str):
     comment.vote_helpful(myuser, is_helpful)
     return redirect('product-detail', pk=pk)
 
+
 def download_license(request, pk: int):
     product = Product.objects.get(id=pk)
     license_keys = LicenseKey.objects.filter(productID=product.id)
     context = {'that_one_product': product,
                'license_key': license_keys[0]}
     if request.method == 'POST':
-        #TODO pdf download
+        # TODO pdf download
         return render(request, 'download-page.html', context)
     else:
         return render(request, 'download-page.html', context)
