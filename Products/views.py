@@ -74,23 +74,24 @@ def product_detail(request, **kwargs):
 
     # addToCart
     if request.method == 'POST':
-        product_id = kwargs['pk']
-        product = Product.objects.get(id=product_id)
-        Cart.add_item(request.user, product)
+        if 'addToCart' in request.POST:
+            product_id = kwargs['pk']
+            product = Product.objects.get(id=product_id)
+            Cart.add_item(request.user, product)
 
-        context = {'that_one_product': product}
-        return render(request, 'product-detail.html', context)
+            context = {'that_one_product': product}
+            return render(request, 'product-detail.html', context)
 
-    elif request.method == 'POST':
-        form = CommentForm(request.POST)
-        form.instance.myuser = request.user
-        form.instance.product = Product.objects.get(id=product_id)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Review has been sent. Thank you")
-        else:
-            print(form.errors)
-    # Comments
+        elif request.method == 'POST':
+            form = CommentForm(request.POST)
+            form.instance.myuser = request.user
+            form.instance.product = Product.objects.get(id=product_id)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Review has been sent. Thank you")
+            else:
+                print(form.errors)
+
     comments = Comment.objects.filter(product=product)
 
     context = {'that_one_product': product,
