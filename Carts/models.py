@@ -6,8 +6,6 @@ from django.db import models
 from django.utils import timezone
 
 
-# TODO Umbennenen? Repräsentiert ein Produkt im Warenkorb, Warenkorb ist Menge aller Einträge zu einem User
-
 # whole shopping Cart
 class Cart(models.Model):
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -43,10 +41,10 @@ class Cart(models.Model):
         return total
 
     def __str__(self):
-        return self.myuser + ' has ' + self.quantity + ' of ' + self.product.title + ' in their cart'
+        return self.myuser.__str__()
 
     def __repr__(self):
-        return 'Cart: ' + self.quantity + ' x ' + self.product.title + ' for ' + self.myuser
+        return self.myuser.__str__()
 
 
 # one item in shopping cart
