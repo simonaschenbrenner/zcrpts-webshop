@@ -136,13 +136,15 @@ class Comment(models.Model):
 
     # report inappropriate review
 
-    def set_flag(self, myuser):
-        print(self.is_flagged)
+    def flag(self):
         if not self.is_flagged:
             self.is_flagged = True
             self.save()
-            # flag = Flag.objects.create(comment=self, myuser=myuser, is_flagged=self.is_flagged)
-            # return flag
+
+    def unflag(self):
+        if self.is_flagged:
+            self.is_flagged = False
+            self.save()
 
     def __str__(self):
         return self.myuser.username + ' commented on ' + self.product.title + ': "' + self.title + '"'

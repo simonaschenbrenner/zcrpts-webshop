@@ -12,23 +12,23 @@
     <table>
         <tr>
             <td><b>Username:</b></td>
-            <td>{{ user.username }}<br></td>
+            <td>{{ current_user.username }}<br></td>
         </tr>
         <tr>
             <td><b>First Name:</b></td>
-            <td>{{ user.first_name }}<br></td>
+            <td>{{ current_user.first_name }}<br></td>
         </tr>
         <tr>
             <td><b>Last Name:</b></td>
-            <td>{{ user.last_name }}<br></td>
+            <td>{{ current_user.last_name }}<br></td>
         </tr>
          <tr>
             <td><b>email:</b></td>
-            <td>{{ user.email }}<br></td>
+            <td>{{ current_user.email }}<br></td>
         </tr>
     </table>
 
-     <p><a href="{% url 'change-user-detail' user.id %}">change details</a></p>
+     <p><a href="{% url 'change-user-detail' current_user.id %}">change details</a></p>
 
     <br>
 

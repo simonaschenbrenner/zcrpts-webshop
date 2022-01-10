@@ -81,10 +81,15 @@ def product_list(request):
 
 
 @staff_member_required(login_url='/useradmin/login/')
-def product_create(request):
+def product_create(request, **kwargs):
+    if 'product_id' in kwargs:
+        product = Product.objects.get(id=kwargs['product_id'])
+    else:
+        product = None
     if request.method == 'POST':
         print("in Post")
-        form = ProductForm(request.POST, request.FILES)
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        form.instance.product = product
         form.instance.myuser = request.user
         if form.is_valid():
             form.save()
@@ -94,7 +99,7 @@ def product_create(request):
 
         return redirect('product-list')
     else:
-        form = ProductForm
+        form = ProductForm(instance=product)
         context = {'form': form}
         return render(request, 'product-create.html', context)
 
@@ -138,14 +143,6 @@ def product_detail(request, **kwargs):
     return render(request, 'product-detail.html', context)
 
 
-"""
-def rate(request, pk: str, stars: int):
-    product = Product.objects.get(id=int(pk))
-    myuser = request.user
-    product.rate(myuser, stars)
-    return redirect('product-detail', pk=pk)
-"""
-
 def vote(request, pk: int, commentid: int, is_helpful: str):
     comment = Comment.objects.get(id=int(commentid))
     myuser = request.user
@@ -155,14 +152,14 @@ def vote(request, pk: int, commentid: int, is_helpful: str):
 
 def flag(request, pk: int, commentid: int):
     comment = Comment.objects.get(id=int(commentid))
-    myuser = request.user
-    try:
-        comment.set_flag(myuser)
-    except ObjectDoesNotExist:
-        print("already flagged")
-        return HttpResponse("You already flagged")
-
+    comment.flag()
     return redirect('product-detail', pk=pk)
+
+
+def unflag(request, commentid: int):
+    comment = Comment.objects.get(id=int(commentid))
+    comment.unflag()
+    return redirect('comment-list-all')
 
 
 def update_review(request, pk: int, commentid: int):
@@ -195,10 +192,16 @@ def download_license(request, pk: int):
         return render(request, 'download-page.html', context)
 
 
-# TODO Filter flagged
 @staff_member_required(login_url='/useradmin/login/')
-def comment_list(request, **kwargs):
-    context = {'all_comments': Comment.objects.all()}
+def comment_list_all(request, **kwargs):
+    context = {'all_comments': Comment.objects.all(), 'only_flagged': False}
+    return render(request, 'comment-list.html', context)
+
+
+@staff_member_required(login_url='/useradmin/login/')
+def comment_list_flagged(request, **kwargs):
+    comments = Comment.objects.filter(is_flagged=True)
+    context = { 'all_comments': comments, 'only_flagged': True}
     return render(request, 'comment-list.html', context)
 
 
@@ -206,4 +209,7 @@ def comment_delete(request, **kwargs):
     comment_id = kwargs['commentid']
     comment = Comment.objects.get(id=comment_id)
     comment.delete()
-    return redirect('product-detail', pk=kwargs['pk'])
+    if 'productid' in kwargs:
+        return redirect('product-detail', pk=kwargs['productid'])
+    else:
+        return redirect('comment-list')

@@ -18,10 +18,12 @@
             <a href="{{ product.id }}/"><img class="imgs" src="{{ product.image.url }}"></a>
             <br>
             <a href="{{ product.id }}/"><b>{{ product.get_full_title }}</b></a><br>
-            <!-- Alternative link:
-            <a href="{% url 'product-detail' product.id %}">
-            -->
             {{ product.short_description }}
+            {% if user.is_staff %}
+                <br>
+                <a href={% url 'product-edit' product.id %}>Edit product</a>
+                <br>
+            {% endif %}
             <br><br>
         {% endfor %}
     </ul>

@@ -31,16 +31,17 @@ class MyLoginView(LoginView):
 def user_detail(request, **kwargs):
     myuser_id = kwargs['pk']
     current_user = MyUser.objects.get(id=myuser_id)
-    print(str(myuser_id), " :: ", current_user)
-    context = {'current user': current_user}
+    print(str(myuser_id))
+    context = {'current_user': current_user}
     return render(request, 'user-detail.html', context)
 
 
 def update_user(request, **kwargs):
     myuser_id = kwargs['pk']
+    current_user = MyUser.objects.get(id=myuser_id)
     if request.method == 'POST':
-        userForm = EditProfileForm(request.POST, instance=request.user)
-        userForm.instance.user = request.user
+        userForm = EditProfileForm(request.POST, instance=current_user)
+        userForm.instance.user = current_user
         if userForm.is_valid():
             userForm.save()
             # print("I saved new game")
@@ -52,7 +53,7 @@ def update_user(request, **kwargs):
 
     else:  # request.method == 'GET'
         print("I am in GET")
-        userForm = EditProfileForm(instance=request.user)
+        userForm = EditProfileForm(instance=current_user)
         context = {'form': userForm}
         return render(request, 'change-user-detail.html', context)
 

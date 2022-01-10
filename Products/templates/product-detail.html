@@ -45,6 +45,11 @@
             <td>{{ that_one_product.average_rating }}<br></td>
         </tr>
     </table>
+        {% if user.is_staff %}
+            <br>
+            <a href={% url 'product-edit' that_one_product.id %}>Edit product</a>
+            <br>
+        {% endif %}
     <br><br>
 
     {% if logged_in_user.is_authenticated %}
@@ -110,7 +115,7 @@
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Edit review</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a href="{% url 'review-update' that_one_product.id comment.id %}">Edit</a></li>
-                            <li><a href="{% url 'comment-delete' that_one_product.id comment.id %}">Delete</a></li>
+                            <li><a href="{% url 'comment-delete' comment.id that_one_product.id %}">Delete</a></li>
                         </ul>
             {% endif %}
 
