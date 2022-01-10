@@ -71,7 +71,6 @@ def product_detail(request, **kwargs):
                 form.save()
                 messages.success(request, "Review has been submitted. Thank you")
             except IntegrityError:
-                # return redirect('product-detail', pk=product_id)
                 return HttpResponse("Already submitted a review")
         else:
             print(form.errors)
