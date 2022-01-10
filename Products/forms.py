@@ -1,4 +1,7 @@
 from django import forms
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView
+
 from .models import Product, Comment, Picture
 
 
@@ -30,9 +33,30 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'myuser': forms.HiddenInput(),
             'product': forms.HiddenInput(),
-            'rate': forms.RadioSelect(choices=CHOICES)
-
+            'rate': forms.RadioSelect(choices=CHOICES),
         }
+
+
+class EditReviewForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Comment
+        fields = (
+            'title',
+            'text',
+            'rate',
+        )
+        widgets = {
+            'rate': forms.RadioSelect(choices=CHOICES),
+        }
+
+# class EditReviewForm(UpdateView):
+#     model = Comment
+#     fields = ['title', 'text', 'rate']
+#     template_name_suffix = '_update_form'
+#     success_url = reverse_lazy('product-detail')
 
 
 class PictureForm(forms.ModelForm):

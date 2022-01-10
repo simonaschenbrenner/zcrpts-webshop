@@ -7,7 +7,7 @@
 
 {% block title %}Add product{% endblock %}
 
-{% block logged_in_content %}
+{% block content %}
 <h2>Add product</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -23,14 +23,10 @@
         <br><br>
         <b>{{ form.price.label }}:</b> {{ form.price }}
         <br><br>
-        <div>
-        <label><b>Upload pdf</b></label><br>
-            <input name="pdf" type="file" name="pdf">
-        </div>
-        <br><br>
-        <label><b>Upload images</b></label><br>
-            <input name="image" type="file" multiple>
-        </div>
+        <b>{{ form.pdf.label }}:</b> {{ form.pdf }}
+         <br><br>
+        <b>{{ form.image.label }}:</b> {{ form.image }}
+        <br>
         <br>
         <button type="submit">Add product</button>
     </form>
