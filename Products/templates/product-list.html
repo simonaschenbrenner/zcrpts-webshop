@@ -9,6 +9,11 @@
 
 {% block content %}
 <h2>Products list</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ search_form.as_p }}
+    <button type="submit">Search</button>
+</form>
 <ul>
     {% for product in all_the_products %}
         <a href="{{ product.id }}/"><img class="imgs" src="{{ product.image.url }}"></a>
@@ -22,5 +27,8 @@
     {% endfor %}
 </ul>
 
-<a href={% url 'product-create' %}>Add a new product</a><br>
+{% if user.is_staff %}
+    <a href={% url 'product-create' %}>Add a new product</a><br>
+{% endif %}
+
 {% endblock %}

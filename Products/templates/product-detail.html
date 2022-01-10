@@ -45,7 +45,7 @@
         </tr>
         <tr>
             <td><b>Rating:</b></td>
-            <td>{{ that_one_product.get_average_rating }}<br></td>
+            <td>{{ that_one_product.average_rating }}<br></td>
         </tr>
     </table>
     <br><br>
@@ -60,7 +60,6 @@
     </form>
 
     </div>
-
 
     <a href="{% url 'product-rate' that_one_product.id 1 %}">Give 1 Star</a><br>
     <a href="{% url 'product-rate' that_one_product.id 2 %}">Give 2 Stars</a><br>

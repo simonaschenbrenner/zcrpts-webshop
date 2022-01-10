@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+ {% extends "base.html" %}
 {% load static %}
 
 {% block css %}
@@ -18,8 +18,7 @@
                 {% block logged_in_content %}
 
                 <p>Hi {{ myuser.username }}!</p>
-                <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
-                <p><a href="{% url 'myuser-detail' user.id %}">test</a></p>
+                <p><a href="{% url 'myuser-detail' user.id %}">Profile</a></p>
                 <a href="{% url 'logout' %}">Logout</a>
                 {% endblock %}
             {% else %}

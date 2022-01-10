@@ -1,7 +1,6 @@
 from django.contrib.auth import (
     login as auth_login,
 )
-from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -29,27 +28,6 @@ class MyLoginView(LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-# TODO in Profilansicht ändern
-class MyUserListView(generic.ListView):
-    model = MyUser
-    context_object_name = 'all_users'
-    template_name = 'myuser-list.html'
-
-
-# TODO Kundenservicebereich als Erweiterung der Profilansicht
-class ManagerView(generic.TemplateView):
-    def get_context_data(self, **kwargs):
-        myuser = self.request.user
-        is_manager = False
-        if myuser.is_authenticated:  # Anonymous user cannot be manager
-            is_manager = myuser.is_manager or myuser.is_superuser  # TODO superuser automatisch auch manager
-
-        context = super(ManagerView, self).get_context_data(**kwargs)
-        context['is_manager'] = is_manager
-        return context
-
-
-# profile view
 def user_detail(request, **kwargs):
     myuser_id = kwargs['pk']
     current_user = MyUser.objects.get(id=myuser_id)

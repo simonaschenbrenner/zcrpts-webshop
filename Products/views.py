@@ -1,35 +1,77 @@
 from django.contrib import messages
-from django.forms import modelformset_factory
+from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Q
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
-from .forms import ProductForm, CommentForm, PictureForm
+from .forms import ProductForm, CommentForm, PictureForm, SearchForm
 from .models import Product, Comment, Picture, LicenseKey
 
 
-class ProductListView(ListView):
-    model = Product
-    context_object_name = 'all_the_products'  # Default: object_list
-    template_name = 'product-list.html'  # Default: product_list.html
+def product_search(request, search_term: str, min_stars: int):
+
+    if request.method == 'POST':
+        print("in product_search() POST")
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            if min_stars is None:
+                min_stars = 0
+            if search_term is None:
+                search_results = Product.objects.all()
+            else:
+                search_results = Product.objects.filter(
+                    Q(rating__gte=min_stars) & (
+                        Q(title__icontains=search_term) |
+                        Q(short_description__icontains=search_term) |
+                        Q(long_description__icontains=search_term)
+                    )
+                )
+        else:
+            print(search_form.errors)
+
+        context = {
+            'search_form': search_form,
+            'all_the_products': search_results
+        }
+        return render(request, 'product-list.html', context)
 
 
-class ProductDetailView(DetailView):
-    model = Product
-    context_object_name = 'that_one_product'  # Default: product
-    template_name = 'product-detail.html'  # Default: product_detail.html
+def product_list(request):
+
+    if request.method == 'POST':
+        print("in product_list() POST")
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            min_stars = search_form.cleaned_data['min_stars']
+            search_term = search_form.cleaned_data['search_term']
+            print("FORM CONTENTS:", min_stars, search_term)
+            if not len(min_stars) > 0:
+                min_stars = 0
+            if not len(search_term) > 0:
+                search_results = Product.objects.all().filter(average_rating__gte=min_stars)
+            else:
+                search_results = Product.objects.filter(
+                    Q(title__icontains=search_term) |
+                    Q(short_description__icontains=search_term) |
+                    Q(long_description__icontains=search_term)
+                ).filter(average_rating__gte=min_stars)
+        else:
+            print(search_form.errors)
+
+        context = {
+            'search_form': search_form,
+            'all_the_products': search_results
+        }
+
+    else:
+        context = {
+            'search_form': SearchForm,
+            'all_the_products': Product.objects.all(),
+            'all_the_pics': Picture.objects.all()
+        }
+
+    return render(request, 'product-list.html', context)
 
 
-class ProductCreateView(CreateView):
-    model = Product
-    form_class = ProductForm
-    template_name = 'product-create.html'  # Default: product_form.html
-    success_url = reverse_lazy('product-list')
-
-    def form_valid(self, form):
-        form.instance.myuser = self.request.user
-        return super().form_valid(form)
-
-
+@staff_member_required(login_url='/useradmin/login/')
 def product_create(request):
 
     if request.method == 'POST':
@@ -59,13 +101,8 @@ def product_create(request):
         return render(request, 'product-create.html', context)
 
 
-def product_list(request):
-    context = {'all_the_products': Product.objects.all(),
-               'all_the_pics': Picture.objects.all()}
-    return render(request, 'product-list.html', context)
-
-
 def product_detail(request, **kwargs):
+
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
     # Add comment
@@ -85,7 +122,6 @@ def product_detail(request, **kwargs):
     context = {'that_one_product': product,
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
-               'rating': product.get_average_rating(),
                'comment_form': CommentForm,
                }
     return render(request, 'product-detail.html', context)
@@ -104,6 +140,7 @@ def vote(request, pk: int, commentid: int, is_helpful: str):
     comment.vote_helpful(myuser, is_helpful)
     return redirect('product-detail', pk=pk)
 
+
 def download_license(request, pk: int):
     product = Product.objects.get(id=pk)
     license_keys = LicenseKey.objects.filter(productID=product.id)
@@ -114,3 +151,10 @@ def download_license(request, pk: int):
         return render(request, 'download-page.html', context)
     else:
         return render(request, 'download-page.html', context)
+
+
+# TODO Filter flagged
+@staff_member_required(login_url='/useradmin/login/')
+def comment_list(request, **kwargs):
+    context = {'all_comments': Comment.objects.all()}
+    return render(request, 'comment-list.html', context)

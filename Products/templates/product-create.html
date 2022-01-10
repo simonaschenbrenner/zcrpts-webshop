@@ -35,8 +35,9 @@
         <button type="submit">Add product</button>
     </form>
 {% endblock %}
-s
+
+<!-- TODO need this? -->
 {% block not_logged_in_content %}
-    <p>You must log in to add products</p>
+    <p>You must log in as staff to add products</p>
     <a href="{% url 'login' %}">Login</a>
 {% endblock %}

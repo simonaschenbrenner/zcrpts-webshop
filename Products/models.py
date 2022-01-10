@@ -18,6 +18,7 @@ class Product(models.Model):
     price = models.FloatField(default=0)
     short_description = models.CharField(max_length=200)
     long_description = models.TextField(max_length=1000, blank=True)
+    average_rating = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
     image = models.FileField(upload_to='product_images/', blank=True, null=True)
     pdf = models.FileField(upload_to='product_pdfs/', blank=True, null=True)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
@@ -44,10 +45,9 @@ class Product(models.Model):
             url = ''
             return url
 
-    # Todo
     def rate(self, myuser, stars):
-        pass
-        # Rating.objects.create(product=self, myuser=myuser, stars=stars)
+        Rating.objects.create(product=self, myuser=myuser, stars=stars)
+        self.average_rating = Rating.objects.filter(product=self).aggregate(average_rating=Avg('stars'))['average_rating']
 
     def __str__(self):
         return self.title + ' (' + self.version + ')'
@@ -63,7 +63,7 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_flagged = models.BooleanField(default=False)
-    rate = models.IntegerField(default=1)
+    rate = models.IntegerField(default=1)  # TODO need this?
 
     class Meta:
         ordering = ['product', 'timestamp']
@@ -136,23 +136,22 @@ class Vote(models.Model):
         return 'Comment Rating: ' + self.stars + ' on ' + self.comment.title + ' by ' + self.myuser.username
 
 
-# class Rating(models.Model):
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     stars = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
-#     # comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-#
-#     class Meta:
-#         ordering = ['product', 'myuser']
-#         unique_together = ['product', 'myuser']
-#         verbose_name = 'Product Rating'
-#         verbose_name_plural = 'Product Ratings'
-#
-#     def __str__(self):
-#         return self.myuser.username + ' gave ' + self.product.title + ' ' + self.stars + ' stars'
-#
-#     def __repr__(self):
-#         return 'Product Rating: ' + self.stars + ' on ' + self.product.title + ' by ' + self.myuser.username
+class Rating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stars = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
+
+    class Meta:
+        ordering = ['product', 'myuser']
+        unique_together = ['product', 'myuser']
+        verbose_name = 'Product Rating'
+        verbose_name_plural = 'Product Ratings'
+
+    def __str__(self):
+        return self.myuser.username + ' gave ' + self.product.title + ' ' + self.stars + ' stars'
+
+    def __repr__(self):
+        return 'Product Rating: ' + self.stars + ' on ' + self.product.title + ' by ' + self.myuser.username
 
 
 class Picture(models.Model):
