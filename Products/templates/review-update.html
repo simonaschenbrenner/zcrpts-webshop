@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
+{% endblock %}
+{% block title %}Change your review{% endblock %}
+
+{% block content %}
+   <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" value="Update">Submit</button>
+   </form>
+    <br>
+{% endblock %}

@@ -26,21 +26,11 @@ class ProductPictureAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'text', 'product', 'timestamp', 'is_flagged', 'myuser', 'rate')
+    list_display = ('title', 'text', 'product', 'timestamp', 'is_flagged', 'rate', 'myuser')
     list_filter = ('timestamp', 'is_flagged')
     search_fields = ('title', 'product', 'text')
-    actions = ['approve_comments']
-
-    def approve_comments(self, request, queryset):
-        queryset.update(active=True)
-
-
-# @admin.register(Review)
-# class CommentAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'text', 'product', 'timestamp', 'rate', 'myuser')
-#     list_filter = ('timestamp', 'rate')
-#     search_fields = ('title', 'product', 'text', 'rate')
-#     actions = ['approve_rating']
-#
-#     def approve_rating(self, request, queryset):
-#         queryset.update(active=True)
+    fields = ['is_flagged']
+    # actions = ['approve_comments']
+    #
+    # def approve_comments(self, request, queryset):
+    #     queryset.update(active=True)

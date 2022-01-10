@@ -1,9 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+<<<<<<< HEAD
+from Carts.models import Cart
 
-
-
+=======
+>>>>>>> jel-dev
 
 class MyUser(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
@@ -19,3 +21,13 @@ class MyUser(AbstractUser):
 
     def __repr__(self):
         return 'User "' + self.username + '": ' + self.__str__()
+
+    def count_shopping_cart_items(self):
+        count = 0
+        if self.is_authenticated:
+            shopping_carts = Cart.objects.filter(myuser=self)
+            if shopping_carts:
+                shopping_cart = shopping_carts.first()
+                count = shopping_cart.get_number_of_items()
+
+        return count
