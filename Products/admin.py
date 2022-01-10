@@ -26,7 +26,7 @@ class ProductPictureAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'text', 'product', 'timestamp', 'is_flagged', 'rate')
+    list_display = ('title', 'text', 'product', 'timestamp', 'is_flagged', 'rate', 'myuser')
     list_filter = ('timestamp', 'is_flagged')
     search_fields = ('title', 'product', 'text')
     fields = ['is_flagged']
