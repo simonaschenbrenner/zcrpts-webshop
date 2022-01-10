@@ -119,6 +119,7 @@ def product_detail(request, **kwargs):
             if form.is_valid():
                 try:
                     form.save()
+                    product.rate()
                     messages.success(request, "Review has been submitted. Thank you")
                 except IntegrityError:
                     return HttpResponse("Already submitted a review")
@@ -137,12 +138,13 @@ def product_detail(request, **kwargs):
     return render(request, 'product-detail.html', context)
 
 
+"""
 def rate(request, pk: str, stars: int):
     product = Product.objects.get(id=int(pk))
     myuser = request.user
     product.rate(myuser, stars)
     return redirect('product-detail', pk=pk)
-
+"""
 
 def vote(request, pk: int, commentid: int, is_helpful: str):
     comment = Comment.objects.get(id=int(commentid))
@@ -170,6 +172,7 @@ def update_review(request, pk: int, commentid: int):
         reviewForm.instance.user = request.user
         if reviewForm.is_valid():
             reviewForm.save()
+            reviewForm.instance.product.rate()
         else:
             pass
             print(reviewForm.errors)

@@ -20,8 +20,8 @@ class Product(models.Model):
     short_description = models.CharField(max_length=200)
     long_description = models.TextField(max_length=1000, blank=True)
     average_rating = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
-    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
-    pdf = models.FileField(upload_to='product_pdfs/', blank=True, null=True)
+    image = models.ImageField(upload_to='product_images/', blank=False, null=False)
+    pdf = models.FileField(upload_to='product_pdfs/', blank=False, null=False)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
     class Meta:
@@ -60,9 +60,9 @@ class Product(models.Model):
         return ratings['rate__min']
 
 
-    def rate(self, myuser, stars):
-        Rating.objects.create(product=self, myuser=myuser, stars=stars)
-        self.average_rating = Rating.objects.filter(product=self).aggregate(average_rating=Avg('stars'))['average_rating']
+    def rate(self):
+        self.average_rating = Comment.objects.filter(product=self).aggregate(average_rating=Avg('rate'))['average_rating']
+        self.save()
 
     def __str__(self):
         return self.title + ' (' + self.version + ')'
@@ -149,7 +149,7 @@ class Comment(models.Model):
 
     def __repr__(self):
         return 'Product Comment: "' + self.title + '"' + ' on ' + self.product.title + ' by ' + self.myuser.username \
-               + ' at ' + str(self.timestamp)
+               + ' at ' + str(self.timestamp) + ' with ' + str(self.rate) + ' stars'
 
 
 # class Flag(models.Model):

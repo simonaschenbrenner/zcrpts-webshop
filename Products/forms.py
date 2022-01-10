@@ -74,4 +74,4 @@ class PictureForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search_term = forms.CharField(label='search_term', max_length=50, required=False)
-    min_stars = forms.ChoiceField(label='min_stars', choices=CHOICES, widget=forms.RadioSelect, required=False)
+    min_stars = forms.ChoiceField(label='min_stars', choices=CHOICES, widget=forms.Select, required=False)
