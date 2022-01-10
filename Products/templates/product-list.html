@@ -6,21 +6,25 @@
 {% endblock %}
 
 {% block title %}Products list{% endblock %}
-
 {% block content %}
-<h2>Products list</h2>
-<ul>
-    {% for product in all_the_products %}
-        <a href="{{ product.id }}/"><img class="imgs" src="{{ product.image.url }}"></a>
-        <br>
-        <a href="{{ product.id }}/"><b>{{ product.get_full_title }}</b></a><br>
-        <!-- Alternative link:
-        <a href="{% url 'product-detail' product.id %}">
-        -->
-        {{ product.short_description }}
-        <br><br>
-    {% endfor %}
-</ul>
+    <h2>Products list</h2>
+    <ul>
+        {% for product in all_the_products %}
+            <a href="{{ product.id }}/"><img class="imgs" src="{{ product.image.url }}"></a>
+            <br>
+            <a href="{{ product.id }}/"><b>{{ product.get_full_title }}</b></a><br>
+            <!-- Alternative link:
+            <a href="{% url 'product-detail' product.id %}">
+            -->
+            {{ product.short_description }}
+            <br><br>
+        {% endfor %}
+    </ul>
+    {% if user.is_authenticated %}
+        <a href={% url 'product-create' %}>Add a new product</a><br>
+    {% endif %}
 
-<a href={% url 'product-create' %}>Add a new product</a><br>
+    <a href={% url 'home' %}>Home</a><br>
+
 {% endblock %}
+

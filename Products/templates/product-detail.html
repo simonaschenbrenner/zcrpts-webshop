@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
 {% endblock %}
@@ -9,13 +10,9 @@
 
 {% block content %}
 <h2>Product detail</h2>
-
     <table>
         <tr>
-            {% for p in pictures %}
-                <td><b>Image:</b></td>
-                <td><img src="{{ p.pictures.url }}"></td>
-            {% endfor %}
+            <img src="{{ that_one_product.image.url }}"/><br></td>
         </tr>
 
         <tr>
@@ -44,30 +41,31 @@
             <td>{{ that_one_product.long_description }}<br></td>
         </tr>
         <tr>
-            <td><b>Rating:</b></td>
-            <td>{{ that_one_product.get_average_rating }}<br></td>
+            <td><b>Average Rating:</b></td>
+            <td>{{ that_one_product.get_average_rating }}</td>
         </tr>
     </table>
     <br><br>
-    <br><br>
 
-    <div>
-        <h1>Write A Review</h1>
-        <form method="POST" action="{% url 'product-detail' that_one_product.id %}">
-            {% csrf_token %}
-            {{ comment_form.as_p }}
-            <button type="submit">Add comment</button>
-    </form>
+    {% if logged_in_user.is_authenticated %}
+        {% block logged_in_content %}
+            <div>Logged in as {{ logged_in_user.username }}</div>
+            {% if that_one_product.myuser_id != logged_in_user.id %}
+                <div>
+                    <h1>Write A Review</h1>
+                    <form method="POST" action="{% url 'product-detail' that_one_product.id %}">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit">Add comment</button>
+                    {% if comment_form.errors%}
+                        <div>{{ comment_form.errors }}</div>
+                    {% endif %}
+                    </form>
+                </div>
+            {% endif%}
+        {% endblock %}
+    {% endif %}
 
-    </div>
-
-
-
-    <a href="{% url 'product-rate' that_one_product.id 1 %}">Give 1 Star</a><br>
-    <a href="{% url 'product-rate' that_one_product.id 2 %}">Give 2 Stars</a><br>
-    <a href="{% url 'product-rate' that_one_product.id 3 %}">Give 3 Stars</a><br>
-    <a href="{% url 'product-rate' that_one_product.id 4 %}">Give 4 Stars</a><br>
-    <a href="{% url 'product-rate' that_one_product.id 5 %}">Give 5 Stars</a><br>
 
    {% if user.is_authenticated %}
         <br>
@@ -90,16 +88,33 @@
             <div class="div_comment--commentbox">
                 <b>{{ comment.title }}</b><br>
                 {{ comment.text }}<br>
+
             </div>
-        Bewertung: {{ comment.rate }}<br>
-        Helpful?<br>
-        <a href="{%  url 'comment-vote' that_one_product.id comment.id 'up' %}">
-            yes ({{ comment.get_upvotes_count }})
-        </a><br>
-        <span style="...">{{ down_votes }}</span>
-        <a href="{%  url 'comment-vote' that_one_product.id comment.id 'down' %}">
-            no ({{ comment.get_downvotes_count }})
-        </a><br>
+            Bewertung: {{ comment.rate }}<br>
+
+            {% if comment.myuser.id != logged_in_user.id %}
+                <a href="{% url 'comment-flag' that_one_product.id comment.id %}">
+                    flag
+                </a><br>
+
+                Helpful?
+                <a href="{%  url 'comment-vote' that_one_product.id comment.id 'up' %}">
+                yes ({{ comment.get_upvotes_count }})
+                </a> /
+                <span style="...">{{ down_votes }}</span>
+                <a href="{%  url 'comment-vote' that_one_product.id comment.id 'down' %}">
+                    no ({{ comment.get_downvotes_count }})
+                </a><br>
+
+                <br><br>
+            {% else %}
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Edit review</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a href="{% url 'review-update' that_one_product.id comment.id %}">Edit</a></li>
+                            <li><a href="{% url 'comment-delete' that_one_product.id comment.id %}">Delete</a></li>
+                        </ul>
+            {% endif %}
+
         </div>
     {% endfor %}
     <br>

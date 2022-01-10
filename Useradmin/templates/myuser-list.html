@@ -8,8 +8,12 @@
     {% for myuser in all_users %}
         {{ myuser.first_name }} {{ myuser.last_name }}
         <br>
-        <img src="{{ myuser.profile_picture.url }}" height="150" width="150"><br>
-        <br>
+        {% if myuser.profile_picture.url != null %}
+            <img src="{{ myuser.profile_picture.url }}" height="150" width="150"><br>
+            <br>
+        {% else %}
+
+        {% endif %}
     {% endfor %}
 </ul>
 {% endblock %}

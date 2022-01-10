@@ -1,11 +1,13 @@
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
 from django.forms import modelformset_factory
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, ListView
-
 from Carts.models import Cart
-from .forms import ProductForm, CommentForm, PictureForm
+from .forms import ProductForm, CommentForm, PictureForm, EditReviewForm
 from .models import Product, Comment, Picture, LicenseKey
 
 
@@ -36,27 +38,17 @@ def product_create(request):
     if request.method == 'POST':
         print("in Post")
         form = ProductForm(request.POST, request.FILES)
-
-        picForm = PictureForm(request.POST, request.FILES)
-        print(picForm)
-
         form.instance.myuser = request.user
-        if form.is_valid() and picForm.is_valid():
+        if form.is_valid():
             form.save()
             print("Saved a new product")
-            picForm.instance.product = form
-            picture = Picture(product=form, picture=picForm['pictures'])
-            # picture.save()
-
         else:
             print(form.errors)
 
         return redirect('product-list')
     else:
         form = ProductForm
-        picForm = PictureForm
-        context = {'form': form,
-                   'pictureForm': picForm}
+        context = {'form': form}
         return render(request, 'product-create.html', context)
 
 
@@ -71,34 +63,34 @@ def product_detail(request, **kwargs):
     product = Product.objects.get(id=product_id)
 
     # Add comment
-
     # addToCart
     if request.method == 'POST':
         if 'addToCart' in request.POST:
-            product_id = kwargs['pk']
-            product = Product.objects.get(id=product_id)
             Cart.add_item(request.user, product)
-
             context = {'that_one_product': product}
             return render(request, 'product-detail.html', context)
 
         elif request.method == 'POST':
             form = CommentForm(request.POST)
             form.instance.myuser = request.user
-            form.instance.product = Product.objects.get(id=product_id)
+            form.instance.product = product
             if form.is_valid():
-                form.save()
-                messages.success(request, "Review has been sent. Thank you")
+                try:
+                    form.save()
+                    messages.success(request, "Review has been submitted. Thank you")
+                except IntegrityError:
+                    return HttpResponse("Already submitted a review")
             else:
                 print(form.errors)
+                return HttpResponse("Some error")
+
 
     comments = Comment.objects.filter(product=product)
-
     context = {'that_one_product': product,
                'description': product.get_long_description(),
                'comments_for_that_one_product': comments,
-               # 'rating': product.get_average_rating(),
                'comment_form': CommentForm,
+               'logged_in_user': request.user,
                }
     return render(request, 'product-detail.html', context)
 
@@ -117,6 +109,35 @@ def vote(request, pk: int, commentid: int, is_helpful: str):
     return redirect('product-detail', pk=pk)
 
 
+def flag(request, pk: int, commentid: int):
+    comment = Comment.objects.get(id=int(commentid))
+    myuser = request.user
+    try:
+        comment.set_flag(myuser)
+    except ObjectDoesNotExist:
+        print("already flagged")
+        return HttpResponse("You already flagged")
+
+    return redirect('product-detail', pk=pk)
+
+
+def update_review(request, pk: int, commentid: int):
+    instance = get_object_or_404(Comment, id=int(commentid))
+    if request.method == 'POST':
+        reviewForm = EditReviewForm(request.POST, instance=instance)
+        reviewForm.instance.user = request.user
+        if reviewForm.is_valid():
+            reviewForm.save()
+        else:
+            pass
+            print(reviewForm.errors)
+        return redirect('product-detail', pk=pk)
+    else:
+        reviewForm = EditReviewForm(instance=instance)
+        context = {'form': reviewForm}
+        return render(request, 'review-update.html', context)
+
+
 def download_license(request, pk: int):
     product = Product.objects.get(id=pk)
     license_keys = LicenseKey.objects.filter(productID=product.id)
@@ -127,3 +148,10 @@ def download_license(request, pk: int):
         return render(request, 'download-page.html', context)
     else:
         return render(request, 'download-page.html', context)
+
+
+def comment_delete(request, **kwargs):
+    comment_id = kwargs['commentid']
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+    return redirect('product-detail', pk=kwargs['pk'])

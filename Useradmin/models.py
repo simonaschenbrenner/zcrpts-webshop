@@ -1,8 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+<<<<<<< HEAD
 from Carts.models import Cart
 
+=======
+>>>>>>> jel-dev
 
 class MyUser(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
