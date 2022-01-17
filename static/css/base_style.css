@@ -1,0 +1,18 @@
+:root{
+    font-family: "Roboto";
+}
+
+#logo{
+    width: 10%;
+    height: 5%;
+    margin: 2%;
+}
+
+#barSpacer{
+    width: 30%;
+}
+#searchIcon{
+    width: 20%;
+    height: 20%;
+    margin: 2%;
+}
