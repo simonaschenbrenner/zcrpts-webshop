@@ -1,0 +1,36 @@
+:root{
+    font-family: "Roboto";
+}
+
+#logo{
+    width: 10%;
+    height: 5%;
+    margin: 2%;
+}
+
+#barSpacer{
+    width: 30%;
+}
+#searchIcon{
+    width: 30px;
+    height: 30px;
+    margin: 2%;
+}
+
+#cart{
+    width: 40px;
+    height: 40px;
+
+a {
+    text-decoration: none;
+    color: dodgerblue;
+}
+
+a:hover {
+    color: lightblue;
+}
+
+input {
+    margin-bottom: 0.7em;
+
+}

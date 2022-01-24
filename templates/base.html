@@ -1,30 +1,89 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=IBM Plex Mono' rel='stylesheet'>
     <meta charset="utf-8">
     {% block css %}{% endblock %}
     <title>{% block title %}zcrpts{% endblock %}</title>
-    <a style="float: right;" href="{% url 'show_shopping_cart' %}">
-        Shopping Cart (
-        {% if user.is_authenticated %}
-            {{ request.user.count_shopping_cart_items }}
-        {% else %}
-            0
-        {% endif %}
-        )
-    </a>
 </head>
 <body>
-    <header>
-        {% block header %}Base Block{% endblock %}
-    </header>
-    {% block content %}Base Block{% endblock %}
-    <hr>
-    <footer>
-        {% block footer %}Base Block{% endblock %}
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<header>
+    {% block header %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <img id="logo" src="{% static 'css/material/logo_zcrpts_black.svg' %}" alt="logo">
+                <div id="barSpacer">
+                </div>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">scripts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'product-list' %}">products</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            {% block logged_in_content %}
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{% url 'myuser-detail' user.id %}">profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{% url 'logout' %}">logout</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active position-relative" style="float: right;"
+                                       href="{% url 'show_shopping_cart' %}">
+                                        <img id="cart" src="{% static 'css/material/cart_clipped.svg' %}"
+                                             alt="shoppingCart">
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {% if user.is_authenticated %}
+                                            {{ request.user.count_shopping_cart_items }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endblock %}
+                        {% else %}
+                            {% block not_logged_in_content %}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown"
+                                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        You are not logged in
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                        <li><a class="dropdown-item" href="{% url 'login' %}">login</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'signup' %}">sign up</a></li>
+                                    </ul>
+                                </li>
+                            {% endblock %}
+                        {% endif %}
+
+                    </ul>
+                    <form class="d-flex">
+                        <img id="searchIcon" src="{% static 'css/material/search_icon.svg' %}" alt="search">
+                        <input class="form-control me-2" type="search" aria-label="Search">
+                        <button class="btn btn-outline-dark" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    {% endblock %}
+</header>
+{% block content %}{% endblock %}
+
+<footer>
+    {% block footer %}{% endblock %}
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
 
 
