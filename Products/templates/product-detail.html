@@ -9,6 +9,7 @@
 {% block title %}Product detail{% endblock %}
 
 {% block content %}
+
     <div class="btn-group">
         <a class="marg" href="{% url 'product-list' %}">
             <button type="button" class="btn btn-dark">Back</button>
@@ -17,19 +18,20 @@
             <a class="marg" href={% url 'product-edit' that_one_product.id %}>
                 <button type="button" class="btn btn-warning">Edit</button>
             </a>
+
         {% endif %}
     </div>
     <div class="row">
         <div class="col"><img id="detailpic" src="{{ that_one_product.image.url }}"/></div>
         <div id="detaillist" class="col">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Title: </b> {{ that_one_product.title }}</li>
-                <li class="list-group-item"><b>Version:</b> {{ that_one_product.version }}</li>
-                <li class="list-group-item"><b>Description:</b> {{ that_one_product.short_description }}</li>
-                <li class="list-group-item"><b>Price</b> {{ that_one_product.price }}</li>
+                <li class="list-group-item"><b>Title: </b> {{ product.title }}</li>
+                <li class="list-group-item"><b>Version:</b> {{ product.version }}</li>
+                <li class="list-group-item"><b>Description:</b> {{ product.short_description }}</li>
+                <li class="list-group-item"><b>Price</b> {{ product.price }}</li>
                 <li class="list-group-item"><b>PDF:</b> <a href="{{ that_one_product.pdf.url }}" download>Download here
                 </a></li>
-                <li class="list-group-item"><b>Average Rating:</b> {{ that_one_product.average_rating }}</li>
+                <li class="list-group-item"><b>Average Rating:</b> {{ product.average_rating }}</li>
                 <li class="list-group-item">
                     {% if user.is_authenticated %}
                         <form method="POST">
@@ -46,28 +48,32 @@
 
 
     {% if logged_in_user.is_authenticated %}
-        {% if that_one_product.myuser_id != logged_in_user.id %}
+        {% block logged_in_content %}
+            <div>Logged in as {{ logged_in_user.username }}</div>
+            {% if product.myuser_id != logged_in_user.id %}
             <div>
                 <h1>Write A Review</h1>
                 <form method="POST" action="{% url 'product-detail' that_one_product.id %}">
                     {% csrf_token %}
                     {{ comment_form.as_p }}
-                    <button type="submit">Add comment</button>
+                    <button type="submit" name="addComment">Add comment</button>
                     {% if comment_form.errors %}
                         <div>{{ comment_form.errors }}</div>
                     {% endif %}
                 </form>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         {% endif %}
     {% endif %}
 
-
-
-    <br>
-
-
     <br><br>
-    {% for comment in comments_for_that_one_product %}
+    {% for comment in comments %}
         <div class="div_comment">
             {{ comment.myuser.username }} on {{ comment.timestamp }}<br>
             <div class="div_comment--commentbox">
