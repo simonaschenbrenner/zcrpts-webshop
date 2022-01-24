@@ -1,8 +1,5 @@
 from django import forms
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView
-
-from .models import Product, Comment, Picture
+from .models import Product, Comment
 
 
 CHOICES =(
@@ -21,7 +18,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['title', 'version', 'short_description', 'long_description', 'pdf', 'image', 'price']
+        fields = ['title', 'version', 'short_description', 'long_description', 'pdf', 'logo', 'screenshot', 'featured', 'operating_system', 'language', 'tested_with', 'script', 'price']
         widgets = {
             'myuser': forms.HiddenInput()
         }
@@ -61,15 +58,15 @@ class EditReviewForm(forms.ModelForm):
 #     success_url = reverse_lazy('product-detail')
 
 
-class PictureForm(forms.ModelForm):
-
-    class Meta:
-        model = Picture
-        fields = ['pictures']
-        widgets = {
-            'product': forms.HiddenInput(),
-            'picture': forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-        }
+# class PictureForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = Picture
+#         fields = ['pictures']
+#         widgets = {
+#             'product': forms.HiddenInput(),
+#             'picture': forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+#         }
 
 
 class SearchForm(forms.Form):

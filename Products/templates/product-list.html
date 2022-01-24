@@ -15,13 +15,13 @@
     </form>
     <ul>
         {% for product in all_the_products %}
-            <a href="{{ product.id }}/"><img class="imgs" src="{{ product.image.url }}"></a>
+            <a href="{% url 'product-detail' product.id %}"><img class="imgs" src="{{ product.image.url }}"></a>
             <br>
-            <a href="{{ product.id }}/"><b>{{ product.get_full_title }}</b></a><br>
+            <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b></a><br>
             {{ product.short_description }}
             {% if user.is_staff %}
                 <br>
-                <a href={% url 'product-edit' product.id %}>Edit product</a>
+                <a href={% url 'product-detail' product.id %}>Edit product</a>
                 <br>
             {% endif %}
             <br><br>
