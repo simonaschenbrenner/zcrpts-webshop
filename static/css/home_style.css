@@ -1,4 +1,82 @@
-body {
-    font-size: 20px;
-
+ul{
+    list-style: none;
 }
+
+div.ttxt {
+
+    margin: 2%;
+}
+
+.main-body {
+    margin: 10%;
+    font-size: 16px;
+    font-family: "IBM Plex Mono";
+}
+
+.title {
+    font-family: "Roboto Regular", sans-serif;
+    letter-spacing: 5px;
+    font-size: 36px;
+}
+
+.spacer {
+    margin: 5%;
+}
+
+.triangle-topright {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 100px solid white;
+    border-left: 100px solid transparent;
+    right: 80px;
+    z-index: -1;
+}
+
+.rectangle {
+    position: absolute;
+    height: 380px;
+    width: 300px;
+    background-color: rgb(240, 240, 240);
+    z-index: -1;
+}
+
+.greps {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 10px;
+    left: 30px;
+}
+
+.grepContent {
+    padding: 2%;
+    position: absolute;
+    width: 280px;
+    top: 110px;
+    left: 30px;
+}
+
+.box_h1 {
+    font-size: 28px;
+}
+
+.box_h2 {
+    font-size: 18px;
+}
+
+#grepContainer{
+    height: 400px;
+}
+
+#graph-indesign-scripts {
+    width: 90%;
+}
+
+#scriptingIC{
+    width: 250px;
+    height: 250px;
+}
+
+
+
