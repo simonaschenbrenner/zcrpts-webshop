@@ -19,8 +19,9 @@ class Product(models.Model):
     price = models.FloatField(default=0)
     short_description = models.CharField(max_length=200)
     long_description = models.TextField(max_length=1000, blank=True)
-    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
-    pdf = models.FileField(upload_to='product_pdfs/', blank=True, null=True)
+    average_rating = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
+    image = models.ImageField(upload_to='product_images/', blank=False, null=False)
+    pdf = models.FileField(upload_to='product_pdfs/', blank=False, null=False)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
     class Meta:
@@ -45,6 +46,7 @@ class Product(models.Model):
             url = ''
             return url
 
+
     def get_average_rating(self):
         ratings = Comment.objects.filter(product=self).aggregate(Avg('rate'))
         return ratings['rate__avg']
@@ -57,16 +59,16 @@ class Product(models.Model):
         ratings = Comment.objects.filter(product=self).aggregate(Min('rate'))
         return ratings['rate__min']
 
-    # Todo
-    def rate(self, myuser, stars):
-        pass
-        # Rating.objects.create(product=self, myuser=myuser, stars=stars)
+
+    def rate(self):
+        self.average_rating = Comment.objects.filter(product=self).aggregate(average_rating=Avg('rate'))['average_rating']
+        self.save()
 
     def __str__(self):
         return self.title + ' (' + self.version + ')'
 
     def __repr__(self):
-        return self.get_full_title() + ' / ' + self.version + ' / ' + self.type
+        return self.get_full_title() + ' / ' + self.version + ' / '
 
 
 class Comment(models.Model):
@@ -134,20 +136,22 @@ class Comment(models.Model):
 
     # report inappropriate review
 
-    def set_flag(self, myuser):
-        print(self.is_flagged)
+    def flag(self):
         if not self.is_flagged:
             self.is_flagged = True
             self.save()
-            # flag = Flag.objects.create(comment=self, myuser=myuser, is_flagged=self.is_flagged)
-            # return flag
+
+    def unflag(self):
+        if self.is_flagged:
+            self.is_flagged = False
+            self.save()
 
     def __str__(self):
         return self.myuser.username + ' commented on ' + self.product.title + ': "' + self.title + '"'
 
     def __repr__(self):
         return 'Product Comment: "' + self.title + '"' + ' on ' + self.product.title + ' by ' + self.myuser.username \
-               + ' at ' + str(self.timestamp)
+               + ' at ' + str(self.timestamp) + ' with ' + str(self.rate) + ' stars'
 
 
 # class Flag(models.Model):
@@ -185,6 +189,24 @@ class Vote(models.Model):
 
     def __repr__(self):
         return 'Comment Rating: ' + self.up_or_down + ' on ' + self.comment.title + ' by ' + self.myuser.username
+
+
+class Rating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    myuser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stars = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(5)])
+
+    class Meta:
+        ordering = ['product', 'myuser']
+        unique_together = ['product', 'myuser']
+        verbose_name = 'Product Rating'
+        verbose_name_plural = 'Product Ratings'
+
+    def __str__(self):
+        return self.myuser.username + ' gave ' + self.product.title + ' ' + self.stars + ' stars'
+
+    def __repr__(self):
+        return 'Product Rating: ' + self.stars + ' on ' + self.product.title + ' by ' + self.myuser.username
 
 
 class Picture(models.Model):

@@ -42,9 +42,14 @@
         </tr>
         <tr>
             <td><b>Average Rating:</b></td>
-            <td>{{ that_one_product.get_average_rating }}</td>
+            <td>{{ that_one_product.average_rating }}<br></td>
         </tr>
     </table>
+        {% if user.is_staff %}
+            <br>
+            <a href={% url 'product-edit' that_one_product.id %}>Edit product</a>
+            <br>
+        {% endif %}
     <br><br>
 
     {% if logged_in_user.is_authenticated %}
@@ -66,9 +71,19 @@
         {% endblock %}
     {% endif %}
 
+   {% if user.is_authenticated %}
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" name="addToCart" >Add to shopping cart</button>
+        </form>
+    {% else %}
+        <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
+        <br>
+    {%  endif %}
 
-    <br><br>
-    <a href="{% url 'product-list' %}">Add To Cart</a>
+    <br>
+
 
     <br><br>
     {% for comment in comments_for_that_one_product %}
@@ -100,7 +115,7 @@
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Edit review</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a href="{% url 'review-update' that_one_product.id comment.id %}">Edit</a></li>
-                            <li><a href="{% url 'comment-delete' that_one_product.id comment.id %}">Delete</a></li>
+                            <li><a href="{% url 'comment-delete' comment.id that_one_product.id %}">Delete</a></li>
                         </ul>
             {% endif %}
 

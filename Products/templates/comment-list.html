@@ -1,0 +1,30 @@
+{% extends 'home.html' %}
+
+{% block title %}Comment list{% endblock %}
+
+{% block content %}
+{% if only_flagged %}
+    <h2>All flagged comments</h2>
+    <a href="{% url 'comment-list-all' %}">Show unflagged comments as well</a>
+{% else %}
+    <h2>All comments</h2>
+    <a href="{% url 'comment-list-flagged' %}">Only show flagged comments</a>
+{% endif %}
+<ul>
+    {% for comment in all_comments %}
+        <a href="{% url 'myuser-detail' comment.myuser.id %}">{{ comment.myuser.username }}</a>
+        at {{ comment.timestamp }}
+        on <a href="{% url 'product-detail' comment.product.id %}">{{ comment.product.title }}</a>
+        <br>
+        {{ comment.title }}
+        <br>
+        {{ comment.text }}
+        <br>
+        {% if comment.is_flagged %}
+            Flagged <a href="{% url 'comment-unflag' comment.id %}">Unflag</a>
+        {% endif %}
+        <br>
+        <a href="{% url 'comment-delete' comment.id %}">Delete</a>
+    {% endfor %}
+</ul>
+{% endblock %}

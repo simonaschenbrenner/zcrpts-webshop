@@ -7,15 +7,27 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
+    <div class="main-body">
+    <h2> Change your details:</h2>
+        <p></p>
+     {% load crispy_forms_tags %}
    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        {% crispy form %}
+        <p><a href="{% url 'change-password' %}">click here to change password</a></p>
+
+
+        <button class="btn btn-outline-primary" type="submit">save your changed details</button>
    </form>
- <p> to change your password please click: </p>
-     <p><a href="{% url 'change-password' %}">here</a></p>
+
+
 
     <br>
+
+
+
+    </div>
+
 
 
 

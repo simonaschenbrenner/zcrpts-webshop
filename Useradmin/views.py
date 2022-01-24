@@ -1,7 +1,6 @@
 from django.contrib.auth import (
     login as auth_login,
 )
-from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -29,40 +28,20 @@ class MyLoginView(LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-# TODO in Profilansicht ändern
-class MyUserListView(generic.ListView):
-    model = MyUser
-    context_object_name = 'all_users'
-    template_name = 'myuser-list.html'
-
-
-# TODO Kundenservicebereich als Erweiterung der Profilansicht
-class ManagerView(generic.TemplateView):
-    def get_context_data(self, **kwargs):
-        myuser = self.request.user
-        is_manager = False
-        if myuser.is_authenticated:  # Anonymous user cannot be manager
-            is_manager = myuser.is_manager or myuser.is_superuser  # TODO superuser automatisch auch manager
-
-        context = super(ManagerView, self).get_context_data(**kwargs)
-        context['is_manager'] = is_manager
-        return context
-
-
-# profile view
 def user_detail(request, **kwargs):
     myuser_id = kwargs['pk']
     current_user = MyUser.objects.get(id=myuser_id)
-    print(str(myuser_id), " :: ", current_user)
-    context = {'current user': current_user}
+    print(str(myuser_id))
+    context = {'current_user': current_user}
     return render(request, 'user-detail.html', context)
 
 
 def update_user(request, **kwargs):
     myuser_id = kwargs['pk']
+    current_user = MyUser.objects.get(id=myuser_id)
     if request.method == 'POST':
-        userForm = EditProfileForm(request.POST, instance=request.user)
-        userForm.instance.user = request.user
+        userForm = EditProfileForm(request.POST, instance=current_user)
+        userForm.instance.user = current_user
         if userForm.is_valid():
             userForm.save()
             # print("I saved new game")
@@ -74,7 +53,7 @@ def update_user(request, **kwargs):
 
     else:  # request.method == 'GET'
         print("I am in GET")
-        userForm = EditProfileForm(instance=request.user)
+        userForm = EditProfileForm(instance=current_user)
         context = {'form': userForm}
         return render(request, 'change-user-detail.html', context)
 
