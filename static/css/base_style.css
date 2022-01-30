@@ -1,36 +1,250 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
 :root{
-    font-family: "Roboto";
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    margin: 180px auto auto;
+    font-family: "IBM Plex Mono", sans-serif;
+}
+
+main{
+    width: 90%;
+    margin: auto;
+}
+
+.main-header{
+    width: 90%;
+    margin: auto;
+    background: white;
+}
+
+.h1_topline{
+    font-family: 'IBM Plex Mono Light', monospace;
+    font-size: 24px;
+    color: rgb(0, 0, 0);
+}
+
+h1{
+    font-family: 'Roboto Regular', sans-serif;
+    font-size: 36px;
+    letter-spacing: 3px;
+}
+
+.txt_intro{
+    font-family: 'Roboto Medium', sans-serif;
+    font-size: 17px;
+    color: rgb(0, 0, 0);
+}
+
+.txt, .txt_list_bul{
+    font-family: 'IBM Plex Mono Light', monospace;
+    font-size:16px;
+    color: rgb(0, 0, 0);
+}
+
+.txt_acut{
+    color: rgb(230, 250, 0);
+}
+
+h2{
+    font-family: 'Roboto Black', sans-serif;
+    font-size: 17px;
+    color: rgb(70, 70, 70);
+}
+
+h3{
+    font-family: 'Roboto Black', sans-serif;
+    font-size: 17px;
+    color: rgb(70, 70, 70);
+    letter-spacing: 20em;
+}
+
+h4{
+    font-family: 'Roboto Regular', sans-serif;
+    font-size: 17px;
+    color: rgb(70, 70, 70);
+    letter-spacing: 20em;
+}
+
+.divider{
+    letter-spacing: 1px;
+}
+
+.spacer {
+    margin: 5%;
+}
+
+.prod_name{
+    font-family: "Roboto Thin", sans-serif;
+    color: rgb(70, 70, 70);
 }
 
 #logo{
-    width: 10%;
-    height: 5%;
-    margin: 2%;
+    width: 200px;
+    margin: 10px;
 }
 
-#barSpacer{
-    width: 30%;
+.navbar-a {
+    color: hsla(0, 0%, 70%, .7);
+    font-weight: bold;
+    font-size: small;
+    font-family: "Roboto Regular", sans-serif;
+    text-decoration: none;
 }
+
+
+.navbar-a:hover {
+    color: hsla(0, 0%, 0%, 1);
+    font-weight: bold;
+}
+
+.li-underline{
+    height: 5px;
+    width: 0;
+    background: black;
+    position: absolute;
+    bottom: -13px;
+    transition: width .3s ease;
+}
+
+.navbar-a:hover + .li-underline{
+    display: block;
+    width: 100%;
+}
+
+
 #searchIcon{
     width: 30px;
     height: 30px;
     margin: 2%;
 }
 
-#cart{
-    width: 40px;
-    height: 40px;
 
-a {
-    text-decoration: none;
-    color: dodgerblue;
-}
-
-a:hover {
-    color: lightblue;
+#cart {
+    width: 30px;
+    height: 30px;
 }
 
 input {
     margin-bottom: 0.7em;
+    border: none;
+}
 
+
+.base-header{
+    width: 90%;
+    margin: auto;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid black;
+    background: white;
+}
+
+.base-nav{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-items: flex-end;
+}
+
+
+.navbar-flex{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-content: center;
+    align-items: flex-end;
+    margin-bottom: 0;
+}
+
+.navbar-flex > li{
+    margin: 0 8px 0 20px;
+    width: 100%;
+    position: relative;
+}
+
+.base-search-field{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+input{
+    margin-bottom: 0px;
+}
+
+input:focus{
+    padding: 2px;
+    outline: none;
+}
+
+#search-addon{
+    margin-right: 4px;
+}
+
+.burger_menu{
+    display: none;
+    width: max-content;
+    background: white;
+}
+
+.burger_menu > div{
+    width: 25px;
+    padding: 2px;
+    background: rgb(0,0,0);
+    margin: 4px;
+}
+
+.nav-link{
+    padding: 0px !important;
+}
+
+@media screen and (max-width: 900px){
+    .navbar-flex {
+        flex-flow: column wrap;
+        background: rgb(256,256,256);
+        position: absolute;
+        top: -580px;
+        width: 100%;
+    }
+
+    [class*="col-"] {
+        width: 100%;
+    }
+
+    .menu_toggle{
+        top: 80px;
+    }
+
+    .navbar-flex li {
+        margin: 20px 0;
+    }
+
+
+    #logo{
+        width: 100px;
+    }
+
+    .burger_menu{
+        display: block;
+    }
 }

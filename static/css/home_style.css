@@ -1,50 +1,32 @@
-ul{
-    list-style: none;
+/*font-family: 'IBM Plex Mono', monospace;*/
+/*font-family: 'Roboto', sans-serif;*/
+
+
+.p-container{
+    margin: auto;
+    width: 90%;
 }
 
-div.ttxt {
-
-    margin: 2%;
+.row-product{
+    width: 100%;
+    margin: auto;
 }
 
-.main-body {
-    margin: 10%;
-    font-size: 16px;
-    font-family: "IBM Plex Mono";
-}
 
-.title {
-    font-family: "Roboto Regular", sans-serif;
-    letter-spacing: 5px;
-    font-size: 36px;
-}
-
-.spacer {
-    margin: 5%;
-}
-
-.triangle-topright {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-top: 100px solid white;
-    border-left: 100px solid transparent;
-    right: 80px;
-    z-index: -1;
-}
-
-.rectangle {
-    position: absolute;
-    height: 380px;
-    width: 300px;
-    background-color: rgb(240, 240, 240);
-    z-index: -1;
+.product-card{
+    margin: 20px;
+    padding: 20px;
+    width: 20rem;
+    background-image: url("material/card_bg.png");
+    background-size: cover;
+    border: none !important;
+    border-radius: 0;
+    position: relative;
 }
 
 .greps {
     width: 100px;
     height: 100px;
-    position: absolute;
     top: 10px;
     left: 30px;
 }
@@ -55,28 +37,17 @@ div.ttxt {
     width: 280px;
     top: 110px;
     left: 30px;
+    background: aqua;
 }
 
-.box_h1 {
-    font-size: 28px;
-}
 
-.box_h2 {
-    font-size: 18px;
-}
 
-#grepContainer{
-    height: 400px;
-}
 
 #graph-indesign-scripts {
-    width: 90%;
+    width: 100%;
 }
 
 #scriptingIC{
     width: 250px;
     height: 250px;
 }
-
-
-

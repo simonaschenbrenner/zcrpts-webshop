@@ -8,28 +8,42 @@
 {% block title %}Add product{% endblock %}
 
 {% block content %}
-<h2>Add product</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <!-- {{ form.as_table }} -->
-        <!-- {{ form.as_p }}-->
-        <b>{{ form.title.label }}:</b> {{ form.title }}
+    <main>
+        <h2>Add product</h2>
         <br><br>
-        <b>{{ form.version.label }}:</b> {{ form.version }}
-        <br><br>
-        <b>{{ form.short_description.label }}</b>: {{ form.short_description }}
-        <br><br>
-        <b>{{ form.long_description.label }}:</b><p> {{ form.long_description }}
-        <br><br>
-        <b>{{ form.price.label }}:</b> {{ form.price }}
-        <br><br>
-        <b>{{ form.pdf.label }}:</b> {{ form.pdf }}
-         <br><br>
-        <b>{{ form.image.label }}:</b> {{ form.image }}
-        <br>
-        <br>
-        <button type="submit">Add product</button>
-    </form>
+        <form class="create_form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- {{ form.as_table }} -->
+            <!-- {{ form.as_p }}-->
+            <b>{{ form.title.label }}:</b> {{ form.title }}
+            <br><br>
+            <b>{{ form.version.label }}:</b> {{ form.version }}
+            <br><br>
+            <b>{{ form.price.label }}:</b> {{ form.price }}
+            <br><br>
+            <b>{{ form.short_description.label }}</b>: {{ form.short_description }}
+            <br><br>
+            <b>{{ form.long_description.label }}:</b><p> {{ form.long_description }}
+            <br><br>
+            <b>{{ form.logo.label }}:</b> {{ form.logo }}
+            <br><br>
+            <b>{{ form.screenshot.label }}:</b> {{ form.screenshot }}
+            <br><br>
+            <b>{{ form.pdf.label }}:</b> {{ form.pdf }}
+            <br><br>
+            <b>{{ form.featured.label }}:</b> {{ form.featured }}
+            <br><br>
+            <b>{{ form.operating_system.label }}:</b> {{ form.operating_system }}
+            <br><br>
+            <b>{{ form.language.label }}:</b> {{ form.language }}
+            <br><br>
+            <b>{{ form.tested_with.label }}:</b> {{ form.tested_with }}
+            <br><br>
+            <b>{{ form.script.label }}:</b> {{ form.script }}
+            <br><br>
+            <button type="submit">Add product</button>
+        </form>
+    </main>
 {% endblock %}
 
 <!-- TODO need this? -->
