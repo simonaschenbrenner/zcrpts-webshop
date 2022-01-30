@@ -1,35 +1,64 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
 {% endblock %}
 
-{% block title %}Products list{% endblock %}
-{% block content %}
-    <h2>Products list</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ search_form.as_p }}
-        <button type="submit">Search</button>
-    </form>
-    <ul>
-        {% for product in all_the_products %}
-            <a href="{% url 'product-detail' product.id %}"><img class="imgs" src="{{ product.image.url }}"></a>
-            <br>
-            <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b></a><br>
-            {{ product.short_description }}
-            {% if user.is_staff %}
-                <br>
-                <a href={% url 'product-detail' product.id %}>Edit product</a>
-                <br>
-            {% endif %}
-            <br><br>
-        {% endfor %}
-    </ul>
+{% block title %}Homepage zcrpts{% endblock %}
 
-    {% if user.is_staff %}
-        <a href={% url 'product-create' %}>Add a new product</a><br>
-    {% endif %}
+
+{% block content %}
+    <main>
+        <h2>Products list</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ search_form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+        <ul>
+            {% for product in all_the_products %}
+                <a href="{% url 'product-detail' product.id %}"><img class="imgs" src="{{ product.logo.url }}"></a>
+                <br>
+                <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b></a><br>
+                {{ product.short_description }}
+                {% if user.is_staff %}
+                    <br>
+                    <a href={% url 'product-detail' product.id %}>Edit product</a>
+                    <br>
+                {% endif %}
+                <br><br>
+            {% endfor %}
+        </ul>
+
+        <div class="container-fluid mx-auto">
+            <div class="row row-product mx-auto">
+                {% for product in all_the_products %}
+                    <div class="col col-xl-3 col-md-4 col-xs-6">
+                        <div class="card product-card mx-auto">
+                            <a href="{% url 'product-detail' product.id %}"><img class="card-img-top imgs" src="{{ product.logo.url }}"></a>                            <h1>GrepEditor</h1>
+                            <div class="card-body">
+                                <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b></a><br>
+                                {{ product.short_description }}
+                                {% if user.is_staff %}
+                                    <br>
+                                    <a href={% url 'product-detail' product.id %}>Edit product</a>
+                                    <br>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+
+
+        {% if user.is_staff %}
+            <a href={% url 'product-create' %}>Add a new product</a><br>
+        {% endif %}
+    </main>
 {% endblock %}
 

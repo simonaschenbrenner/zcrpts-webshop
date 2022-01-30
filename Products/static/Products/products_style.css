@@ -1,42 +1,128 @@
-body {
-    font-size: 20px;
-    color: darkblue;
+/*font-family: 'IBM Plex Mono', monospace;*/
+/*font-family: 'Roboto', sans-serif;*/
 
-}
 
-img {
-    width: 150px;
-    height: 150px;
-}
 
-li{
+ul{
     list-style: none;
 }
 
-.div_comment{
-    border: 2px solid cadetblue;
-    margin: 5px;
-    padding: 2px;
-    width: 50%
+body{
+    width: 90%;
+    margin: 180px auto auto;
+    font-family: "IBM Plex Mono", sans-serif;
 }
 
-.div_comment--commentbox{
-    background: azure;
-    padding: 5px 5px;
+main{
+    width: 90%;
+    margin: auto;
 }
 
-#detaillist{
-    width: max-content;
+.p-container{
+    margin: auto;
+    width: 90%;
 }
 
-#detailpic{
-    padding: 1%;
+
+/*.col-p{*/
+/*    margin: 20px;*/
+/*}*/
+
+.divider{
+    letter-spacing: 1px;
+}
+
+.spacer {
+    margin: 5%;
+}
+
+.container{
+    width: 90%;
+    margin: auto;
+}
+
+.row-product{
     width: 100%;
-    height: 100%;
-    border: 3px solid black;
-    margin: 2%;
+    margin: auto;
 }
 
-.marg{
-    margin: 2%;
+.col{
+    margin: 20px !important;
+}
+
+.product-card{
+    padding: 20px;
+    width: 16rem;
+    color: white;
+    background: rgb(0,177,227);
+    /*background: rgb(243,245,244);*/
+    /*background-image: url("material/card_bg.png");*/
+    background-size: cover;
+    border: none !important;
+    border-radius: 0;
+    position: relative;
+}
+
+.card-body{
+    background: white;
+    color: black;
+}
+
+.greps {
+    width: 100px;
+    height: 100px;
+    top: 10px;
+    left: 30px;
+}
+
+.grepContent {
+    padding: 2%;
+    position: absolute;
+    width: 280px;
+    top: 110px;
+    left: 30px;
+    background: aqua;
+}
+
+.box_h1 {
+    font-size: 28px;
+}
+
+.box_h2 {
+    font-size: 18px;
+}
+
+#grepContainer{
+    height: 400px;
+    background: cadetblue;
+}
+
+#graph-indesign-scripts {
+    width: 100%;
+}
+
+#scriptingIC{
+    width: 250px;
+    height: 250px;
+}
+
+.imgs{
+    margin: 10px;
+    width: 40%;
+    height: 40%;
+}
+
+input[type=text]{
+    border-bottom: 1px solid black;
+}
+
+textarea{
+    width: 50%;
+    height: 40vh;
+}
+
+@media screen and (max-width: 1000px){
+    .p-container p{
+
+    }
 }

@@ -8,128 +8,202 @@
 {% block title %}Homepage zcrpts{% endblock %}
 
 {% block content %}
-    <div class="main-body">
-        <div id="topText" class="row">
-            <div class="col ttxt">
-                <p>If you have to deal with heavy Indesign-Documents,
-                    this site is for you. Find scripts written for
-                    Adobe InDesign
-                    that help you create truely complex
-                    grep-patterns, refine large text-amounts by find
-                    and change on batch, manage huge paragraphStylesand
-                    characterStyles-lists, optimize InDesign’s
-                    TOC-generated bookmarks, rearrange your pagelayout</p>
+    <!--PARAGRAPH CONTAINER-->
+    <main>
+        <div class="container-fluid p-container">
+          <div class="row">
+            <div class="col-sm-6 col-p">
+              <p>
+                  If you have to deal with heavy Indesign-Documents,
+                  this site is for you. Find scripts written for
+                  Adobe InDesign that help you create truely complex
+                  grep-patterns, refine large text-amounts by find
+                  and change on batch, manage huge paragraphStylesand
+                  characterStyles-lists, optimize InDesign’s
+                  TOC-generated bookmarks, rearrange your pagelayout
+              </p>
             </div>
-            <div class="col ttxt">
-                <p>over many pages on one click; or just dive deeper
-                    into typography
-                    by controlling characters by their
-                    visible height instead of pointsize. These scripts
-                    are packed with 15-years experience in bringing
-                    global players’ financial reports to life. A discipline
-                    where besides the look it is primarily
-                    speed and accurracy that count.</p>
+            <div class="col-sm-6 col-p">
+              <p>over many pages on one click; or just dive deeper
+                into typography
+                by controlling characters by their
+                visible height instead of pointsize. These scripts
+                are packed with 15-years experience in bringing
+                global players’ financial reports to life. A discipline
+                where besides the look it is primarily
+                speed and accurracy that count.
+              </p>
             </div>
+          </div>
         </div>
-        <p class="devider">// ---------------------------</p>
+        <p class="divider">// ---------------------------</p>
+
+        <!--HERO IMAGE-->
+
         <img id="graph-indesign-scripts" src="{% static 'css/material/graph_indesign_scripts.jpg' %}" alt="indesign">
+
+
+        <!--FEATURED PRODUCTS-->
         <div class="spacer"></div>
-        <p class="devider">// ---------------------------</p>
-        <h1 class="title">Featured products</h1>
+        <p class="divider">// ---------------------------</p>
+
+        <h1>Featured products</h1>
         <div class="spacer"></div>
-        <div class="row" id="grepContainer">
-            <div class="col position-relative">
-                <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
-                <div class="rectangle"></div>
-                <div class="triangle-topright"></div>
-                <div class="grepContent">
-                    <h1 class="box_h1">GrepEditor</h1>
-                    <h2 class="box_h2">Create complex GREPs with ease</h2>
-                    <p class="grepText">
-                        Write patterns within a
-                        window of comfortable size,
-                        test your pattern during
-                        construction by previewing
-                        findings and change effects,
-                        import wildcards from Grep-
-                        Lexicon.
-                    </p>
+
+        <!--- PRODUCTS--->
+
+        <div class="container-fluid mx-auto">
+            <div class="row row-product mx-auto">
+                <div class="col col-xl-4 col-sm-6 col-xs-6">
+                    <div class="card product-card mx-auto">
+                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
+                        <h1>GrepEditor</h1>
+                        <h2>Create complex GREPs with ease</h2>
+                        <p class="grepText">
+                            Write patterns within a
+                            window of comfortable size,
+                            test your pattern during
+                            construction by previewing
+                            findings and change effects,
+                            import wildcards from Grep-
+                            Lexicon.
+                        </p>
+                    </div>
+
                 </div>
-            </div>
-            <div class="col position-relative">
-                <img class="greps" src="{% static 'css/material/layoutMover_icon_rgb.svg' %}" alt="layoutM">
-                <div class="rectangle"></div>
-                <div class="triangle-topright"></div>
-                <div class="grepContent">
-                    <h1 class="box_h1">GrepEditor</h1>
-                    <h2 class="box_h2">Create complex GREPs with ease</h2>
-                    <p class="grepText">
-                        Write patterns within a
-                        window of comfortable size,
-                        test your pattern during
-                        construction by previewing
-                        findings and change effects,
-                        import wildcards from Grep-
-                        Lexicon.
-                    </p>
+                <div class="col col-xl-4 col-sm-6 col-xs-6">
+                    <div class="card product-card mx-auto">
+                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
+                        <h1>GrepEditor</h1>
+                        <h2>Create complex GREPs with ease</h2>
+                        <p class="grepText">
+                            Write patterns within a
+                            window of comfortable size,
+                            test your pattern during
+                            construction by previewing
+                            findings and change effects,
+                            import wildcards from Grep-
+                            Lexicon.
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="col position-relative">
-                <img class="greps" src="{% static 'css/material/grepLexicon_icon_rgb.svg' %}" alt="grepL">
-                <div class="rectangle"></div>
-                <div class="triangle-topright"></div>
-                <div class="grepContent">
-                    <h1 class="box_h1">GrepEditor</h1>
-                    <h2 class="box_h2">Create complex GREPs with ease</h2>
-                    <p class="grepText">
-                        Write patterns within a
-                        window of comfortable size,
-                        test your pattern during
-                        construction by previewing
-                        findings and change effects,
-                        import wildcards from Grep-
-                        Lexicon.
-                    </p>
+                <div class="col col-xl-4 col-sm-6 col-xs-6">
+                    <div class="card product-card mx-auto">
+                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
+                        <h1>GrepEditor</h1>
+                        <h2>Create complex GREPs with ease</h2>
+                        <p class="grepText">
+                            Write patterns within a
+                            window of comfortable size,
+                            test your pattern during
+                            construction by previewing
+                            findings and change effects,
+                            import wildcards from Grep-
+                            Lexicon.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="spacer"></div>
-        <p class="devider">// ---------------------------</p>
-        <div class="spacer"></div>
-        <h1 class="title">Is there more of this scripting stuff ?</h1>
-        <div class="spacer"></div>
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+
+
+
+{#        <div class="row" id="grepContainer">#}
+{#            <div class="col position-relative col-lg">#}
+{#                <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">#}
+{#                <div class="rectangle"></div>#}
+{#                <div class="triangle-topright"></div>#}
+{##}
+{#                <div class="grepContent">#}
+{#                    <h1 class="box_h1">GrepEditor</h1>#}
+{#                    <h2 class="box_h2">Create complex GREPs with ease</h2>#}
+{#                    <p class="grepText">#}
+{#                        Write patterns within a#}
+{#                        window of comfortable size,#}
+{#                        test your pattern during#}
+{#                        construction by previewing#}
+{#                        findings and change effects,#}
+{#                        import wildcards from Grep-#}
+{#                        Lexicon.#}
+{#                    </p>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col position-relative col-lg">#}
+{#                <img class="greps" src="{% static 'css/material/layoutMover_icon_rgb.svg' %}" alt="layoutM">#}
+{#                <div class="rectangle"></div>#}
+{#                <div class="triangle-topright"></div>#}
+{#                <div class="grepContent">#}
+{#                    <h1 class="box_h1">GrepEditor</h1>#}
+{#                    <h2 class="box_h2">Create complex GREPs with ease</h2>#}
+{#                    <p class="grepText">#}
+{#                        Write patterns within a#}
+{#                        window of comfortable size,#}
+{#                        test your pattern during#}
+{#                        construction by previewing#}
+{#                        findings and change effects,#}
+{#                        import wildcards from Grep-#}
+{#                        Lexicon.#}
+{#                    </p>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col position-relative col-lg">#}
+{#                <img class="greps" src="{% static 'css/material/grepLexicon_icon_rgb.svg' %}" alt="grepL">#}
+{#                <div class="rectangle"></div>#}
+{#                <div class="triangle-topright"></div>#}
+{#                <div class="grepContent">#}
+{#                    <h1 class="box_h1">GrepEditor</h1>#}
+{#                    <h2 class="box_h2">Create complex GREPs with ease</h2>#}
+{#                    <p class="grepText">#}
+{#                        Write patterns within a#}
+{#                        window of comfortable size,#}
+{#                        test your pattern during#}
+{#                        construction by previewing#}
+{#                        findings and change effects,#}
+{#                        import wildcards from Grep-#}
+{#                        Lexicon.#}
+{#                    </p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+            <div class="spacer"></div>
+            <p class="divider">// ---------------------------</p>
+            <div class="spacer"></div>
+            <h1 class="title">Is there more of this scripting stuff ?</h1>
+            <div class="spacer"></div>
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="{% static 'css/material/ratings.png' %}" alt="search">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'css/material/ratings.png' %}" alt="search">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'css/material/ratings.png' %}" alt="search">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="{% static 'css/material/ratings.png' %}" alt="search">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{% static 'css/material/ratings.png' %}" alt="search">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{% static 'css/material/ratings.png' %}" alt="search">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
-    </div>
+    </main>
+
 
 {% endblock %}
 

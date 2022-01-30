@@ -14,12 +14,15 @@
         <a class="marg" href="{% url 'product-list' %}">
             <button type="button" class="btn btn-dark">Back</button>
         </a>
-        {% if user.is_staff %}
-            <a class="marg" href={% url 'product-edit' that_one_product.id %}>
-                <button type="button" class="btn btn-warning">Edit</button>
-            </a>
 
-        {% endif %}
+
+{#        {% if user.is_staff %}#}
+{#            <a class="marg" href={% url 'product-edit' that_one_product.id %}>#}
+{#                <button type="button" class="btn btn-warning">Edit</button>#}
+{#            </a>#}
+{#        {% endif %}#}
+
+
     </div>
     <div class="row">
         <div class="col"><img id="detailpic" src="{{ that_one_product.image.url }}"/></div>
@@ -51,25 +54,26 @@
         {% block logged_in_content %}
             <div>Logged in as {{ logged_in_user.username }}</div>
             {% if product.myuser_id != logged_in_user.id %}
-            <div>
-                <h1>Write A Review</h1>
-                <form method="POST" action="{% url 'product-detail' that_one_product.id %}">
-                    {% csrf_token %}
-                    {{ comment_form.as_p }}
-                    <button type="submit" name="addComment">Add comment</button>
-                    {% if comment_form.errors %}
-                        <div>{{ comment_form.errors }}</div>
+                <div>
+                    <h1>Write A Review</h1>
+                    <form method="POST" action="{% url 'product-detail' that_one_product.id %}">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" name="addComment">Add comment</button>
+                        {% if comment_form.errors %}
+                            <div>{{ comment_form.errors }}</div>
+                        {% endif %}
+                    </form>
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
                     {% endif %}
-                </form>
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-        {% endif %}
+                </div>
+            {% endif %}
+        {% endblock %}
     {% endif %}
 
     <br><br>
