@@ -18,8 +18,8 @@
                 <div style="border-bottom: 2px solid gray; padding-top: 2em">
                     <img class="img-thumbnail, rounded float-start" src="/media/product_images/skript_Zeichenflache_1.png"
                          style="width: 10%; padding-right: 1em"/>
-                    {{ item.product_name }}<br>
-                    <p style="text-align: right"> {{ item.price }} € x{{ item.quantity }}</p>
+                    {{ item.product.get_full_title }}<br>
+                    <p style="text-align: right"> {{ item.product.price }} € x{{ item.quantity }}</p>
 
                 </div>
 

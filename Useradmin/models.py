@@ -6,8 +6,11 @@ from Carts.models import Cart
 
 
 class MyUser(AbstractUser):
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     is_manager = models.BooleanField(default=False)
+    profile_picture = models.ImageField(
+        upload_to='profile_pictures/',
+        blank=True,
+        null=True)
 
     def __str__(self):
         role = "User"
@@ -27,7 +30,6 @@ class MyUser(AbstractUser):
             if shopping_carts:
                 shopping_cart = shopping_carts.first()
                 count = shopping_cart.get_number_of_items()
-
         return count
 
     def product_list(self):
