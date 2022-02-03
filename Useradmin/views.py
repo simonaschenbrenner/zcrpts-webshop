@@ -44,7 +44,7 @@ def update_user(request, **kwargs):
         userForm.instance.user = current_user
         if userForm.is_valid():
             userForm.save()
-            # print("I saved new game")
+
         else:
             pass
             print(userForm.errors)

@@ -189,12 +189,16 @@ input {
 }
 
 input{
-    margin-bottom: 0px;
+    margin-bottom: 15px;
+    border: solid 1px gray;
+    padding: 5px;
+    margin-top: 3px;
 }
+
 
 input:focus{
     padding: 2px;
-    outline: none;
+
 }
 
 #search-addon{
