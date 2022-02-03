@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+from Products.models import Product
 from Carts.models import Cart
 
 

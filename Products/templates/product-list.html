@@ -7,38 +7,39 @@
 
 {% block title %}Homepage zcrpts{% endblock %}
 
-
 {% block content %}
     <main>
-        <h2>Products list</h2>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ search_form.as_p }}
-            <button type="submit">Search</button>
-        </form>
-        <ul>
-            {% for product in all_the_products %}
-                <a href="{% url 'product-detail' product.id %}"><img class="imgs" src="{{ product.logo.url }}"></a>
-                <br>
-                <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b></a><br>
-                {{ product.short_description }}
-                {% if user.is_staff %}
-                    <br>
-                    <a href={% url 'product-detail' product.id %}>Edit product</a>
-                    <br>
-                {% endif %}
-                <br><br>
-            {% endfor %}
-        </ul>
+        <h1>Products</h1>
+        <br><br>
 
-        <div class="container-fluid mx-auto">
+        <div class="container-fluid">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <b>I'm looking for... </b> {{ search_form.search_term }}
+                <br><br>
+                <b>Minimum Rating: </b>{{ search_form.min_stars }}
+                <br><br>
+                <button type="submit" class="btn px-4">Search</button>
+            </form>
+        </div>
+
+        <br><br>
+
+        <p class="divider">// ---------------------------</p>
+        <br><br>
+        <h1>All products</h1>
+        <br><br>
+
+        <div class="container-fluid mx-auto my-4">
             <div class="row row-product mx-auto">
                 {% for product in all_the_products %}
-                    <div class="col col-xl-3 col-md-4 col-xs-6">
+                    <div class="col col-sm-4 col-xl-3">
                         <div class="card product-card mx-auto">
-                            <a href="{% url 'product-detail' product.id %}"><img class="card-img-top imgs" src="{{ product.logo.url }}"></a>                            <h1>GrepEditor</h1>
+                            <a href="{% url 'product-detail' product.id %}">
+                                <img class="card-img-top imgs" src="{{ product.logo.url }}">
+                            <h1>{{ product.title }}</h1>
                             <div class="card-body">
-                                <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b></a><br>
+                                <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b><br></a>
                                 {{ product.short_description }}
                                 {% if user.is_staff %}
                                     <br>
@@ -46,6 +47,7 @@
                                     <br>
                                 {% endif %}
                             </div>
+                            </a>
                         </div>
                     </div>
                 {% endfor %}
@@ -57,6 +59,8 @@
 
 
         {% if user.is_staff %}
+            <p class="divider">// ---------------------------</p>
+            <br><br>
             <a href={% url 'product-create' %}>Add a new product</a><br>
         {% endif %}
     </main>

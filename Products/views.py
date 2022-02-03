@@ -134,7 +134,7 @@ def comment_edit(request, pid: int, cid: int):
             print(form.errors)
             messages.error(request,
                            'Review could not be saved')
-        return redirect('product-detail', id=pid)
+        return redirect('product-detail', pid=pid)
     else:
         form = EditReviewForm(instance=comment)
         context = {'form': form}
@@ -167,10 +167,10 @@ def comment_list_flagged(request, **kwargs):
 
 
 def comment_delete(request, **kwargs):
-    comment_id = kwargs['commentid']
+    comment_id = kwargs['cid']
     comment = Comment.objects.get(id=comment_id)
     comment.delete()
-    if 'productid' in kwargs:
-        return redirect('product-detail', pk=kwargs['productid'])
+    if 'pid' in kwargs:
+        return redirect('product-detail', pid=kwargs['pid'])
     else:
         return redirect('comment-list')

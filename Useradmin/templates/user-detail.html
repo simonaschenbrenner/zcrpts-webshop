@@ -8,7 +8,8 @@
 
 {% block content %}
 
-    <div class="main-body">
+    <main> <div class="container-fluid p-container">
+
         <h2>Your profile Details</h2>
         <div id="topText" class="row">
             <div class="col ttxt">
@@ -33,22 +34,14 @@
                     </tbody>
 
                 </table>
-                <button class="btn btn-outline-primary">
-                    <a href="{% url 'change-user-detail' current_user.id %}">change details</a>
+                <button class="btn px-4">
+                    <a style="text-decoration: none; color: white" href="{% url 'change-user-detail' current_user.id %}">change details</a>
                 </button>
 
             </div>
         </div>
 
     </div>
-
-
-
-
-
-    <br>
-
-
-
+    </main>
 
 {% endblock %}

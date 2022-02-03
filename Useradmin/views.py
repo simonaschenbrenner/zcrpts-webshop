@@ -37,10 +37,12 @@ def update_user(request, **kwargs):
     current_user = MyUser.objects.get(id=myuser_id)
 
     if request.method == 'POST':
+
         user_form = EditProfileForm(request.POST, instance=current_user)
         user_form.instance.user = current_user
         if user_form.is_valid():
             user_form.save()
+
         else:
             print(user_form.errors)
         return redirect('home')
