@@ -20,12 +20,11 @@
         <script>
             function toggleMenu() {
                 document.getElementById("navbar_flex").classList.toggle("menu_toggle")
-
             }
         </script>
 
         <title>{% block title %}zcrpts{% endblock %}</title>
-    </head>
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
     <body>
     <!--- BEGINNING OF NAVBAR -->
         <header class="main-header">
@@ -55,9 +54,9 @@
                             <a class="navbar-a" href="{% url 'logout' %}">logout</a>
                             <div class="li-underline"></div>
                         </li>
-                            <li class="">
+                            <li>
                                 <a class="" style="float: left;"
-                                   href="{% url 'show_shopping_cart' %}">
+                                   href="{% url 'show-shopping-cart' %}">
                                     <img id="cart" src="{% static 'css/material/cart_clipped.svg' %}"
                                          alt="shoppingCart">
                                     <span class="position-absolute translate-middle badge rounded-pill bg-danger">
@@ -70,17 +69,24 @@
                                     </span>
                                 </a>
                             </li>
-                        <li>
-                            <form class="navbar-a">
-                                <div class="base-search-field" >
-                                    <span type="submit" class="" id="search-addon" style="background: transparent">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                    <input type="search" class="" placeholder="Search" aria-label="Search" aria-describedby="search-addon" style="border: none; margin: 0px"/>
-                                </div>
-                            </form>
-                            <div class="li-underline"></div>
-                        </li>
+                            <li>
+                                <form method="POST" action="{% url 'product-list' %}" class="navbar-a">
+                                    {% csrf_token %}
+                                    <div class="base-search-field">
+                                        <span type="submit" action="{% url 'product-list' %}" id="search-addon" style="background: transparent">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                        <input type="search" action="{% url 'product-list' %}" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+                                    </div>
+                                </form>
+                            </li>
+{#                            <li>#}
+{#                                <form method="POST" enctype="multipart/form-data">#}
+{#                                    {% csrf_token %}#}
+{#                                    {{ search_form.as_p }}#}
+{#                                    <button type="submit" class="btn btn-primary px-4">Search</button>#}
+{#                                </form>#}
+{#                            </li>#}
                     {% endblock %}
                         {% else %}
                             {% block not_logged_in_content %}
@@ -101,6 +107,12 @@
             </div>
 
         </header>
+        {% block content %}{% endblock %}
+
+    <script type="text/javascript">(function(){window['__CF$cv$params']={r:'6d7da7024ede453a',m:'UMt_uRH7YV4b.5FfERs.NCLstiAYdrq5J7kZFYORCyM-1643912207-0-AahdJ0+rOGNSf/wtFKlOOeRJy6B7rvR71/f4M3tLT4RFzSIDAmPp/K6tFY4BuJDHVIm5n1roJaavuLcqIlhIa9S/UfvR5yuso3i+zE6Nj6vsyLXPMmz5LhNxMxKGgmuKC0UsdbXPs2aOR7Q7nYTBBh3R1jZSzxffunYAoRs4YyCpu1/e6QODVqm9HVOFu7ah4g==',s:[0xd1379061d2,0x01786a8e8b],}})();</script></body>
+    <footer>
+        {% block footer %}{% endblock %}
+    </footer>
 
 
 {#            {% block header %}#}
@@ -231,13 +243,6 @@
 {#                    </div>#}
 {#                </nav>#}
 {#            {% endblock %}#}
-
-        {% block content %}{% endblock %}
-
-    </body>
-    <footer>
-        {% block footer %}{% endblock %}
-    </footer>
 
 
 </html>

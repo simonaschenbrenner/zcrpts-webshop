@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
+{% endblock %}
 
 {% block title %}zcrpts Sign Up{% endblock %}
 
 {% block content %}
-    <h2>Sign up</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign up</button>
-    </form>
+    <main>
+        <h1>Sign up</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn px-4" type="submit">Sign up</button>
+        </form>
+    </main>
 {% endblock %}

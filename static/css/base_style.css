@@ -39,7 +39,7 @@ main{
 
 h1{
     font-family: 'Roboto Regular', sans-serif;
-    font-size: 36px;
+    font-size: 24px;
     letter-spacing: 3px;
 }
 
@@ -69,14 +69,14 @@ h3{
     font-family: 'Roboto Black', sans-serif;
     font-size: 17px;
     color: rgb(70, 70, 70);
-    letter-spacing: 20em;
+    letter-spacing: 2em;
 }
 
 h4{
     font-family: 'Roboto Regular', sans-serif;
     font-size: 17px;
     color: rgb(70, 70, 70);
-    letter-spacing: 20em;
+    letter-spacing: 2em;
 }
 
 .divider{
@@ -222,6 +222,16 @@ input:focus{
     padding: 0px !important;
 }
 
+.btn{
+    background: rgb(0,177,227) !important;
+    color: white;
+}
+
+.btn:hover{
+    background: rgb(0,0,0) !important;
+    color: white;
+}
+
 @media screen and (max-width: 900px){
     .navbar-flex {
         flex-flow: column wrap;
@@ -245,7 +255,7 @@ input:focus{
 
 
     #logo{
-        width: 100px;
+        width: 150px;
     }
 
     .burger_menu{

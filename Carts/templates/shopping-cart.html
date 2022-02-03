@@ -7,9 +7,12 @@
 {% block title %}Shopping cart{% endblock %}
 
 {% block content %}
-    <div class="container-fluid p-container">
-    <div class="row"> </div>
-        <h2>Shopping cart</h2>
+
+    <main>
+        <div class="container-fluid p-container">
+        <div class="row"> </div>
+        <h1>Shopping cart</h1>
+
         <br><br>
         {% if shopping_cart_is_empty %}
             Your shopping cart is empty.<br>
@@ -18,8 +21,8 @@
                 <div style="border-bottom: 2px solid gray; padding-top: 2em">
                     <img class="img-thumbnail, rounded float-start" src="/media/product_images/skript_Zeichenflache_1.png"
                          style="width: 10%; padding-right: 1em"/>
-                    {{ item.product_name }}<br>
-                    <p style="text-align: right"> {{ item.price }} € x{{ item.quantity }}</p>
+                    {{ item.product.get_full_title }}<br>
+                    <p style="text-align: right"> {{ item.product.price }} € x{{ item.quantity }}</p>
 
                 </div>
 
@@ -40,6 +43,5 @@
 
 
     </div>
-
-
+    </main>
 {% endblock %}
