@@ -17,6 +17,13 @@
             <input type="hidden" id="shopping_cart_id" name="shopping_cart_id" value="{{ shopping_cart.id }}">
             <button type="submit" name="Pay">Pay</button>
         </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <br>
         <a href="{% url 'product-list' %}">Keep shopping</a>
     {% endif %}
