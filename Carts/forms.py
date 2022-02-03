@@ -10,7 +10,7 @@ class PaymentForm(forms.ModelForm):
 
     class Meta:
         model = Payment
-        fields = ['credit_card_number', 'expiry_date', 'amount']
+        fields = ['credit_card_number', 'expiry_date', 'cvc', 'amount']
         widgets = {
             'myuser': forms.HiddenInput(),
         }

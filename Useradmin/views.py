@@ -1,15 +1,12 @@
-from django.contrib.auth import (
-    login as auth_login,
-)
+from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import MySignUpForm, EditProfileForm
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
 from .models import MyUser
-from django.shortcuts import redirect, render
 
 
 class MySignUpView(generic.CreateView):
@@ -22,9 +19,7 @@ class MyLoginView(LoginView):
     template_name = 'registration/login.html'
 
     def form_valid(self, form):
-        """Security check complete. Log the user in. PERFORM CUSTOM CODE."""
-        auth_login(self.request, form.get_user())
-        # form.get_user().execute_after_login()  # Custom code
+        login(self.request, form.get_user())
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -37,38 +32,34 @@ def user_detail(request, **kwargs):
 
 
 def update_user(request, **kwargs):
+
     myuser_id = kwargs['pk']
     current_user = MyUser.objects.get(id=myuser_id)
-    if request.method == 'POST':
-        userForm = EditProfileForm(request.POST, instance=current_user)
-        userForm.instance.user = current_user
-        if userForm.is_valid():
-            userForm.save()
-            # print("I saved new game")
-        else:
-            pass
-            print(userForm.errors)
 
+    if request.method == 'POST':
+        user_form = EditProfileForm(request.POST, instance=current_user)
+        user_form.instance.user = current_user
+        if user_form.is_valid():
+            user_form.save()
+        else:
+            print(user_form.errors)
         return redirect('home')
 
     else:  # request.method == 'GET'
-        print("I am in GET")
-        userForm = EditProfileForm(instance=current_user)
-        context = {'form': userForm}
+        user_form = EditProfileForm(instance=current_user)
+        context = {'form': user_form}
         return render(request, 'change-user-detail.html', context)
 
 
 def change_password(request):
+
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            # print("I saved new game")
         else:
-            pass
             print(form.errors)
-
         return redirect('home')
 
     else:  # request.method == 'GET'
