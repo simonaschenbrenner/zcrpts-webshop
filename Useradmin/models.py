@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+from Products.models import Product
 from Carts.models import Cart
+
 
 class MyUser(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
@@ -26,3 +29,7 @@ class MyUser(AbstractUser):
                 count = shopping_cart.get_number_of_items()
 
         return count
+
+    def product_list(self):
+        products = Product.objects.filter(featured=True)
+        return products

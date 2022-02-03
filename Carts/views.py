@@ -26,7 +26,7 @@ def show_shopping_cart(request):
             return redirect('shopping-cart-pay')
 
     else:  # request.method == 'GET'
-        print("im in get böllkjhl")
+        print("im in get shopping cart")
         shopping_cart_is_empty = True
         shopping_cart_items = None
         total = Decimal(0.0)

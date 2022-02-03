@@ -7,32 +7,39 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-    <h2>Your profile Details</h2>
+    <main><div class="main-body">
+        <h2>Your profile Details</h2>
+        <div id="topText" class="row">
+            <div class="col ttxt">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row"><b>Username:</b></th>
+                        <td>{{ current_user.username }}<br></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><b>First Name:</b></th>
+                        <td>{{ current_user.first_name }}<br></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><b>Last Name:</b></th>
+                        <td>{{ current_user.last_name }}<br></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><b>Email:</b></th>
+                        <td>{{ current_user.email }}<br></td>
+                    </tr>
+                    </tbody>
 
-    <table>
-        <tr>
-            <td><b>Username:</b></td>
-            <td>{{ current_user.username }}<br></td>
-        </tr>
-        <tr>
-            <td><b>First Name:</b></td>
-            <td>{{ current_user.first_name }}<br></td>
-        </tr>
-        <tr>
-            <td><b>Last Name:</b></td>
-            <td>{{ current_user.last_name }}<br></td>
-        </tr>
-         <tr>
-            <td><b>email:</b></td>
-            <td>{{ current_user.email }}<br></td>
-        </tr>
-    </table>
+                </table>
+                <button class="btn px-4">
+                    <a style="text-decoration: none; color: white" href="{% url 'change-user-detail' current_user.id %}">change details</a>
+                </button>
 
-     <p><a href="{% url 'change-user-detail' current_user.id %}">change details</a></p>
+            </div>
+        </div>
 
-    <br>
-
-
-
+    </div>
+    </main>
 
 {% endblock %}

@@ -1,4 +1,4 @@
- {% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block css %}
@@ -7,98 +7,139 @@
 
 {% block title %}Homepage zcrpts{% endblock %}
 
-{% block header %}
-    <img src="{% static 'css/LOGO.png' %}" alt="logo">
-    <h2>Adobe InDesign Scripts</h2>
-
-    <nav>
-        <ul>
-            <li><a>ABOUT</a></li>
-            <li><a href="{% url 'product-list' %}">Show me the products</a></li>
-            {% if user.is_authenticated %}
-                {% block logged_in_content %}
-
-                <p>Hi {{ myuser.username }}!</p>
-                <p><a href="{% url 'myuser-detail' user.id %}">Profile</a></p>
-                <a href="{% url 'logout' %}">Logout</a>
-                {% endblock %}
-            {% else %}
-                {% block not_logged_in_content %}
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            You are not logged in
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a href="{% url 'login' %}">Login</a></li>
-                            <li><a href="{% url 'signup' %}">Signup</a></li>
-                        </ul>
-                    </div>
-                {% endblock %}
-            {% endif %}
-        </ul>
-    </nav>
-{% endblock %}
-
 {% block content %}
-    <h2>New products</h2>
-    <div class="top-products">
-        <div id="top1">
-            <img src="{{ that_one_product.image_url }}">
-            {{ that_one_product.title }}
-
-            {{ that_one_product.get_average_rating }}
-
-            {{ that_one_product.price }}
+    <!--PARAGRAPH CONTAINER-->
+    <main>
+        <div class="container-fluid p-container">
+          <div class="row">
+            <div class="col-sm-6 col-p">
+              <p>
+                  If you have to deal with heavy Indesign-Documents,
+                  this site is for you. Find scripts written for
+                  Adobe InDesign that help you create truely complex
+                  grep-patterns, refine large text-amounts by find
+                  and change on batch, manage huge paragraphStylesand
+                  characterStyles-lists, optimize InDesign’s
+                  TOC-generated bookmarks, rearrange your pagelayout
+              </p>
+            </div>
+            <div class="col-sm-6 col-p">
+              <p>over many pages on one click; or just dive deeper
+                into typography
+                by controlling characters by their
+                visible height instead of pointsize. These scripts
+                are packed with 15-years experience in bringing
+                global players’ financial reports to life. A discipline
+                where besides the look it is primarily
+                speed and accurracy that count.
+              </p>
+            </div>
+          </div>
         </div>
-        <div id="top2">
-            <img src="{{ that_one_product.image_url }}">
+        <p class="divider">// ---------------------------</p>
 
-            {{ that_one_product.title }}
+        <!--HERO IMAGE-->
 
-            {{ that_one_product.get_average_rating }}
+        <img id="graph-indesign-scripts" src="{% static 'css/material/graph_indesign_scripts.jpg' %}" alt="indesign">
 
-            {{ that_one_product.price }}
+
+        <!--FEATURED PRODUCTS-->
+        <div class="spacer"></div>
+        <p class="divider">// ---------------------------</p>
+
+        <h1>Featured products</h1>
+        <div class="spacer"></div>
+
+
+
+        <!--- PRODUCTS--->
+
+        <div class="container-fluid mx-auto">
+            <div class="row row-product mx-auto">
+                <div class="col col-xl-4 col-sm-6 col-xs-6">
+                    <div class="card product-card mx-auto">
+                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
+                        <h1>GrepEditor</h1>
+                        <h2>Create complex GREPs with ease</h2>
+                        <p class="grepText">
+                            Write patterns within a
+                            window of comfortable size,
+                            test your pattern during
+                            construction by previewing
+                            findings and change effects,
+                            import wildcards from Grep-
+                            Lexicon.
+                        </p>
+                    </div>
+
+                </div>
+                <div class="col col-xl-4 col-sm-6 col-xs-6">
+                    <div class="card product-card mx-auto">
+                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
+                        <h1>GrepEditor</h1>
+                        <h2>Create complex GREPs with ease</h2>
+                        <p class="grepText">
+                            Write patterns within a
+                            window of comfortable size,
+                            test your pattern during
+                            construction by previewing
+                            findings and change effects,
+                            import wildcards from Grep-
+                            Lexicon.
+                        </p>
+                    </div>
+                </div>
+                <div class="col col-xl-4 col-sm-6 col-xs-6">
+                    <div class="card product-card mx-auto">
+                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
+                        <h1>GrepEditor</h1>
+                        <h2>Create complex GREPs with ease</h2>
+                        <p class="grepText">
+                            Write patterns within a
+                            window of comfortable size,
+                            test your pattern during
+                            construction by previewing
+                            findings and change effects,
+                            import wildcards from Grep-
+                            Lexicon.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <h2>Most popular</h2>
-    <div class="most-popular-products">
-        <div id="popular1">
-            <img src="{{ that_one_product.image_url }}">
-            {{ that_one_product.title }}
 
-            {{ that_one_product.get_average_rating }}
-
-            {{ that_one_product.price }}
+        <div class="container-fluid mx-auto">
+            <div class="row row-product mx-auto">
+                {% for product in request.user.product_list %}
+                        <div class="col col-xl-4 col-sm-6 col-xs-6">
+                            <div class="card product-card mx-auto">
+                                <a href="{% url 'product-detail' product.id %}">
+                                <img class="card-img-top imgs" src="{{ product.logo.url }}">
+                                <h1>{{ product.title }}</h1>
+                                <div class="card-body">
+                                    <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b>
+                                    {{ product.short_description }}
+                                    {% if user.is_staff %}
+                                        <br>
+                                        <a href={% url 'product-detail' product.id %}>Edit product</a>
+                                        <br>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
         </div>
-        <div id="popular2">
-            <img src="{{ that_one_product.image_url }}">
 
-            {{ that_one_product.title }}
+            <div class="spacer"></div>
+            <p class="divider">// ---------------------------</p>
+            <div class="spacer"></div>
+            <h1 class="title">Is there more of this scripting stuff ?</h1>
+            <div class="spacer"></div>
 
-            {{ that_one_product.get_average_rating }}
-
-            {{ that_one_product.price }}
         </div>
-        <div id="popular3">
-            <img src="{{ that_one_product.image_url }}">
-
-            {{ that_one_product.title }}
-
-            {{ that_one_product.get_average_rating }}
-
-            {{ that_one_product.price }}
-        </div>
-        <div id="popular4">
-            <img src="{{ that_one_product.image_url }}">
-
-            {{ that_one_product.title }}
-
-            {{ that_one_product.get_average_rating }}
-
-            {{ that_one_product.price }}
-        </div>
-    </div>
+    </main>
 
 
 {% endblock %}

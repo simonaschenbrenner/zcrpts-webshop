@@ -1,26 +1,123 @@
-body {
-    font-size: 20px;
-    color: darkblue;
-    background: aquamarine;
-}
+/*font-family: 'IBM Plex Mono', monospace;*/
+/*font-family: 'Roboto', sans-serif;*/
 
-img {
-    width: 150px;
-    height: 150px;
-}
 
-li{
+
+ul{
     list-style: none;
 }
 
-.div_comment{
-    border: 2px solid cadetblue;
-    margin: 5px;
-    padding: 2px;
-    width: 50%
+
+main{
+    width: 90%;
+    margin: auto;
 }
 
-.div_comment--commentbox{
-    background: azure;
-    padding: 5px 5px;
+.p-container{
+    margin: auto;
+}
+
+
+/*.col-p{*/
+/*    margin: 20px;*/
+/*}*/
+
+
+
+.divider{
+    letter-spacing: 1px;
+}
+
+.spacer {
+    margin: 5%;
+}
+
+/*.container{*/
+/*    width: 90%;*/
+/*    margin: auto;*/
+/*}*/
+
+.row-product{
+    width: 100%;
+}
+
+.col{
+    margin: 16px !important;
+}
+
+h1 {
+    color: black;
+    padding: 0 12px;
+    text-decoration: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+.product-card{
+    padding: 12px;
+    width: 16em;
+    color: black;
+    /*background: rgb(0,177,227);*/
+    /*background: rgb(243,245,244);*/
+    background-image: url("material/card_bg.png");
+    background-size: cover;
+    border: none !important;
+    border-radius: 0;
+    position: relative;
+}
+
+/*.card-body{*/
+/*    background: white;*/
+/*    color: black;*/
+/*}*/
+
+.greps {
+    width: 100px;
+    height: 100px;
+    top: 10px;
+    left: 30px;
+}
+
+.grepContent {
+    padding: 2%;
+    position: absolute;
+    width: 280px;
+    top: 110px;
+    left: 30px;
+    background: aqua;
+}
+
+.box_h2 {
+    font-size: 18px;
+}
+
+#grepContainer{
+    height: 400px;
+    background: cadetblue;
+}
+
+#graph-indesign-scripts {
+    width: 100%;
+}
+
+#scriptingIC{
+    width: 250px;
+    height: 250px;
+}
+
+.imgs{
+    margin: 10px;
+    width: 40%;
+    height: 40%;
+}
+
+input[type=text]{
+    border-bottom: 1px solid black;
+}
+
+textarea{
+    width: 50%;
+    height: 40vh;
 }

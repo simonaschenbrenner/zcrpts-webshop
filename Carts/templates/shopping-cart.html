@@ -1,29 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
+{% endblock %}
 {% block title %}Shopping cart{% endblock %}
 
 {% block content %}
-<h2>Shopping cart</h2>
-    {% if shopping_cart_is_empty %}
-        Your shopping cart is empty.<br>
-    {% else %}
-        {% for item in shopping_cart_items %}
-            {{ item.product_name }}<br>
-            {{ item.price }} € x{{ item.quantity }}<br>
-            <br>
-        {% endfor %}
-
-        Total amount: {{ total }} €
-
+    <main>
+        <div class="main-body">
+        <h1>Shopping cart</h1>
         <br><br>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit" name="empty">Empty the shopping cart</button><br>
-            <button type="submit" name="pay">Pay with credit card</button>
-        </form>
-    {% endif %}
+        {% if shopping_cart_is_empty %}
+            Your shopping cart is empty.<br>
+        {% else %}
+            {% for item in shopping_cart_items %}
+                <div style="border-bottom: 2px solid gray; padding-top: 2em">
+                    <img class="img-thumbnail, rounded float-start" src="/media/product_images/skript_Zeichenflache_1.png"
+                         style="width: 10%; padding-right: 1em"/>
+                    {{ item.product_name }}<br>
+                    <p style="text-align: right"> {{ item.price }} € x{{ item.quantity }}</p>
 
-    <br>
-    <a href="{% url 'product-list' %}">Keep shopping</a>
+                </div>
+
+            {% endfor %}
+
+            <p style="text-align: right; padding-top: 1rem"><b> Total amount: {{ total }} €</b></p>
+
+            <br><br>
+            <form method="POST">
+                {% csrf_token %}
+                <button class="btn-outline-primary" type="submit"  name="empty">Empty the shopping cart</button>
+                <button class="btn-primary" type="submit" name="pay">Pay with credit card</button>
+            </form>
+        {% endif %}
+
+        <br>
+        <a href="{% url 'product-list' %}">Keep shopping</a>
+
+
+    </div>
+    </main>
 {% endblock %}

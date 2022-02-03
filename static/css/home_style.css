@@ -1,4 +1,59 @@
-body {
-    font-size: 20px;
+/*font-family: 'IBM Plex Mono', monospace;*/
+/*font-family: 'Roboto', sans-serif;*/
 
+
+.p-container{
+    margin: auto;
+    width: 90%;
+}
+
+h1 {
+    color: black;
+    padding: 0 12px;
+    text-decoration: none;
+}
+
+.row-product{
+    width: 100%;
+    margin: auto;
+}
+
+
+.product-card{
+    margin: 20px;
+    padding: 20px;
+    width: 20rem;
+    background-image: url("material/card_bg.png");
+    background-size: cover;
+    border: none !important;
+    border-radius: 0;
+    position: relative;
+}
+
+.greps {
+    width: 100px;
+    height: 100px;
+    top: 10px;
+    left: 30px;
+}
+
+.grepContent {
+    padding: 2%;
+    position: absolute;
+    width: 280px;
+    top: 110px;
+    left: 30px;
+    background: aqua;
+}
+
+
+
+
+#graph-indesign-scripts {
+    width: 100%;
+}
+
+#scriptingIC{
+    width: 250px;
+    height: 250px;
 }

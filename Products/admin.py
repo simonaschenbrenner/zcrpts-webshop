@@ -1,25 +1,24 @@
 from django.contrib import admin
 
 # Register your models here.
-from .forms import ProductForm
-from .models import Product, Picture, Comment
+from .models import Product, Comment
 
 
-class ProductPictureAdmin(admin.StackedInline):
-    model = Picture
+# class ProductPictureAdmin(admin.StackedInline):
+#     model = Picture
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductPictureAdmin]
+    # inlines = [ProductPictureAdmin]
 
     class Meta:
         model = Product
 
 
-@admin.register(Picture)
-class ProductPictureAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(Picture)
+# class ProductPictureAdmin(admin.ModelAdmin):
+#     pass
 
 
 # Comment
