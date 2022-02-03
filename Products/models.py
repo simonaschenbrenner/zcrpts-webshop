@@ -33,14 +33,11 @@ class Product(models.Model):
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
 
-    # TODO need this?
-    """
     def get_long_description(self):
         if self.long_description:
             return self.long_description
         else:
             return self.short_description
-    """
 
     def get_full_title(self):
         return self.title + ' (' + self.version + ')'

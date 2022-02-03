@@ -188,6 +188,7 @@ input {
     flex-flow: row nowrap;
 }
 
+
 input{
     margin-bottom: 15px;
     border: solid 1px gray;
@@ -196,10 +197,11 @@ input{
 }
 
 
+/*
 input:focus{
     padding: 2px;
-
 }
+*/
 
 #search-addon{
     margin-right: 4px;

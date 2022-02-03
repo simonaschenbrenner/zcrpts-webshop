@@ -1,5 +1,6 @@
 venv/
 .idea/
-__pycache__/
+*.pyc
+*_initial.py
 db.sqlite3
 .DS_Store
