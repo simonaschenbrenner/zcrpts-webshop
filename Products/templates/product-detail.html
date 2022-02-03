@@ -9,6 +9,7 @@
 {% block title %}Product detail{% endblock %}
 
 {% block content %}
+    <main></main>
 
     <div class="btn-group">
         <a class="marg" href="{% url 'product-list' %}">
@@ -88,16 +89,16 @@
             Bewertung: {{ comment.rate }}<br>
 
             {% if comment.myuser.id != logged_in_user.id %}
-                <a href="{% url 'comment-flag' that_one_product.id comment.id %}">
+                <a href="{% url 'comment-flag' product.id comment.id %}">
                     flag
                 </a><br>
 
                 Helpful?
-                <a href="{% url 'comment-vote' that_one_product.id comment.id 'up' %}">
+                <a href="{% url 'comment-vote' product.id comment.id 'up' %}">
                     yes ({{ comment.get_upvotes_count }})
                 </a> /
                 <span style="...">{{ down_votes }}</span>
-                <a href="{% url 'comment-vote' that_one_product.id comment.id 'down' %}">
+                <a href="{% url 'comment-vote' product.id comment.id 'down' %}">
                     no ({{ comment.get_downvotes_count }})
                 </a><br>
 
@@ -107,8 +108,8 @@
                         data-bs-toggle="dropdown" aria-expanded="false">Edit review
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a href="{% url 'review-update' that_one_product.id comment.id %}">Edit</a></li>
-                    <li><a href="{% url 'comment-delete' comment.id that_one_product.id %}">Delete</a></li>
+                    <li><a href="{% url 'review-update' product.id comment.id %}">Edit</a></li>
+                    <li><a href="{% url 'comment-delete' comment.id product.id %}">Delete</a></li>
                 </ul>
             {% endif %}
         </div>

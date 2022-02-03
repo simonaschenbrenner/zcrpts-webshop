@@ -7,29 +7,24 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-    <div class="main-body">
-    <h2> Change your details:</h2>
-        <p></p>
-     {% load crispy_forms_tags %}
-   <form method="post">
-        {% csrf_token %}
-        {% crispy form %}
-        <p><a href="{% url 'change-password' %}">click here to change password</a></p>
-
-
-        <button class="btn btn-outline-primary" type="submit">save your changed details</button>
-   </form>
-
-
-
-    <br>
+    <main>
+        <div class="main-body">
+        <h2> Change your details:</h2>
+            <p></p>
+         {% load crispy_forms_tags %}
+           <form method="post">
+                {% csrf_token %}
+                {% crispy form %}
+                <p><a href="{% url 'change-password' %}">click here to change password</a></p>
+                <button class="btn btn-outline-primary" type="submit">save your changed details</button>
+           </form>
 
 
 
-    </div>
+        <br>
 
 
 
-
-
+        </div>
+    </main>
 {% endblock %}

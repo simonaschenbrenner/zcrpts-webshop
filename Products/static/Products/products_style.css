@@ -7,11 +7,6 @@ ul{
     list-style: none;
 }
 
-body{
-    width: 90%;
-    margin: 180px auto auto;
-    font-family: "IBM Plex Mono", sans-serif;
-}
 
 main{
     width: 90%;
@@ -20,13 +15,14 @@ main{
 
 .p-container{
     margin: auto;
-    width: 90%;
 }
 
 
 /*.col-p{*/
 /*    margin: 20px;*/
 /*}*/
+
+
 
 .divider{
     letter-spacing: 1px;
@@ -36,37 +32,46 @@ main{
     margin: 5%;
 }
 
-.container{
-    width: 90%;
-    margin: auto;
-}
+/*.container{*/
+/*    width: 90%;*/
+/*    margin: auto;*/
+/*}*/
 
 .row-product{
     width: 100%;
-    margin: auto;
 }
 
 .col{
-    margin: 20px !important;
+    margin: 16px !important;
+}
+
+h1 {
+    color: black;
+    padding: 0 12px;
+    text-decoration: none;
+}
+
+a{
+    text-decoration: none;
 }
 
 .product-card{
-    padding: 20px;
-    width: 16rem;
-    color: white;
-    background: rgb(0,177,227);
+    padding: 12px;
+    width: 16em;
+    color: black;
+    /*background: rgb(0,177,227);*/
     /*background: rgb(243,245,244);*/
-    /*background-image: url("material/card_bg.png");*/
+    background-image: url("material/card_bg.png");
     background-size: cover;
     border: none !important;
     border-radius: 0;
     position: relative;
 }
 
-.card-body{
-    background: white;
-    color: black;
-}
+/*.card-body{*/
+/*    background: white;*/
+/*    color: black;*/
+/*}*/
 
 .greps {
     width: 100px;
@@ -82,10 +87,6 @@ main{
     top: 110px;
     left: 30px;
     background: aqua;
-}
-
-.box_h1 {
-    font-size: 28px;
 }
 
 .box_h2 {
@@ -119,10 +120,4 @@ input[type=text]{
 textarea{
     width: 50%;
     height: 40vh;
-}
-
-@media screen and (max-width: 1000px){
-    .p-container p{
-
-    }
 }

@@ -7,6 +7,12 @@
     width: 90%;
 }
 
+h1 {
+    color: black;
+    padding: 0 12px;
+    text-decoration: none;
+}
+
 .row-product{
     width: 100%;
     margin: auto;

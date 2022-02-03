@@ -178,3 +178,4 @@ def comment_delete(request, **kwargs):
         return redirect('product-detail', pk=kwargs['productid'])
     else:
         return redirect('comment-list')
+
