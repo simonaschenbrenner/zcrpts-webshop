@@ -234,6 +234,27 @@ input:focus{
     color: white;
 }
 
+.commentForm{
+    margin: 20em;
+}
+
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    width: 5em;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    border: solid 1px gray;
+    padding: 5px;
+    margin-top: 3px;
+}
+
+.textarea{
+    height: 5em
+}
+
 @media screen and (max-width: 900px){
     .navbar-flex {
         flex-flow: column wrap;

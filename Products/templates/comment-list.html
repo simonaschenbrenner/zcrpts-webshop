@@ -1,30 +1,37 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Comment list{% endblock %}
 
 {% block content %}
-{% if only_flagged %}
-    <h2>All flagged comments</h2>
-    <a href="{% url 'comment-list-all' %}">Show unflagged comments as well</a>
-{% else %}
-    <h2>All comments</h2>
-    <a href="{% url 'comment-list-flagged' %}">Only show flagged comments</a>
-{% endif %}
-<ul>
-    {% for comment in all_comments %}
-        <a href="{% url 'myuser-detail' comment.myuser.id %}">{{ comment.myuser.username }}</a>
-        at {{ comment.timestamp }}
-        on <a href="{% url 'product-detail' comment.product.id %}">{{ comment.product.title }}</a>
-        <br>
-        {{ comment.title }}
-        <br>
-        {{ comment.text }}
-        <br>
-        {% if comment.is_flagged %}
-            Flagged <a href="{% url 'comment-unflag' comment.id %}">Unflag</a>
+    <main>
+        {% if only_flagged %}
+            <h1>All flagged comments</h1>
+            <a href="{% url 'comment-list-all' %}" class="btn">Show all</a>
+        {% else %}
+            <h1>All comments</h1>
+            <a href="{% url 'comment-list-flagged' %}" class="btn">Only show flagged</a>
         {% endif %}
-        <br>
-        <a href="{% url 'comment-delete' comment.id %}">Delete</a>
-    {% endfor %}
-</ul>
+        <br><br>
+        <ul style="padding: 12px">
+            {% for comment in all_comments %}
+                <a href="{% url 'myuser-detail' comment.myuser.id %}">{{ comment.myuser.username }}</a>
+                at {{ comment.timestamp }}
+                on <a href="{% url 'product-detail' comment.product.id %}">{{ comment.product.title }}</a>
+                <br>
+                {{ comment.title }}
+                <br>
+                {{ comment.text }}
+                <br>
+                {% if comment.is_flagged %}
+                    <span style="color: red">Flagged</span>
+                    <a href="{% url 'comment-unflag' comment.id %}">Unflag</a>
+                {% else %}
+                    <a href="{% url 'comment-flag' comment.id %}">Flag</a>
+                {% endif %}
+                <a href="{% url 'comment-delete' comment.id %}">Delete</a>
+                <br><br><br>
+            {% endfor %}
+        </ul>
+    </main>
 {% endblock %}

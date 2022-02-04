@@ -9,8 +9,8 @@
 
 {% block content %}
     <main>
-        <h2>Login</h2>
-        <form method="post">
+        <h1>Login</h1>
+        <form method="post" style="padding: 12px">
             {% csrf_token %}
             {{ form.as_p }}
             <button class="btn px-4" type="submit">Login</button>

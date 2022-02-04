@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from Carts.models import Cart
-from .forms import CommentForm, EditReviewForm, ProductForm, SearchForm
+from .forms import CommentForm, ProductForm, SearchForm
 from .models import Comment, Product
 
 
@@ -44,7 +44,7 @@ def product_list(request):
 def product_create(request, **kwargs):
 
     if 'pid' in kwargs:  # Edit an existing product
-        product = Product.objects.get(id=kwargs['product_id'])
+        product = Product.objects.get(id=kwargs['pid'])
     else:
         product = None
 
@@ -108,10 +108,13 @@ def comment_vote(request, pid: int, cid: int, up_or_down: str):
     return redirect('product-detail', pid=pid)
 
 
-def comment_flag(request, pid: int, cid: int):
+def comment_flag(request, cid: int, pid: int = None):
     comment = Comment.objects.get(id=int(cid))
     comment.flag()
-    return redirect('product-detail', pid=pid)
+    if pid:
+        return redirect('product-detail', pid=pid)
+    else:
+        return redirect('comment-list-all')
 
 
 @staff_member_required(login_url='/useradmin/login/')
@@ -123,9 +126,10 @@ def comment_unflag(request, cid: int):
 
 def comment_edit(request, pid: int, cid: int):
     comment = Comment.objects.get(id=cid)
+    product = Product.objects.get(id=pid)
 
     if request.method == 'POST':
-        form = EditReviewForm(request.POST, instance=comment)
+        form = CommentForm(request.POST, instance=comment)
         form.instance.user = request.user
         if form.is_valid():
             form.save()
@@ -136,8 +140,8 @@ def comment_edit(request, pid: int, cid: int):
                            'Review could not be saved')
         return redirect('product-detail', pid=pid)
     else:
-        form = EditReviewForm(instance=comment)
-        context = {'form': form}
+        form = CommentForm(instance=comment)
+        context = {'form': form, 'product': product}
         return render(request, 'comment-edit.html', context)
 
 
@@ -173,4 +177,4 @@ def comment_delete(request, **kwargs):
     if 'pid' in kwargs:
         return redirect('product-detail', pid=kwargs['pid'])
     else:
-        return redirect('comment-list')
+        return redirect('comment-list-all')

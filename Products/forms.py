@@ -1,3 +1,6 @@
+from crispy_forms.bootstrap import StrictButton
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout
 from django import forms
 from .models import Product, Comment
 
@@ -23,14 +26,14 @@ class ProductForm(forms.ModelForm):
             'version',
             'short_description',
             'long_description',
-            'pdf',
+            'featured',
             'logo',
             'screenshot',
-            'featured',
+            'pdf',
+            'script',
             'operating_system',
             'language',
             'tested_with',
-            'script',
             'price',
         ]
         widgets = {
@@ -40,29 +43,18 @@ class ProductForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "commentForm"
+
     class Meta:
         model = Comment
         fields = ['title', 'text', 'rating']
         widgets = {
             'myuser': forms.HiddenInput(),
             'product': forms.HiddenInput(),
-            'rating': forms.RadioSelect(choices=CHOICES),
-        }
-
-
-class EditReviewForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = Comment
-        fields = (
-            'title',
-            'text',
-            'rating',
-        )
-        widgets = {
-            'rating': forms.RadioSelect(choices=CHOICES),
+            'rating': forms.Select(choices=CHOICES),
         }
 
 
