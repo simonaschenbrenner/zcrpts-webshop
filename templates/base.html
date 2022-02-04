@@ -47,9 +47,15 @@
                     {% if user.is_authenticated %}
                         {% block logged_in_content %}
                         <li>
-                            <a class="navbar-a" href="{% url 'myuser-detail' user.id %}">profil</a>
+                            <a class="navbar-a" href="{% url 'myuser-detail' user.id %}">profile</a>
                             <div class="li-underline"></div>
                         </li>
+                        {% if user.is_staff %}
+                            <li>
+                                <a class="navbar-a" href="{% url 'comment-list-all' %}">comments</a>
+                                <div class="li-underline"></div>
+                            </li>
+                        {% endif %}
                         <li>
                             <a class="navbar-a" href="{% url 'logout' %}">logout</a>
                             <div class="li-underline"></div>
@@ -61,7 +67,7 @@
                                          alt="shoppingCart">
                                     <span class="position-absolute translate-middle badge rounded-pill bg-danger">
                                     {% if user.is_authenticated %}
-                                        {{ request.user.count_shopping_cart_items }}
+                                        {{ count_shopping_cart_items }}
                                     {% else %}
                                         0
                                     {% endif %}
@@ -76,7 +82,7 @@
                                         <span type="submit" action="{% url 'product-list' %}" id="search-addon" style="background: transparent">
                                             <i class="fas fa-search"></i>
                                         </span>
-                                        <input type="search" action="{% url 'product-list' %}" placeholder="Search" aria-label="Search" aria-describedby="search-addon" style="margin-bottom: 0.7em; border: none;"/>
+                                        <input type="search" name="search_term" action="{% url 'product-list' %}" placeholder="Search" aria-label="Search" aria-describedby="search-addon" style="margin-bottom: 0.7em; border: none;"/>
                                     </div>
                                 </form>
                             </li>

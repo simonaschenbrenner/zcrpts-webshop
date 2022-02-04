@@ -43,7 +43,7 @@
                                 {{ product.short_description }}
                                 {% if user.is_staff %}
                                     <br>
-                                    <a href={% url 'product-detail' product.id %}>Edit product</a>
+                                    <a href={% url 'product-edit' product.id %}>Edit product</a>
                                     <br>
                                 {% endif %}
                             </div>

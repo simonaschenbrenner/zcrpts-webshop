@@ -13,7 +13,6 @@ def home(request, **kwargs):
             count = shopping_cart.get_number_of_items()
 
     context = {
-        'search_form': SearchForm,
         'count_shopping_cart_items': count,
         'featured_product_list': Product.objects.filter(featured=True),
     }

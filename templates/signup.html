@@ -10,9 +10,10 @@
 {% block content %}
     <main>
         <h1>Sign up</h1>
-        <form method="post" enctype="multipart/form-data">
+        {% load crispy_forms_tags %}
+        <form method="post" enctype="multipart/form-data" style=""padding: 12px>
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|crispy }}
             <button class="btn px-4" type="submit">Sign up</button>
         </form>
     </main>
