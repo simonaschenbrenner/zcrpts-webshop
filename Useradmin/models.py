@@ -22,3 +22,7 @@ class MyUser(AbstractUser):
 
     def __repr__(self):
         return 'User "' + self.username + '": ' + self.__str__()
+
+    def get_featured_products(self):
+        products = Product.objects.filter(featured=True)
+        return products[:3]

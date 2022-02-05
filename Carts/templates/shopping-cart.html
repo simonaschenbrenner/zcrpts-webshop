@@ -19,7 +19,7 @@
         {% else %}
             {% for item in shopping_cart_items %}
                 <div style="border-bottom: 2px solid gray; padding-top: 2em">
-                <img class="img-thumbnail, rounded float-start" src="{{ item.product.logo.url }} style="width: 10%; padding-right: 1em"">
+                <img class="img-thumbnail, rounded float-start" src="{{ item.product.logo.url }} style="width: 10%; padding-right: 1em">
                     {{ item.product.get_full_title }}<br>
                     {{ item.product.short_description }}
                     <p style="text-align: right"> {{ item.product.price }} € x {{ item.quantity }}</p>

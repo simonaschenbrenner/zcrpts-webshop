@@ -10,6 +10,8 @@
 {% block content %}
     <!--PARAGRAPH CONTAINER-->
     <main>
+        <!--PARAGRAPH CONTAINER-->
+
         <div class="container-fluid p-container">
           <div class="row">
             <div class="col-sm-6 col-p">
@@ -36,12 +38,12 @@
             </div>
           </div>
         </div>
-        <p class="divider">// ---------------------------</p>
-
+{#        <p class="divider">// ---------------------------</p>#}
+        <br>
         <!--HERO IMAGE-->
 
-        <img id="graph-indesign-scripts" src="{% static 'css/material/graph_indesign_scripts.jpg' %}" alt="indesign">
-
+        <img class="img-hero" id="graph-indesign-scripts" src="{% static 'css/material/graph_indesign_scripts.jpg' %}" alt="indesign">
+        <br><br>
 
         <!--FEATURED PRODUCTS-->
         <div class="spacer"></div>
@@ -50,84 +52,29 @@
         <h1>Featured products</h1>
         <div class="spacer"></div>
 
-
-
-        <!--- PRODUCTS--->
+        <!--FEATURED--->
 
         <div class="container-fluid mx-auto">
             <div class="row row-product mx-auto">
-                <div class="col col-xl-4 col-sm-6 col-xs-6">
-                    <div class="card product-card mx-auto">
-                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
-                        <h1>GrepEditor</h1>
-                        <h2>Create complex GREPs with ease</h2>
-                        <p class="grepText">
-                            Write patterns within a
-                            window of comfortable size,
-                            test your pattern during
-                            construction by previewing
-                            findings and change effects,
-                            import wildcards from Grep-
-                            Lexicon.
-                        </p>
-                    </div>
-
-                </div>
-                <div class="col col-xl-4 col-sm-6 col-xs-6">
-                    <div class="card product-card mx-auto">
-                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
-                        <h1>GrepEditor</h1>
-                        <h2>Create complex GREPs with ease</h2>
-                        <p class="grepText">
-                            Write patterns within a
-                            window of comfortable size,
-                            test your pattern during
-                            construction by previewing
-                            findings and change effects,
-                            import wildcards from Grep-
-                            Lexicon.
-                        </p>
-                    </div>
-                </div>
-                <div class="col col-xl-4 col-sm-6 col-xs-6">
-                    <div class="card product-card mx-auto">
-                        <img class="greps" src="{% static 'css/material/grepEditor_icon_rgb.svg' %}" alt="grepE">
-                        <h1>GrepEditor</h1>
-                        <h2>Create complex GREPs with ease</h2>
-                        <p class="grepText">
-                            Write patterns within a
-                            window of comfortable size,
-                            test your pattern during
-                            construction by previewing
-                            findings and change effects,
-                            import wildcards from Grep-
-                            Lexicon.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="container-fluid mx-auto">
-            <div class="row row-product mx-auto">
-                {% for product in request.user.product_list %}
-                        <div class="col col-xl-4 col-sm-6 col-xs-6">
-                            <div class="card product-card mx-auto">
-                                <a href="{% url 'product-detail' product.id %}">
+                {% for product in request.user.get_featured_products %}
+                    <div class="col col-xl-4 col-sm-6 col-xs-6">
+                        <div class="card product-card mx-auto">
+                            <a href="{% url 'product-detail' product.id %}">
                                 <img class="card-img-top imgs" src="{{ product.logo.url }}">
-                                <h1>{{ product.title }}</h1>
-                                <div class="card-body">
-                                    <a href="{% url 'product-detail' product.id %}"><b>{{ product.get_full_title }}</b>
-                                    {{ product.short_description }}
-                                    {% if user.is_staff %}
-                                        <br>
-                                        <a href={% url 'product-detail' product.id %}>Edit product</a>
-                                        <br>
-                                    {% endif %}
-                                </a>
+                            <h1>{{ product.title }}</h1>
+                            <div class="card-body" style="min-height: 180px;">
+                                <a href="{% url 'product-detail' product.id %}">
+                                    <b>{{ product.get_full_title }}</b><br>
+                                    <p class="card_p_descr">{{ product.short_description }}</p></a>
                             </div>
+                            {% if user.is_staff %}
+                                <div class="card-footer" style="background: none">
+                                    <a style="font-size: .8em;" href={% url 'product-edit' product.id %}>Edit product</a>
+                                </div>
+                            {% endif %}
+                            </a>
                         </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
@@ -135,7 +82,7 @@
             <div class="spacer"></div>
             <p class="divider">// ---------------------------</p>
             <div class="spacer"></div>
-            <h1 class="title">Is there more of this scripting stuff ?</h1>
+{#            <h1 class="title">Is there more of this scripting stuff ?</h1>#}
             <div class="spacer"></div>
 
         </div>
@@ -145,6 +92,5 @@
 {% endblock %}
 
 {% block footer %}
-
 {% endblock %}
 
