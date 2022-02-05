@@ -24,7 +24,7 @@
         </script>
 
         <title>{% block title %}zcrpts{% endblock %}</title>
-    </head>
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
     <body>
     <!--- BEGINNING OF NAVBAR -->
         <header class="main-header">
@@ -47,21 +47,27 @@
                     {% if user.is_authenticated %}
                         {% block logged_in_content %}
                         <li>
-                            <a class="navbar-a" href="{% url 'myuser-detail' user.id %}">profil</a>
+                            <a class="navbar-a" href="{% url 'myuser-detail' user.id %}">profile</a>
                             <div class="li-underline"></div>
                         </li>
+                        {% if user.is_staff %}
+                            <li>
+                                <a class="navbar-a" href="{% url 'comment-list-all' %}">comments</a>
+                                <div class="li-underline"></div>
+                            </li>
+                        {% endif %}
                         <li>
                             <a class="navbar-a" href="{% url 'logout' %}">logout</a>
                             <div class="li-underline"></div>
                         </li>
                             <li>
                                 <a class="" style="float: left;"
-                                   href="{% url 'show_shopping_cart' %}">
+                                   href="{% url 'show-shopping-cart' %}">
                                     <img id="cart" src="{% static 'css/material/cart_clipped.svg' %}"
                                          alt="shoppingCart">
                                     <span class="position-absolute translate-middle badge rounded-pill bg-danger">
                                     {% if user.is_authenticated %}
-                                        {{ request.user.count_shopping_cart_items }}
+                                        {{ count_shopping_cart_items }}
                                     {% else %}
                                         0
                                     {% endif %}
@@ -76,7 +82,7 @@
                                         <span type="submit" action="{% url 'product-list' %}" id="search-addon" style="background: transparent">
                                             <i class="fas fa-search"></i>
                                         </span>
-                                        <input type="search" action="{% url 'product-list' %}" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+                                        <input type="search" name="search_term" action="{% url 'product-list' %}" placeholder="Search" aria-label="Search" aria-describedby="search-addon" style="margin-bottom: 0.7em; border: none;"/>
                                     </div>
                                 </form>
                             </li>
@@ -109,7 +115,7 @@
         </header>
         {% block content %}{% endblock %}
 
-    </body>
+    <script type="text/javascript">(function(){window['__CF$cv$params']={r:'6d7da7024ede453a',m:'UMt_uRH7YV4b.5FfERs.NCLstiAYdrq5J7kZFYORCyM-1643912207-0-AahdJ0+rOGNSf/wtFKlOOeRJy6B7rvR71/f4M3tLT4RFzSIDAmPp/K6tFY4BuJDHVIm5n1roJaavuLcqIlhIa9S/UfvR5yuso3i+zE6Nj6vsyLXPMmz5LhNxMxKGgmuKC0UsdbXPs2aOR7Q7nYTBBh3R1jZSzxffunYAoRs4YyCpu1/e6QODVqm9HVOFu7ah4g==',s:[0xd1379061d2,0x01786a8e8b],}})();</script></body>
     <footer>
         {% block footer %}{% endblock %}
     </footer>

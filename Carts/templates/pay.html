@@ -4,23 +4,40 @@
 {% block title %}Payment{% endblock %}
 
 {% block content %}
+
+
+
+
     <main>
-        <h2>Payment</h2>
-        {% if paid %}
-            Thank you for your payment.<br><br>
-            <a href="{% url 'home' %}">back to home</a>
-        {% elif shopping_cart_is_empty %}
-            Your shopping cart is empty. There is nothing to pay for.<br><br>
-        {% else %}
-            <form method="POST">
-                {% csrf_token %}
-                {{ payment_form.as_p }}
-                <input type="hidden" id="shopping_cart_id" name="shopping_cart_id" value="{{ shopping_cart.id }}">
-                <button type="submit" name="Pay">Pay</button>
-            </form>
-            <br>
-            <a href="{% url 'product-list' %}">Keep shopping</a>
-        {% endif %}
+        <div class="container-fluid p-container">
+
+            <h1>Payment</h1>
+            {% if paid %}
+                Thank you for your payment.<br><br>
+                <a href="{% url 'home' %}">back to home</a>
+            {% elif shopping_cart_is_empty %}
+                Your shopping cart is empty. There is nothing to pay for.<br><br>
+            {% else %}
+                <p style="text-align: left; padding-top: 1rem"><b> Total amount: {{ total }} €</b></p>
+                {% load crispy_forms_tags %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ payment_form|crispy }}
+                    <button class="btn btn-dark" type="submit" name="Pay">Pay</button>
+                </form>
+                <br>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <a href="{% url 'product-list' %}">Keep shopping</a>
+            {% endif %}
+        </div>
+
+
     </main>
 
 {% endblock %}
