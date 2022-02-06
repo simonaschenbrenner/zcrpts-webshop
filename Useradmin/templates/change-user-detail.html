@@ -13,7 +13,7 @@
             <h1> Change your details:</h1>
             <p></p>
             {% load crispy_forms_tags %}
-            <form method="post">
+               <form method="post" enctype="multipart/form-data" style="padding: 12px">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <br>
