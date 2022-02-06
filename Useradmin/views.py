@@ -38,7 +38,7 @@ def update_user(request, **kwargs):
 
     if request.method == 'POST':
 
-        user_form = EditProfileForm(request.POST, instance=current_user)
+        user_form = EditProfileForm(request.POST, request.FILES, instance=current_user)
         user_form.instance.user = current_user
         if user_form.is_valid():
             user_form.save()

@@ -11,7 +11,7 @@
     <main>
         <h1>Sign up</h1>
         {% load crispy_forms_tags %}
-        <form method="post" enctype="multipart/form-data" style=""padding: 12px>
+        <form method="post" enctype="multipart/form-data" style="padding: 12px">
             {% csrf_token %}
             {{ form|crispy }}
             <button class="btn px-4" type="submit">Sign up</button>
