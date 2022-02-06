@@ -52,4 +52,12 @@ row{
     .inner-tech-container{
         width: 100%;
     }
+
+}
+
+@media screen and (max-width: 605px) {
+    .mediaButton{
+    margin-top: 20px;
+
+    }
 }

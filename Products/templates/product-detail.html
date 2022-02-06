@@ -113,7 +113,7 @@
         <div class="spacer"></div>
 
         <div class="container-fluid">
-            <div class="btn-group">
+            <div class="btn-group flex-wrap">
                 <a class="marg" href="{% url 'product-list' %}">
                     <button type="button" class="btn px-4">Back</button>
                 </a>
@@ -124,7 +124,7 @@
                 {% if user.is_authenticated %}
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn ms-3 px-4" name="addToCart">Add to shopping cart</button>
+                        <button type="submit" class="btn ms-3 px-4 mediaButton" name="addToCart">Add to shopping cart</button>
                     </form>
                 {% else %}
                     <div class="login-to-cart">
