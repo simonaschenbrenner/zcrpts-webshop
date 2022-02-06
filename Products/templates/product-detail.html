@@ -113,7 +113,7 @@
         <div class="spacer"></div>
 
         <div class="container-fluid">
-            <div class="btn-group">
+            <div class="btn-group flex-wrap">
                 <a class="marg" href="{% url 'product-list' %}">
                     <button type="button" class="btn px-4">Back</button>
                 </a>
@@ -124,7 +124,7 @@
                 {% if user.is_authenticated %}
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn ms-3 px-4" name="addToCart">Add to shopping cart</button>
+                        <button type="submit" class="btn ms-3 px-4 mediaButton" name="addToCart">Add to shopping cart</button>
                     </form>
                 {% else %}
                     <div class="login-to-cart">
@@ -147,7 +147,7 @@
                     <div class="card-body p-2">
                         <div class="row">
                             <div class="col" style="margin: 0; padding: 0">
-                                <h5 class="card-title">{{ comment.title }}</h5>
+                                <h5 class="card-title" style="margin-left: -4px">{{ comment.title }}</h5>
                             </div>
                             <div class="col" style="text-align: right; font-size: .8em">
                                 {% if comment.myuser.id != logged_in_user.id %}
