@@ -15,12 +15,35 @@
         <div class="container-fluid">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <b>I'm looking for... </b> {{ search_form.search_term }}
-                <br><br>
-                <b>Minimum Rating: </b>{{ search_form.min_stars }}
-                <br><br>
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-4">
+                                <b>I'm looking for... </b>
+                            </div>
+                            <div class="col-8">
+                                {{ search_form.search_term }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <b>Minimum Rating: </b>
+                            </div>
+                            <div class="col-8">
+                                {{ search_form.min_stars }}
+                            </div>
+                        </div>
+                    </div>
                 <button type="submit" class="btn px-4">Search</button>
-            </form>
+                </form>
+            </div>
+{#            <form method="POST" enctype="multipart/form-data">#}
+{#                {% csrf_token %}#}
+{#                <b>I'm looking for... </b> {{ search_form.search_term }}#}
+{#                <br><br>#}
+{#                <b>Minimum Rating: </b>{{ search_form.min_stars }}#}
+{#                <br><br>#}
+{#                <button type="submit" class="btn px-4">Search</button>#}
+{#            </form>#}
         </div>
 
         <br><br>
@@ -74,6 +97,10 @@
                 {% endfor %}
             </div>
         </div>
+
+
+
+    <div class="spacer"></div>
     </main>
 {% endblock %}
 
