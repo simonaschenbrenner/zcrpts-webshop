@@ -119,11 +119,23 @@ a{
     height: 40%;
 }
 
-input[type=text]{
-    border-bottom: 1px solid black;
-}
+/*input[type=text]{*/
+/*    border-bottom: 1px solid black;*/
+/*}*/
 
 textarea{
     width: 50%;
     height: 40vh;
+}
+
+.login-to-cart a{
+    display: flex;
+    align-items: flex-end;
+
+}
+
+#productLogo{
+    margin: 10px;
+    width: 60%;
+    height: 60%;
 }
