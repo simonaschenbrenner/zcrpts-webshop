@@ -56,7 +56,7 @@
 
         <div class="container-fluid mx-auto">
             <div class="row row-product mx-auto">
-                {% for product in request.user.get_featured_products %}
+                {% for product in featured_product_list %}
                     <div class="col col-xl-4 col-sm-6 col-xs-6">
                         <div class="card product-card mx-auto">
                             <a href="{% url 'product-detail' product.id %}">
