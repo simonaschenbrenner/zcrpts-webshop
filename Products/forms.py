@@ -6,7 +6,7 @@ from .models import Product, Comment
 
 
 CHOICES = (
-    (0, "all"),
+    (0, ""),
     (1, "1"),
     (2, "2"),
     (3, "3"),

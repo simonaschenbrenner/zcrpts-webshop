@@ -71,7 +71,7 @@ def product_detail(request, **kwargs):
     if request.method == 'POST':
         if 'addToCart' in request.POST:
             Cart.add_item(request.user, product)
-            context = {'that_one_product': product}
+            context = {'product': product}
             return render(request, 'product-detail.html', context)
 
         elif 'addComment' in request.POST:

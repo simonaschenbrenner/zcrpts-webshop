@@ -9,15 +9,47 @@ figcaption{
     align-items: center;
 }
 
-#productLogo{
-   width: 200px;
-    height: 200px;
-}
+/*#productLogo{*/
+/*   width: 250px;*/
+/*    height: 200px;*/
+/*}*/
 
 #screenshot{
     width: 100%;
 }
 
+.card{
+    border: none;
+}
+
 .card:nth-of-type(2n){
-    background-color: grey;
+    background: rgb(243, 245, 244);
+}
+
+col{
+    margin: 0 !important;
+    border-bottom: 1px solid black !important;
+}
+
+row{
+    width: 70%;
+}
+
+.tech-container{
+    background: rgb(243, 245, 244);
+}
+
+.inner-tech-container{
+    width: 80%;
+    margin-left: 0;
+}
+
+/*.list-group-item{*/
+/*    border-color: black;*/
+/*}*/
+
+@media screen and (max-width: 900px){
+    .inner-tech-container{
+        width: 100%;
+    }
 }

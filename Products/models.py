@@ -39,6 +39,9 @@ class Product(models.Model):
         else:
             return self.short_description
 
+    def get_average_rating(self):
+        return "{:.1f}".format(self.average_rating)
+
     def get_full_title(self):
         return self.title + ' (' + self.version + ')'
 

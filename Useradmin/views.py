@@ -69,3 +69,4 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
         context = {'form': form}
         return render(request, 'change-password.html', context)
+
