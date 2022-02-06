@@ -40,6 +40,10 @@ h1{
     letter-spacing: 3px;
 }
 
+.card-h1 {
+    padding: 18px 0px;
+}
+
 .txt_intro{
     font-family: 'Roboto Medium', sans-serif;
     font-size: 17px;
@@ -278,6 +282,10 @@ select{
 .inner-profile-container{
     width: 80%;
     margin-left: 0;
+}
+
+button {
+    -webkit-appearance: none;
 }
 
 

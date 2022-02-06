@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Comment list{% endblock %}
+{% block title %}Comment List{% endblock %}
 
 {% block content %}
     <main>
         {% if only_flagged %}
-            <h1>All flagged comments</h1>
+            <h1>All flagged Comments</h1>
+            <div class="spacer"></div>
             <a href="{% url 'comment-list-all' %}" class="btn">Show all</a>
         {% else %}
-            <h1>All comments</h1>
+            <h1>All Comments</h1>
+            <div class="spacer"></div>
             <a href="{% url 'comment-list-flagged' %}" class="btn">Only show flagged</a>
         {% endif %}
-        <br><br>
+        <div class="spacer"></div>
         <ul style="padding: 12px">
             {% for comment in all_comments %}
                 <a href="{% url 'myuser-detail' comment.myuser.id %}">{{ comment.myuser.username }}</a>
@@ -33,5 +35,6 @@
                 <br><br><br>
             {% endfor %}
         </ul>
+        <div class="spacer"></div>
     </main>
 {% endblock %}

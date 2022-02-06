@@ -5,12 +5,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
 {% endblock %}
 
-{% block title %}Homepage zcrpts{% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block content %}
     <main>
         <h1>Products</h1>
-        <br><br>
+        <div class="spacer"></div>
 
         <div class="container-fluid">
             <form method="POST" enctype="multipart/form-data">
@@ -30,7 +30,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
-                    <h1 class="title_h1">All products</h1>
+                    <h1 class="title_h1">All Products</h1>
                 </div>
                 <div class="col" style="text-align: right; font-size: .8em">
                     {% if user.is_staff %}
@@ -39,14 +39,6 @@
                 </div>
             </div>
         </div>
-{#        <h1>All products</h1>#}
-{##}
-{##}
-{#        <div class="container-fluid" style="text-align: right">#}
-{#            {% if user.is_staff %}#}
-{#            <a href={% url 'product-create' %}>Add a new product</a><br>#}
-{#        {% endif %}#}
-{#        </div>#}
 
         <div class="container-fluid mx-auto my-4">
             <div class="row row-product mx-auto">
@@ -56,16 +48,15 @@
                             <div class="card product-card mx-auto">
 
                                 <img class="card-img-top imgs" src="{{ product.logo.url }}">
-                                <h1>{{ product.title }}</h1>
                                 <div class="card-body card-body-custom">
+                                    <h1 class="card-h1">{{ product.title }}</h1>
                                     <a href="{% url 'product-detail' product.id %}">
                                         <b>{{ product.get_full_title }}</b><br>
                                         <p class="card_p_descr">{{ product.short_description }}</p></a>
                                 </div>
                                 {% if user.is_staff %}
                                     <div class="card-footer" style="background: none">
-                                        <a style="font-size: .8em" href={% url 'product-edit' product.id %}>Edit
-                                            product</a>
+                                        <a style="font-size: .8em" href={% url 'product-edit' product.id %}>Edit Product</a>
                                     </div>
                                 {% endif %}
                             </div>

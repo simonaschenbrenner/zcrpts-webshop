@@ -48,7 +48,7 @@ class Cart(models.Model):
             shopping_cart=self)
         for item in shopping_cart_items:
             total += Decimal(item.product.price) * item.quantity
-        return total
+        return round(total, 2)
 
     def __str__(self):
         # TODO
@@ -90,7 +90,6 @@ class Payment(models.Model):
             message="Invalid date, must be in the following format: MM/YYYY")])
     cvc = models.CharField(max_length=3, validators=[MinLengthValidator(3)])
 
-    amount = models.DecimalField(decimal_places=2, max_digits=10)
     timestamp = models.DateTimeField(default=timezone.now)
     myuser = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE)

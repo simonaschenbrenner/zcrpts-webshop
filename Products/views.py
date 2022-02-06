@@ -54,14 +54,15 @@ def product_create(request, **kwargs):
         form.instance.myuser = request.user
         if form.is_valid():
             form.save()
+            return redirect('product-list')
         else:
             print(form.errors)
-        return redirect('product-list')
+            messages.error(request, 'Product could not be saved')
+            return render(request, 'product-create.html', {'form': form})
 
     else:  # request.method == 'GET'
         form = ProductForm(instance=product)
-        context = {'form': form}
-        return render(request, 'product-create.html', context)
+        return render(request, 'product-create.html', {'form': form})
 
 
 def product_detail(request, **kwargs):
@@ -89,8 +90,7 @@ def product_detail(request, **kwargs):
                                    Please edit your past review')
             else:
                 print(form.errors)
-                messages.error(request,
-                               'Review could not be saved')
+                messages.error(request, 'Review could not be saved')
 
     comments = Comment.objects.filter(product=product)
     context = {'product': product,
@@ -143,18 +143,6 @@ def comment_edit(request, pid: int, cid: int):
         form = CommentForm(instance=comment)
         context = {'form': form, 'product': product}
         return render(request, 'comment-edit.html', context)
-
-
-# TODO
-# def download_license(request, pk: int):
-#     product = Product.objects.get(id=pk)
-#     license_keys = LicenseKey.objects.filter(productID=product.id)
-#     context = {'that_one_product': product,
-#                'license_key': license_keys[0]}
-#     if request.method == 'POST':
-#         return render(request, 'download-page.html', context)
-#     else:
-#         return render(request, 'download-page.html', context)
 
 
 @staff_member_required(login_url='/useradmin/login/')

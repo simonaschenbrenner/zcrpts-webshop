@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
 {% endblock %}
 
-{% block title %}Homepage zcrpts{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
     <!--PARAGRAPH CONTAINER-->
@@ -61,15 +61,16 @@
                         <div class="card product-card mx-auto">
                             <a href="{% url 'product-detail' product.id %}">
                                 <img class="card-img-top imgs" src="{{ product.logo.url }}">
-                            <h1>{{ product.title }}</h1>
+
                             <div class="card-body" style="min-height: 180px;">
+                                <h1 class="card-h1">{{ product.title }}</h1>
                                 <a href="{% url 'product-detail' product.id %}">
                                     <b>{{ product.get_full_title }}</b><br>
                                     <p class="card_p_descr">{{ product.short_description }}</p></a>
                             </div>
                             {% if user.is_staff %}
                                 <div class="card-footer" style="background: none">
-                                    <a style="font-size: .8em;" href={% url 'product-edit' product.id %}>Edit product</a>
+                                    <a style="font-size: .8em;" href={% url 'product-edit' product.id %}>Edit Product</a>
                                 </div>
                             {% endif %}
                             </a>

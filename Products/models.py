@@ -9,7 +9,7 @@ class Product(models.Model):
     title = models.CharField(max_length=50)
     version = models.CharField(max_length=10)
     price = models.FloatField(default=0)
-    short_description = models.CharField(max_length=200)
+    short_description = models.CharField(max_length=80)
     long_description = models.TextField(max_length=1000, blank=True)
     logo = models.ImageField(upload_to='product_logos/', blank=False)
     screenshot = models.ImageField(upload_to='product_screenshots/',
