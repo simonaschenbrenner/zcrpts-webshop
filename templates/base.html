@@ -97,7 +97,7 @@
                     <form method="POST" action="{% url 'product-list' %}" class="navbar-a">
                         {% csrf_token %}
                         <div class="base-search-field">
-                            <span type="submit" action="{% url 'product-list' %}" id="search-addon"
+                            <span type="submit" name="search_term" action="{% url 'product-list' %}" id="search-addon"
                                   style="background: transparent; -webkit-appearance: none;">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -149,15 +149,14 @@
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
                     <h6 class="fw-bold mb-4">
-                        Useful links
+                        Useful Links
                     </h6>
                     <p>
-                        <a href="https://www.adobe.com/de/products/illustrator.html" class="text-reset">Adobe
-                            Illustrator</a>
+                        <a href="https://www.adobe.com/de/products/indesign.html" class="text-reset">Adobe InDesign</a>
                     </p>
                     <p>
                         <a href="https://helpx.adobe.com/de/illustrator/using/automation-scripts.html"
-                           class="text-reset">Automation</a>
+                           class="text-reset">How to use InDesign scripts</a>
                     </p>
                 </div>
                 <!-- Grid column -->

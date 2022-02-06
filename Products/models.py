@@ -46,8 +46,12 @@ class Product(models.Model):
         return self.title + ' (' + self.version + ')'
 
     def rate(self):
-        self.average_rating = Comment.objects.filter(product=self) \
+        average_rating = Comment.objects.filter(product=self) \
             .aggregate(average_rating=Avg('rating'))['average_rating']
+        if average_rating:
+            self.average_rating = average_rating
+        else:
+            self.average_rating = 0
         self.save()
 
     def __str__(self):

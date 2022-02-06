@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LoginView
@@ -45,7 +46,7 @@ def update_user(request, **kwargs):
 
         else:
             print(user_form.errors)
-        return redirect('home')
+        return redirect('myuser-detail', request.user.id)
 
     else:  # request.method == 'GET'
         user_form = EditProfileForm(instance=current_user)
@@ -60,13 +61,16 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
+            return redirect('change-user-detail', request.user.id)
         else:
             print(form.errors)
-        return redirect('home')
+            messages.error(request,
+                           'Password could not be changed')
+            return render(request, 'change-password.html', {'form': form})
+
 
     else:  # request.method == 'GET'
         print("I am in GET")
         form = PasswordChangeForm(user=request.user)
-        context = {'form': form}
-        return render(request, 'change-password.html', context)
+        return render(request, 'change-password.html', {'form': form})
 

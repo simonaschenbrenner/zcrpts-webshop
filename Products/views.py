@@ -163,6 +163,7 @@ def comment_delete(request, **kwargs):
     comment = Comment.objects.get(id=comment_id)
     comment.delete()
     if 'pid' in kwargs:
+        Product.objects.get(id=kwargs['pid']).rate()
         return redirect('product-detail', pid=kwargs['pid'])
     else:
         return redirect('comment-list-all')
