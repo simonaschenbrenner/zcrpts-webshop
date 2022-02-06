@@ -15,17 +15,17 @@
     <main>
 
 
-        <div class="row">
-            <div id="logopos" class="col-4 position-relative">
-                <figure>
-                    <img id="productLogo" src="{{ product.logo.url }}">
-                    <figcaption>{{ product.title }}</figcaption>
-                </figure>
-            </div>
-            <div class="col-6 ms-2">
-                <p>{{ product.short_description }}</p>
-            </div>
-
+<main>
+    <div class="row">
+        <div id="logopos" class="col-4 position-relative">
+            <figure>
+                <img id="productLogo" src="{{ product.logo.url }}">
+                <figcaption>{{ product.title }}</figcaption>
+            </figure>
+        </div>
+        <div class="col-6 ms-2">
+            <p>{{ product.short_description }}</p>
+        </div>
 
         </div>
 
@@ -109,96 +109,109 @@
             </ul>
         </div>
 
-        <div class="spacer"></div>
+    </div>
 
-        <div class="btn-group">
-            <a class="marg" href="{% url 'product-list' %}">
-                <button type="button" class="btn">Back</button>
-            </a>
+    <div class="spacer"></div>
+    <div class="divider">// ---------------------------</div>
+    <div class="spacer"></div>
+    <h1>Tech notes</h1>
+    <div class="spacer"></div>
 
-            {% if user.is_authenticated %}
-                <form method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-light ms-3"
-                            name="addToCart">Add to shopping cart
-                    </button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-            {% endif %}
+    <div id="detaillist" class="col">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Version:</b> {{ product.version }}</li>
+            <li class="list-group-item"><b>Operating system:</b> {{ product.operating_system }}</li>
+            <li class="list-group-item"><b>Language:</b> {{ product.language }}</li>
+            <li class="list-group-item"><b>Price:</b> {{ product.price }}</li>
+            <li class="list-group-item"><b>Tested with:</b> {{ product.tested_with }}</li>
+            <li class="list-group-item"><b>PDF:</b> <a href="{{ product.pdf.url }}" download>Download
+                here
+            </a></li>
+            <li class="list-group-item"><b>Average Rating:</b> {{ product.average_rating }}</li>
+        </ul>
+    </div>
 
-        </div>
+    <div class="spacer"></div>
 
-        {% if logged_in_user.is_authenticated %}
-            {% if product.myuser_id != logged_in_user.id %}
-                <div>
-                    <h1>What do you think about it?</h1>
-                    {% load crispy_forms_tags %}
-                    <form method="POST" action="{% url 'product-detail' product.id %}" style="margin: 12px">
-                        {% csrf_token %}
-                        {{ comment_form|crispy }}
-                        <button type="submit" class="btn" name="addComment">Add comment
+    <div class="btn-group">
+        <a class="marg" href="{% url 'product-list' %}">
+            <button type="button" class="btn btn-dark">Back</button>
+        </a>
+
+        {% if user.is_authenticated %}
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-light ms-3" name="addToCart">Add to shopping cart</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+    <div class="spacer"></div>
+
+    {% for comment in comments %}
+        <div class="div_comment">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comment.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ comment.myuser.username }}
+                        on {{ comment.timestamp }}</h6>
+                    <p class="card-text">{{ comment.text }}</p>
+                    {% if comment.myuser.id != logged_in_user.id %}
+                        <a href="{% url 'comment-flag' product.id comment.id %}">
+                            flag
+                        </a>
+                        <br>
+
+                        Helpful?
+                        <a href="{% url 'comment-vote' product.id comment.id 'up' %}">
+                            yes ({{ comment.get_upvotes_count }})
+                        </a> /
+                        <span style="...">{{ down_votes }}</span>
+                        <a href="{% url 'comment-vote' product.id comment.id 'down' %}">
+                            no ({{ comment.get_downvotes_count }})
+                        </a>
+                    {% else %}
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">Edit review
                         </button>
-                        {% if comment_form.errors %}
-                            <div>{{ comment_form.errors }}</div>
-                        {% endif %}
-                    </form>
-                    {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                                <li{% if message.tags %}
-                                    class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a href="{% url 'comment-edit' product.id comment.id %}">Edit</a></li>
+                            <li><a href="{% url 'comment-delete' product.id comment.id %}">Delete</a></li>
                         </ul>
                     {% endif %}
                 </div>
-            {% endif %}
-        {% endif %}
+            </div>
 
-        {% for comment in comments %}
-            <div class="div_comment">
-                {{ comment.myuser.username }} on {{ comment.timestamp }}<br>
-                <div class="div_comment--commentbox">
-                    <b>{{ comment.title }}</b><br>
-                    {{ comment.text }}<br>
 
-                </div>
-                Bewertung: {{ comment.rate }}<br>
+        </div>
+    {% endfor %}
 
-                {% if comment.myuser.id != logged_in_user.id %}
-                    <a href="{% url 'comment-flag' comment.id product.id %}">
-                        Flag
-                    </a><br>
+    <div class="spacer"></div>
+    <div class="divider">// ---------------------------</div>
+    <div class="spacer"></div>
 
-                    Helpful?
-                    <a href="{% url 'comment-vote' product.id comment.id 'up' %}">
-                        Yes ({{ comment.get_upvotes_count }})
-                    </a> /
-                    <span style="...">{{ down_votes }}</span>
-                    <a href="{% url 'comment-vote' product.id comment.id 'down' %}">
-                        No ({{ comment.get_downvotes_count }})
-                    </a><br>
-
-                    <br><br>
-                {% else %}
-                    <button class="btn dropdown-toggle"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        Edit
-                        review
-                    </button>
-                    <ul class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton1">
-                        <li>
-                            <a href="{% url 'comment-edit' product.id comment.id %}">Edit</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'comment-delete' product.id comment.id %}">Delete</a>
-                        </li>
+    {% if logged_in_user.is_authenticated %}
+        {% if product.myuser_id != logged_in_user.id %}
+            <div>
+                <h1>Write A Review</h1>
+                <form method="POST" action="{% url 'product-detail' product.id %}">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" name="addComment">Add comment</button>
+                    {% if comment_form.errors %}
+                        <div>{{ comment_form.errors }}</div>
+                    {% endif %}
+                </form>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
                     </ul>
                 {% endif %}
             </div>
-        {% endfor %}
-    </main>
+        {% endif %}
+    {% endif %}
+</main>
 {% endblock %}

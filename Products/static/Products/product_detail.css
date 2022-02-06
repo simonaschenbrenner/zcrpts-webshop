@@ -17,3 +17,7 @@ figcaption{
 #screenshot{
     width: 100%;
 }
+
+.card:nth-of-type(2n){
+    background-color: grey;
+}
