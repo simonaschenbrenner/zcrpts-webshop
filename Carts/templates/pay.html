@@ -4,26 +4,37 @@
 {% block title %}Payment{% endblock %}
 
 {% block content %}
-
-
-
-
     <main>
         <div class="container-fluid p-container">
 
-            <h1>Payment</h1>
             {% if paid %}
-                Thank you for your payment.<br><br>
-                <a href="{% url 'home' %}">back to home</a>
+                <h1>Thank you for your payment</h1>
+                <div class="spacer"></div>
+                The total of {{ count_license_keys }} license keys for the following products will be sent to {{ request.user.email }} shortly.
+                <br>You can download the scripts by clicking on the product name below.
+                <br>
+                {% for product in products %}
+                    <p><a href="{{ product.script.url }}" download>{{ product.get_full_title }}</a></p>
+                {% endfor %}
+                <div class="spacer"></div>
+                <a href="{% url 'home' %}">
+                    <button class="btn" name="Pay">Back to Home</button>
+                </a>
             {% elif shopping_cart_is_empty %}
-                Your shopping cart is empty. There is nothing to pay for.<br><br>
+                <h1>Payment</h1>
+                Your shopping cart is empty. There is nothing to pay for.
+                <div class="spacer"></div>
+                <a href="{% url 'home' %}">
+                    <button class="btn" name="Pay">Back to Home</button>
+                </a>
             {% else %}
+                <h1>Payment</h1>
                 <p style="text-align: left; padding-top: 1rem"><b> Total amount: {{ total }} €</b></p>
                 {% load crispy_forms_tags %}
                 <form method="POST">
                     {% csrf_token %}
                     {{ payment_form|crispy }}
-                    <button class="btn btn-dark" type="submit" name="Pay">Pay</button>
+                    <button class="btn" type="submit" name="Pay">Pay</button>
                 </form>
                 <br>
                 {% if messages %}
@@ -36,8 +47,6 @@
                 <a href="{% url 'product-list' %}">Keep shopping</a>
             {% endif %}
         </div>
-
-
+    <div class="spacer"></div>
     </main>
-
 {% endblock %}

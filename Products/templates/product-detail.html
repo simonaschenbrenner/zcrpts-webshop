@@ -9,7 +9,7 @@
           href="{% static 'Products/product_detail.css' %}">
 {% endblock %}
 
-{% block title %}Product detail{% endblock %}
+{% block title %}Product Detail{% endblock %}
 
 {% block content %}
     <main>
@@ -44,7 +44,7 @@
         <div class="spacer"></div>
         <div class="divider">// ---------------------------</div>
         <div class="spacer"></div>
-        <h1>Tech notes</h1>
+        <h1>Tech Notes</h1>
         <div class="spacer"></div>
 
         <div class="container-fluid tech-container">
@@ -79,7 +79,7 @@
                             <b>Price</b>
                         </div>
                         <div class="col" style="border-bottom: 1px solid black">
-                            {{ product.price }} ,-
+                            {{ product.price }} €
                         </div>
                     </div>
                     <div class="row align-items-end">
@@ -92,11 +92,10 @@
                     </div>
                     <div class="row align-items-end">
                         <div class="col" style="border-bottom: 1px solid black">
-                            <b>PDF</b>
+                            <b>Instruction PDF</b>
                         </div>
                         <div class="col" style="border-bottom: 1px solid black">
-                            <a href="{{ that_one_product.pdf.url }}" download>Download
-                                here</a>
+                            <a href="{{ product.pdf.url }}" download>Download here</a>
                         </div>
                     </div>
                     <div class="row align-items-end">
@@ -111,13 +110,15 @@
             </div>
         </div>
 
-
         <div class="spacer"></div>
 
         <div class="container-fluid">
             <div class="btn-group">
                 <a class="marg" href="{% url 'product-list' %}">
                     <button type="button" class="btn px-4">Back</button>
+                </a>
+                <a href="{{ product.script.url }}" download>
+                    <button class="btn ms-3">Download Trial</button>
                 </a>
 
                 {% if user.is_authenticated %}
@@ -168,15 +169,15 @@
 
                             Helpful?
                             <a href="{% url 'comment-vote' product.id comment.id 'up' %}">
-                                yes ({{ comment.get_upvotes_count }})
+                                Yes ({{ comment.get_upvotes_count }})
                             </a> /
                             <span style="...">{{ down_votes }}</span>
                             <a href="{% url 'comment-vote' product.id comment.id 'down' %}">
-                                no ({{ comment.get_downvotes_count }})
+                                No ({{ comment.get_downvotes_count }})
                             </a>
                         {% else %}
                             <button class="btn dropdown-toggle px-4" type="button" id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown" aria-expanded="false">Edit review
+                                    data-bs-toggle="dropdown" aria-expanded="false">Edit Review
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><a href="{% url 'comment-edit' product.id comment.id %}">Edit</a></li>
@@ -197,14 +198,14 @@
             <div class="spacer"></div>
             {% if product.myuser_id != logged_in_user.id %}
                 <div>
-                    <h1>Write A Review</h1>
+                    <h1>Write a Review</h1>
                     {% load crispy_forms_tags %}
                     <form method="POST" action="{% url 'product-detail' product.id %}">
                         {% csrf_token %}
                         {{ comment_form|crispy }}
 
 {#                        {{ comment_form.as_p }}#}
-                        <button class="btn" type="submit" name="addComment">Add comment</button>
+                        <button class="btn" type="submit" name="addComment">Add Review</button>
                         {% if comment_form.errors %}
                             <div>{{ comment_form.errors }}</div>
                         {% endif %}

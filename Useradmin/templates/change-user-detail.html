@@ -5,13 +5,13 @@
     <link rel="stylesheet" type="text/css"
           href="{% static 'css/home_style.css' %}">
 {% endblock %}
-{% block title %}User Profile{% endblock %}
+{% block title %}Edit User Profile{% endblock %}
 
 {% block content %}
     <main>
         <div class="container-fluid p-container" style="margin-bottom: 50px;">
             <h1> Change your details:</h1>
-            <p></p>
+            <div class="spacer"></div>
             {% load crispy_forms_tags %}
                <form method="post" enctype="multipart/form-data" style="padding: 12px">
                 {% csrf_token %}
@@ -29,14 +29,6 @@
             </form>
 
         </div>
-
+    <div class="spacer"></div>
     </main>
-
-
-
-
-
-
-
-
 {% endblock %}

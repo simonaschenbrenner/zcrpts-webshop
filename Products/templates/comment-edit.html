@@ -5,11 +5,12 @@
     <link rel="stylesheet" type="text/css"
           href="{% static 'css/home_style.css' %}">
 {% endblock %}
-{% block title %}Change your review{% endblock %}
+{% block title %}Edit Review{% endblock %}
 
 {% block content %}
     <main>
-        <h1>Your review on {{ product.get_full_title }}</h1>
+        <h1>Your Review on {{ product.get_full_title }}</h1>
+        <div class="spacer"></div>
         {% load crispy_forms_tags %}
         <form method="post" style="padding: 12px">
             {% csrf_token %}
@@ -24,6 +25,6 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <br>
+        <div class="spacer"></div>
     </main>
 {% endblock %}

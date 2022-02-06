@@ -5,23 +5,25 @@
     <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
 {% endblock %}
 
-{% block title %}Add product{% endblock %}
+{% block title %}Save Product{% endblock %}
 
 {% block content %}
     <main>
-        <h1>Add product</h1>
-        <br><br>
+        <h1>Add/Edit Product</h1>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <br>
         {% load crispy_forms_tags %}
         <form class="create_form" method="POST" enctype="multipart/form-data" style="padding: 12px">
             {% csrf_token %}
             {{ form|crispy}}
-            <button type="submit" class="btn">Add product</button>
+            <button type="submit" class="btn">Save Product</button>
         </form>
+        <div class="spacer"></div>
     </main>
-{% endblock %}
-
-<!-- TODO need this? -->
-{% block not_logged_in_content %}
-    <p>You must log in as staff to add products</p>
-    <a href="{% url 'login' %}">Login</a>
 {% endblock %}

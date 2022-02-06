@@ -70,7 +70,7 @@
                                      alt="shoppingCart">
                                 <span class="position-absolute translate-middle badge rounded-pill bg-danger">
                                     {% if user.is_authenticated %}
-                                        {{ count_shopping_cart_items }}
+                                        {{ request.user.count_shopping_cart_items }}
                                     {% else %}
                                         0
                                     {% endif %}
@@ -98,7 +98,7 @@
                         {% csrf_token %}
                         <div class="base-search-field">
                             <span type="submit" action="{% url 'product-list' %}" id="search-addon"
-                                  style="background: transparent">
+                                  style="background: transparent; -webkit-appearance: none;">
                                 <i class="fas fa-search"></i>
                             </span>
                             <input class="base-search-input" type="search" name="search_term"

@@ -44,16 +44,24 @@ def show_shopping_cart(request):
 
 @login_required(login_url='/useradmin/login/')
 def pay(request):
+    form = None
+    shopping_cart_is_empty = True
     paid = False
+    total = 0
+    count_license_keys = 0
+    products = []
+
     shopping_carts = Cart.objects.filter(myuser=request.user)
     if shopping_carts:
         form = PaymentForm()
         shopping_cart_is_empty = False
-        total = shopping_carts.first().get_total()
-    else:
-        form = None
-        shopping_cart_is_empty = True
-        total = 0
+        shopping_cart = shopping_carts.first()
+        total = shopping_cart.get_total()
+        shopping_cart_items = ShoppingCartItem.objects.filter(
+            shopping_cart=shopping_cart)
+        for item in shopping_cart_items:
+            products.append(item.product)
+            count_license_keys += item.quantity
 
     if request.method == 'POST':
         myuser = request.user
@@ -61,7 +69,8 @@ def pay(request):
         form.instance.myuser = myuser
         if form.is_valid():
             form.save()
-            Cart.objects.get(myuser=myuser).delete()  # Empty the shopping cart
+            if shopping_carts:
+                Cart.objects.get(myuser=myuser).delete()  # Empty shopping cart
             shopping_cart_is_empty = True
             paid = True
         else:
@@ -73,5 +82,7 @@ def pay(request):
         'shopping_cart_is_empty': shopping_cart_is_empty,
         'paid': paid,
         'total': total,
+        'count_license_keys': count_license_keys,
+        'products': products
     }
     return render(request, 'pay.html', context)
