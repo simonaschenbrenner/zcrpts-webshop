@@ -134,3 +134,9 @@ textarea{
     align-items: flex-end;
 
 }
+
+#productLogo{
+    margin: 10px;
+    width: 60%;
+    height: 60%;
+}
