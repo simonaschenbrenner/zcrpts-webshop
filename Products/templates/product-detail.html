@@ -14,13 +14,13 @@
 {% block content %}
     <main>
         <div class="row">
-            <div id="logopos" class="col-4 position-relative">
+            <div id="logopos" class="col-4" style="text-align: left">
                 <figure style="text-align: center">
                     <img id="productLogo" src="{{ product.logo.url }}">
                     <figcaption style="margin: 10px">{{ product.title }}</figcaption>
                 </figure>
             </div>
-            <div class="col-6 ms-2">
+            <div class="col-8 px-4 my-auto">
                 <p>{{ product.short_description }}</p>
             </div>
 
@@ -34,10 +34,10 @@
 
         <div class="row">
             <div class="col-6 px-4">
-                <img id="screenshot" src="{{ product.screenshot.url }}">
+                <p>{{ product.long_description }}</p>
             </div>
             <div class="col-6 px-4">
-                <p>{{ product.long_description }}</p>
+                <img id="screenshot" src="{{ product.screenshot.url }}">
             </div>
         </div>
 
@@ -111,41 +111,24 @@
             </div>
         </div>
 
-        {#        <div class="spacer"></div>#}
-        {#        <div class="divider">// ---------------------------</div>#}
-        {#        <div class="spacer"></div>#}
-        {#        <h1>Tech notes</h1>#}
-        {#        <div class="spacer"></div>#}
-
-        {#        <div id="detaillist" class="col">#}
-        {#            <ul class="list-group list-group-flush">#}
-        {#                <li class="list-group-item"><b>Version:</b> {{ product.version }}</li>#}
-        {#                <li class="list-group-item"><b>Operating system:</b> {{ product.operating_system }}</li>#}
-        {#                <li class="list-group-item"><b>Language:</b> {{ product.language }}</li>#}
-        {#                <li class="list-group-item"><b>Price:</b> {{ product.price }}</li>#}
-        {#                <li class="list-group-item"><b>Tested with:</b> {{ product.tested_with }}</li>#}
-        {#                <li class="list-group-item"><b>PDF:</b> <a href="{{ product.pdf.url }}" download>Download#}
-        {#                    here#}
-        {#                </a></li>#}
-        {#                <li class="list-group-item"><b>Average Rating:</b> {{ product.average_rating }}</li>#}
-        {#            </ul>#}
-        {#        </div>#}
 
         <div class="spacer"></div>
 
         <div class="container-fluid">
             <div class="btn-group">
                 <a class="marg" href="{% url 'product-list' %}">
-                    <button type="button" class="btn">Back</button>
+                    <button type="button" class="btn px-4">Back</button>
                 </a>
 
                 {% if user.is_authenticated %}
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-light ms-3" name="addToCart">Add to shopping cart</button>
+                        <button type="submit" class="btn ms-3 px-4" name="addToCart">Add to shopping cart</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <div class="login-to-cart">
+                        <a style="background: red; vertical-align: baseline; margin-left: 10px" href="{% url 'login' %}">Login to add to shopping cart </a>
+                    </div>
                 {% endif %}
             </div>
             <div class="spacer"></div>
@@ -192,7 +175,7 @@
                                 no ({{ comment.get_downvotes_count }})
                             </a>
                         {% else %}
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            <button class="btn dropdown-toggle px-4" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">Edit review
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

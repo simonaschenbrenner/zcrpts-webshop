@@ -9,50 +9,47 @@
 {% block content %}
 
     <main>
-        <div class="container-fluid p-container">
+        <div class="container-fluid p-container my-2">
         <h1>Profile</h1>
         <br>
          {% if current_user.profile_picture %}
             <img class="profile_picture" src="{{ current_user.profile_picture.url }}"/>
-        {% endif %}
-
+         {% endif %}
 
         <div class="row">
             <div class="col">
-
                 <table class="table" style="">
                     <tbody>
-                    <tr>
-                        <th scope="row"><b>Username:</b></th>
-                        <td>{{ current_user.username }}<br></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><b>First Name:</b></th>
-                        <td>{{ current_user.first_name }}<br></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><b>Last Name:</b></th>
-                        <td>{{ current_user.last_name }}<br></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><b>Email:</b></th>
-                        <td>{{ current_user.email }}<br></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><b>Last Login:</b></th>
-                        <td>{{ current_user.last_login }}<br></td>
-                    </tr>
+                        <tr>
+                            <th scope="row"><b>Username:</b></th>
+                            <td>{{ current_user.username }}<br></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><b>First Name:</b></th>
+                            <td>{{ current_user.first_name }}<br></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><b>Last Name:</b></th>
+                            <td>{{ current_user.last_name }}<br></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><b>Email:</b></th>
+                            <td>{{ current_user.email }}<br></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><b>Last Login:</b></th>
+                            <td>{{ current_user.last_login }}<br></td>
+                        </tr>
                     </tbody>
-
                 </table>
-                <button class="btn px-4 mb-5">
-                    <a style="text-decoration: none; color: white" href="{% url 'change-user-detail' current_user.id %}">change details</a>
-                </button>
-
             </div>
         </div>
+        <button class="btn px-4">
+            <a style="text-decoration: none; color: white" href="{% url 'change-user-detail' current_user.id %}">change details</a>
+        </button>
+        </div>
 
-    </div>
+    <div class="spacer"></div>
     </main>
 
 {% endblock %}

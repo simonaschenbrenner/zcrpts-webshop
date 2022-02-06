@@ -78,20 +78,6 @@
                                     </span>
                             </a>
                         </li>
-                        <li>
-                            <form method="POST" action="{% url 'product-list' %}" class="navbar-a">
-                                {% csrf_token %}
-                                <div class="base-search-field">
-                                        <span type="submit" action="{% url 'product-list' %}" id="search-addon"
-                                              style="background: transparent">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    <input class="base-search-input" type="search" name="search_term" action="{% url 'product-list' %}"
-                                           placeholder="Search" aria-label="Search" aria-describedby="search-addon"
-                                           />
-                                </div>
-                            </form>
-                        </li>
                     {% endblock %}
                 {% else %}
                     {% block not_logged_in_content %}
@@ -107,6 +93,21 @@
                         </li>
                     {% endblock %}
                 {% endif %}
+                <li>
+                    <form method="POST" action="{% url 'product-list' %}" class="navbar-a">
+                        {% csrf_token %}
+                        <div class="base-search-field">
+                            <span type="submit" action="{% url 'product-list' %}" id="search-addon"
+                                  style="background: transparent">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input class="base-search-input" type="search" name="search_term"
+                                   action="{% url 'product-list' %}"
+                                   placeholder="Search" aria-label="Search" aria-describedby="search-addon"
+                            />
+                        </div>
+                    </form>
+                </li>
             </ul>
         </nav>
     </div>
@@ -135,7 +136,7 @@
                         <i class="fas fa-gem me-3"></i>zcrpts
                     </h6>
                     <p>
-                       Compile pictures to flexible galleries,
+                        Compile pictures to flexible galleries,
                         export all document texts, create complex GREPs with ease,
                         organize and update your document’s formats at once, import and style Word-text with
                         your formatting matrix.
@@ -151,10 +152,12 @@
                         Useful links
                     </h6>
                     <p>
-                        <a href="https://www.adobe.com/de/products/illustrator.html" class="text-reset">Adobe Illustrator</a>
+                        <a href="https://www.adobe.com/de/products/illustrator.html" class="text-reset">Adobe
+                            Illustrator</a>
                     </p>
                     <p>
-                        <a href="https://helpx.adobe.com/de/illustrator/using/automation-scripts.html" class="text-reset">Automation</a>
+                        <a href="https://helpx.adobe.com/de/illustrator/using/automation-scripts.html"
+                           class="text-reset">Automation</a>
                     </p>
                 </div>
                 <!-- Grid column -->
