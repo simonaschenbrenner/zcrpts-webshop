@@ -6,13 +6,15 @@ urlpatterns = [
     path('', views.product_list, name='product-list'),
     path('show/<int:pid>/', views.product_detail, name='product-detail'),
     path('edit/<int:pid>', views.product_create, name='product-edit'),
-    # TODO download URL
+    # TODO
     # path('download/<int:pk>/',
     #      views.download_license, name='download-license'),
     path('comments/all', views.comment_list_all, name='comment-list-all'),
     path('comments/flagged',
          views.comment_list_flagged, name='comment-list-flagged'),
-    path('comments/flag/<int:pid>/<int:cid>',
+    path('comments/flag/<int:cid>/<int:pid>',
+         views.comment_flag, name='comment-flag'),
+    path('comments/flag/<int:cid>',
          views.comment_flag, name='comment-flag'),
     path('comments/unflag/<int:cid>',
          views.comment_unflag, name='comment-unflag'),

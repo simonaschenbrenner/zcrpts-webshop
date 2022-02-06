@@ -1,9 +1,12 @@
+from crispy_forms.bootstrap import StrictButton
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout
 from django import forms
 from .models import Product, Comment
 
 
-CHOICES =(
-    (0, "0"),
+CHOICES = (
+    (0, "all"),
     (1, "1"),
     (2, "2"),
     (3, "3"),
@@ -18,7 +21,21 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['title', 'version', 'short_description', 'long_description', 'pdf', 'logo', 'screenshot', 'featured', 'operating_system', 'language', 'tested_with', 'script', 'price']
+        fields = [
+            'title',
+            'version',
+            'short_description',
+            'long_description',
+            'featured',
+            'logo',
+            'screenshot',
+            'pdf',
+            'script',
+            'operating_system',
+            'language',
+            'tested_with',
+            'price',
+        ]
         widgets = {
             'myuser': forms.HiddenInput()
         }
@@ -26,49 +43,28 @@ class ProductForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "commentForm"
+
     class Meta:
         model = Comment
-        fields = ['title', 'text', 'rate']
+        fields = ['title', 'text', 'rating']
         widgets = {
             'myuser': forms.HiddenInput(),
             'product': forms.HiddenInput(),
-            'rate': forms.RadioSelect(choices=CHOICES),
+            'rating': forms.Select(choices=CHOICES),
         }
-
-
-class EditReviewForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = Comment
-        fields = (
-            'title',
-            'text',
-            'rate',
-        )
-        widgets = {
-            'rate': forms.RadioSelect(choices=CHOICES),
-        }
-
-# class EditReviewForm(UpdateView):
-#     model = Comment
-#     fields = ['title', 'text', 'rate']
-#     template_name_suffix = '_update_form'
-#     success_url = reverse_lazy('product-detail')
-
-
-# class PictureForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = Picture
-#         fields = ['pictures']
-#         widgets = {
-#             'product': forms.HiddenInput(),
-#             'picture': forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-#         }
 
 
 class SearchForm(forms.Form):
-    search_term = forms.CharField(label='search_term', max_length=50, required=False)
-    min_stars = forms.ChoiceField(label='min_stars', choices=CHOICES, widget=forms.Select, required=False)
+    search_term = forms.CharField(
+        label='search_term',
+        max_length=50,
+        required=False)
+    min_stars = forms.ChoiceField(
+        label='min_stars',
+        choices=CHOICES,
+        widget=forms.Select,
+        required=False)

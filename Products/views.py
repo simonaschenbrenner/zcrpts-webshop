@@ -2,14 +2,15 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db import IntegrityError
 from django.db.models import Q
-from django.http import HttpResponse
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from Carts.models import Cart
-from .forms import CommentForm, EditReviewForm, ProductForm, SearchForm
-from .models import Comment, Product, LicenseKey
+from .forms import CommentForm, ProductForm, SearchForm
+from .models import Comment, Product
 
 
 def product_list(request):
+
+    products = Product.objects.all()
 
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
@@ -19,10 +20,9 @@ def product_list(request):
             if not len(min_stars) > 0:  # String is empty
                 min_stars = 0
             if not len(search_term) > 0:  # String is empty
-                search_results = Product.objects.all() \
-                    .filter(average_rating__gte=min_stars)
+                products = products.filter(average_rating__gte=min_stars)
             else:
-                search_results = Product.objects.filter(
+                products = Product.objects.filter(
                         Q(title__icontains=search_term) |
                         Q(short_description__icontains=search_term) |
                         Q(long_description__icontains=search_term)
@@ -31,14 +31,11 @@ def product_list(request):
             print(search_form.errors)
         context = {
             'search_form': search_form,
-            'all_the_products': search_results
+            'all_the_products': products
         }
 
     else:  # request.method == 'GET'
-        context = {
-            'search_form': SearchForm,
-            'all_the_products': Product.objects.all(),
-        }
+        context = {'search_form': SearchForm, 'all_the_products': products}
 
     return render(request, 'product-list.html', context)
 
@@ -47,7 +44,7 @@ def product_list(request):
 def product_create(request, **kwargs):
 
     if 'pid' in kwargs:  # Edit an existing product
-        product = Product.objects.get(id=kwargs['product_id'])
+        product = Product.objects.get(id=kwargs['pid'])
     else:
         product = None
 
@@ -111,10 +108,13 @@ def comment_vote(request, pid: int, cid: int, up_or_down: str):
     return redirect('product-detail', pid=pid)
 
 
-def comment_flag(request, pid: int, cid: int):
+def comment_flag(request, cid: int, pid: int = None):
     comment = Comment.objects.get(id=int(cid))
     comment.flag()
-    return redirect('product-detail', pid=pid)
+    if pid:
+        return redirect('product-detail', pid=pid)
+    else:
+        return redirect('comment-list-all')
 
 
 @staff_member_required(login_url='/useradmin/login/')
@@ -125,11 +125,11 @@ def comment_unflag(request, cid: int):
 
 
 def comment_edit(request, pid: int, cid: int):
-    # instance = get_object_or_404(Comment, id=int(commentid))  # TODO delete
     comment = Comment.objects.get(id=cid)
+    product = Product.objects.get(id=pid)
 
     if request.method == 'POST':
-        form = EditReviewForm(request.POST, instance=comment)
+        form = CommentForm(request.POST, instance=comment)
         form.instance.user = request.user
         if form.is_valid():
             form.save()
@@ -140,18 +140,18 @@ def comment_edit(request, pid: int, cid: int):
                            'Review could not be saved')
         return redirect('product-detail', pid=pid)
     else:
-        form = EditReviewForm(instance=comment)
-        context = {'form': form}
+        form = CommentForm(instance=comment)
+        context = {'form': form, 'product': product}
         return render(request, 'comment-edit.html', context)
 
 
+# TODO
 # def download_license(request, pk: int):
 #     product = Product.objects.get(id=pk)
 #     license_keys = LicenseKey.objects.filter(productID=product.id)
 #     context = {'that_one_product': product,
 #                'license_key': license_keys[0]}
 #     if request.method == 'POST':
-#         # TODO pdf download
 #         return render(request, 'download-page.html', context)
 #     else:
 #         return render(request, 'download-page.html', context)
@@ -166,7 +166,7 @@ def comment_list_all(request, **kwargs):
 @staff_member_required(login_url='/useradmin/login/')
 def comment_list_flagged(request, **kwargs):
     comments = Comment.objects.filter(is_flagged=True)
-    context = { 'all_comments': comments, 'only_flagged': True}
+    context = {'all_comments': comments, 'only_flagged': True}
     return render(request, 'comment-list.html', context)
 
 
@@ -177,4 +177,4 @@ def comment_delete(request, **kwargs):
     if 'pid' in kwargs:
         return redirect('product-detail', pid=kwargs['pid'])
     else:
-        return redirect('comment-list')
+        return redirect('comment-list-all')

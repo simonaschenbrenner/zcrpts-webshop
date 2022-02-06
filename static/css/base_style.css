@@ -16,7 +16,9 @@ ol {
 }
 
 body{
-    margin: 180px auto auto;
+    /*margin: 180px auto auto;*/
+    margin: auto;
+    padding-top: 180px;
     font-family: "IBM Plex Mono", sans-serif;
 }
 
@@ -25,11 +27,6 @@ main{
     margin: auto;
 }
 
-.main-header{
-    width: 90%;
-    margin: auto;
-    background: white;
-}
 
 .h1_topline{
     font-family: 'IBM Plex Mono Light', monospace;
@@ -39,7 +36,7 @@ main{
 
 h1{
     font-family: 'Roboto Regular', sans-serif;
-    font-size: 36px;
+    font-size: 24px;
     letter-spacing: 3px;
 }
 
@@ -69,14 +66,14 @@ h3{
     font-family: 'Roboto Black', sans-serif;
     font-size: 17px;
     color: rgb(70, 70, 70);
-    letter-spacing: 20em;
+    letter-spacing: 2em;
 }
 
 h4{
     font-family: 'Roboto Regular', sans-serif;
     font-size: 17px;
     color: rgb(70, 70, 70);
-    letter-spacing: 20em;
+    letter-spacing: 2em;
 }
 
 .divider{
@@ -138,23 +135,28 @@ h4{
     height: 30px;
 }
 
-input {
-    margin-bottom: 0.7em;
-    border: none;
-}
+/*input {*/
+/*    margin-bottom: 0.7em;*/
+/*    border: none;*/
+/*}*/
 
+.main-header{
+    width: 100%;
+    margin: auto;
+    background: white;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
 
 .base-header{
     width: 90%;
     margin: auto;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 10px 0 10px 0;
+    padding: 10px 0px;
     border-bottom: 1px solid black;
     background: white;
 }
@@ -188,14 +190,20 @@ input {
     flex-flow: row nowrap;
 }
 
+
 input{
-    margin-bottom: 0px;
+    margin-bottom: 15px;
+    border: solid 1px gray;
+    padding: 5px;
+    margin-top: 3px;
 }
 
-input:focus{
-    padding: 2px;
-    outline: none;
+.base-search-input{
+    margin: 0;
+    border: 0;
+    padding: 0;
 }
+
 
 #search-addon{
     margin-right: 4px;
@@ -218,21 +226,75 @@ input:focus{
     padding: 0px !important;
 }
 
+.btn{
+    background: rgb(0,177,227) !important;
+    color: white;
+}
+
+.btn:hover{
+    background: rgb(0,0,0) !important;
+    color: white;
+}
+
+.commentForm{
+    margin: 20em;
+}
+
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    width: 5em;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    border: solid 1px gray;
+    padding: 5px;
+    margin-top: 3px;
+}
+
+.textarea{
+    height: 5em
+}
+
+.card_p_descr{
+    color: black;
+}
+
+.footer-section{
+    background: rgb(0,177,227);
+}
+ .profile_picture{
+        vertical-align: middle;
+        width: 50px;
+         height: 50px;
+         border-radius: 50%;
+
+    }
+
+
 @media screen and (max-width: 900px){
     .navbar-flex {
         flex-flow: column wrap;
         background: rgb(256,256,256);
         position: absolute;
-        top: -580px;
+        top: -650px;
+        left: 1px;
         width: 100%;
+        padding: 50px;
     }
+
+    .navbar-a:hover + .li-underline{
+        display: none;
+    }
+
 
     [class*="col-"] {
         width: 100%;
     }
 
     .menu_toggle{
-        top: 80px;
+        top: 60px;
     }
 
     .navbar-flex li {
@@ -241,10 +303,17 @@ input:focus{
 
 
     #logo{
-        width: 100px;
+        width: 150px;
+        margin: 0;
     }
 
     .burger_menu{
         display: block;
     }
+
+    .base-header {
+        align-items: flex-end;
+    }
+
+
 }

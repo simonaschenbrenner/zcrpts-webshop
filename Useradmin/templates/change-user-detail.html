@@ -2,31 +2,38 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'css/home_style.css' %}">
 {% endblock %}
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-    <div class="main-body">
-    <h2> Change your details:</h2>
-        <p></p>
-     {% load crispy_forms_tags %}
-   <form method="post">
-        {% csrf_token %}
-        {% crispy form %}
-        <p><a href="{% url 'change-password' %}">click here to change password</a></p>
+    <main>
+        <div class="container-fluid p-container" style="margin-bottom: 50px;">
+            <h1> Change your details:</h1>
+            <p></p>
+            {% load crispy_forms_tags %}
+               <form method="post" enctype="multipart/form-data" style="padding: 12px">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <br>
+                <p><a href="{% url 'change-password' %}">Click here to change
+                    your password</a></p>
+
+                <button type="submit" value="Submit" class="btn">
+                    Submit
+                </button>
+                <a href="{% url 'myuser-detail' request.user.id %}" class="btn">
+                    Cancel
+                </a>
+            </form>
+
+        </div>
+
+    </main>
 
 
-        <button class="btn btn-outline-primary" type="submit">save your changed details</button>
-   </form>
 
-
-
-    <br>
-
-
-
-    </div>
 
 
 

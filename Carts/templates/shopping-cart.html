@@ -7,18 +7,22 @@
 {% block title %}Shopping cart{% endblock %}
 
 {% block content %}
-    <div class="main-body">
-        <h2>Shopping cart</h2>
+
+    <main>
+        <div class="container-fluid p-container">
+        <div class="row"> </div>
+        <h1>Shopping cart</h1>
+
         <br><br>
         {% if shopping_cart_is_empty %}
             Your shopping cart is empty.<br>
         {% else %}
             {% for item in shopping_cart_items %}
                 <div style="border-bottom: 2px solid gray; padding-top: 2em">
-                    <img class="img-thumbnail, rounded float-start" src="/media/product_images/skript_Zeichenflache_1.png"
-                         style="width: 10%; padding-right: 1em"/>
-                    {{ item.product_name }}<br>
-                    <p style="text-align: right"> {{ item.price }} € x{{ item.quantity }}</p>
+                <img class="img-thumbnail, rounded float-start" src="{{ item.product.logo.url }} style="width: 10%; padding-right: 1em">
+                    {{ item.product.get_full_title }}<br>
+                    {{ item.product.short_description }}
+                    <p style="text-align: right"> {{ item.product.price }} € x {{ item.quantity }}</p>
 
                 </div>
 
@@ -29,8 +33,8 @@
             <br><br>
             <form method="POST">
                 {% csrf_token %}
-                <button class="btn-outline-primary" type="submit"  name="empty">Empty the shopping cart</button>
-                <button class="btn-primary" type="submit" name="pay">Pay with credit card</button>
+                <button class="btn-outline-dark" type="submit"  name="empty">Empty the shopping cart</button>
+                <button class="btn-dark" type="submit" name="pay">Pay with credit card</button>
             </form>
         {% endif %}
 
@@ -39,6 +43,5 @@
 
 
     </div>
-
-
+    </main>
 {% endblock %}

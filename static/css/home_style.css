@@ -7,6 +7,12 @@
     width: 90%;
 }
 
+h1 {
+    color: black;
+    padding: 0 20px;
+    text-decoration: none;
+}
+
 .row-product{
     width: 100%;
     margin: auto;
@@ -41,13 +47,26 @@
 }
 
 
+.imgs{
+    margin: 10px;
+    width: 40%;
+    height: 40%;
+}
 
-
-#graph-indesign-scripts {
+.img-hero{
     width: 100%;
+}
+
+#graph-indesign-scripts-2 {
+    visibility: hidden;
+    height: 0;
 }
 
 #scriptingIC{
     width: 250px;
     height: 250px;
+}
+
+a{
+    text-decoration: none;
 }
