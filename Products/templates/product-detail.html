@@ -115,20 +115,22 @@
         <div class="container-fluid">
             <div class="btn-group flex-wrap">
                 <a class="marg" href="{% url 'product-list' %}">
-                    <button type="button" class="btn px-4">Back</button>
+                    <button type="button" class="btn my-2 px-4">Back</button>
                 </a>
                 <a href="{{ product.script.url }}" download>
-                    <button class="btn ms-3">Download Trial</button>
+                    <button class="btn my-2 ms-3">Download Trial</button>
                 </a>
 
                 {% if user.is_authenticated %}
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn ms-3 px-4 mediaButton" name="addToCart">Add to shopping cart</button>
+                        <button type="submit" class="btn my-2 ms-3 px-4 mediaButton" name="addToCart">Add to shopping cart</button>
                     </form>
                 {% else %}
                     <div class="login-to-cart">
-                        <a style="background: red; vertical-align: baseline; margin-left: 10px" href="{% url 'login' %}">Login to add to shopping cart </a>
+                        <a style="margin-left: 10px" href="{% url 'login' %}">
+                            <button class="btn my-2 ms-3 px-4 mediaButton">Login to add to shopping cart</button>
+                        </a>
                     </div>
                 {% endif %}
             </div>
@@ -161,16 +163,19 @@
                         <h6 class="card-subtitle mb-2 text-muted">{{ comment.myuser.username }}
                             on {{ comment.timestamp }}</h6>
                         <p class="card-text">{{ comment.text }}</p>
-                        {% if comment.myuser.id != logged_in_user.id %}
-                            Helpful?
-                            <a href="{% url 'comment-vote' product.id comment.id 'up' %}">
-                                Yes ({{ comment.get_upvotes_count }})
-                            </a> /
-                            <span style="...">{{ down_votes }}</span>
-                            <a href="{% url 'comment-vote' product.id comment.id 'down' %}">
-                                No ({{ comment.get_downvotes_count }})
-                            </a>
+                        {% if user.is_authenticated %}
+                            {% if comment.myuser.id != logged_in_user.id %}
+                                Helpful?
+                                <a href="{% url 'comment-vote' product.id comment.id 'up' %}">
+                                    Yes ({{ comment.get_upvotes_count }})
+                                </a> /
+                                <span style="...">{{ down_votes }}</span>
+                                <a href="{% url 'comment-vote' product.id comment.id 'down' %}">
+                                    No ({{ comment.get_downvotes_count }})
+                                </a>
+                            {% endif %}
                         {% endif %}
+
                         <br>
                         Rating: {{ comment.rating }}
                         <br>
