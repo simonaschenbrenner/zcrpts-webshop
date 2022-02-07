@@ -151,7 +151,7 @@ class Vote(models.Model):
 
     class Meta:
         ordering = ['comment', 'myuser']
-        unique_together = ['up_or_down', 'comment']
+        unique_together = ['up_or_down', 'comment', 'myuser']
         verbose_name = 'Comment Voting'
         verbose_name_plural = 'Comment Votings'
 
