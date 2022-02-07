@@ -61,7 +61,7 @@ a{
 
 .product-card{
     padding: 12px;
-    width: 16em;
+    width: 18em;
     color: black;
     /*background: rgb(0,177,227);*/
     /*background: rgb(243,245,244);*/
@@ -75,7 +75,7 @@ a{
 .card-body{
     margin: 0 12px;
     padding: 0;
-    min-height: 150px;
+    min-height: 210px;
 
 }
 

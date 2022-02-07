@@ -151,7 +151,7 @@
                             </div>
                             <div class="col" style="text-align: right; font-size: .8em">
                                 {% if comment.myuser.id != logged_in_user.id %}
-                                    <a href="{% url 'comment-flag' product.id comment.id %}">
+                                    <a href="{% url 'comment-flag' comment.id product.id %}">
                                         Report this Review
                                     </a>
                                 {% endif %}
@@ -162,11 +162,6 @@
                             on {{ comment.timestamp }}</h6>
                         <p class="card-text">{{ comment.text }}</p>
                         {% if comment.myuser.id != logged_in_user.id %}
-                            {#                            <a href="{% url 'comment-flag' product.id comment.id %}">#}
-                            {#                                flag#}
-                            {#                            </a>#}
-                            {#                            <br>#}
-
                             Helpful?
                             <a href="{% url 'comment-vote' product.id comment.id 'up' %}">
                                 Yes ({{ comment.get_upvotes_count }})
@@ -175,7 +170,11 @@
                             <a href="{% url 'comment-vote' product.id comment.id 'down' %}">
                                 No ({{ comment.get_downvotes_count }})
                             </a>
-                        {% else %}
+                        {% endif %}
+                        <br>
+                        Rating: {{ comment.rating }}
+                        <br>
+                        {% if comment.myuser.id == logged_in_user.id %}
                             <button class="btn dropdown-toggle px-4" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">Edit Review
                             </button>
