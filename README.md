@@ -38,4 +38,4 @@ Group project to learn the development of web applications with Python and Djang
 - Interaction with users (Forms, file upload and download)
 - Personalization with cookies and sessions, as well as security measures
 - Linking of a databae with ORM (Object-Relational Mapping)
-- Design using Bootsrap CSS
+- Design using Bootstrap CSS
