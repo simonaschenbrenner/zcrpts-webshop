@@ -1,7 +1,7 @@
 ###### Deutsch (english version below)
 
 ### zcrpts Webshop
-**Webprogrammierung mit Python Übungsprojekt im Wintersemester 2021 (4th Studienplansemester)**
+**Webprogrammierung mit Python Übungsprojekt im Wintersemester 2021 (4. Studienplansemester)**
 
 *Berliner Hochschule für Technik*  
 *Dozentin: Prof. Dr. Amy Siu*
