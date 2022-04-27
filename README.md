@@ -22,7 +22,7 @@ Gruppenprojekt zur Erlernung der Entwicklung von Web-Applikationen mit Python un
 
 ###### English
 
-### Web Engineering 1
+### zcrpts Webshop
 **Web programming with Python exercise project of fall/winter semester 2021 (4th study plan semester)**
 
 *Berlin University of Applied Sciences and Technology*  
