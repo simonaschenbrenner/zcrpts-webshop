@@ -4,7 +4,7 @@
 **Webprogrammierung mit Python Übungsprojekt im Wintersemester 2021 (4th Studienplansemester)**
 
 *Berliner Hochschule für Technik*  
-*Prof. Dr. Amy Siu*
+*Dozentin: Prof. Dr. Amy Siu*
 
 Gruppenprojekt zur Erlernung der Entwicklung von Web-Applikationen mit Python und Django. Konzeption und Umsetzung eines Webshops für Adobe InDesign-Skripte in vierköpfigem Team.
 - Benutzer*innenprofil
@@ -26,7 +26,7 @@ Gruppenprojekt zur Erlernung der Entwicklung von Web-Applikationen mit Python un
 **Web programming with Python exercise project of fall/winter semester 2021 (4th study plan semester)**
 
 *Berlin University of Applied Sciences and Technology*  
-*Prof. Dr. Amy Siu*
+*Lecturer: Prof. Dr. Amy Siu*
 
 Group project to learn the development of web applications with Python and Django. Drafting and developing a webshop for Adobe InDesign scripts in a four-person team.
 - User profile
